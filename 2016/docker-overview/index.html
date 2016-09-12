@@ -1,0 +1,877 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BSR's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="翻译自https://docs.docker.com/engine/understanding-docker/
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 简介">
+<meta property="og:url" content="http://buildship.run/2016/docker-overview/index.html">
+<meta property="og:site_name" content="BSR's Notes">
+<meta property="og:description" content="翻译自https://docs.docker.com/engine/understanding-docker/
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta property="og:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
+<meta property="og:image" content="https://docs.docker.com/engine/article-img/architecture.svg">
+<meta property="og:updated_time" content="2016-09-12T05:11:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker 简介">
+<meta name="twitter:description" content="翻译自https://docs.docker.com/engine/understanding-docker/
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta name="twitter:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6328197603464840000,
+      author: '作者'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://buildship.run/2016/docker-overview/"/>
+
+  <title> Docker 简介 | BSR's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">BSR's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Linux, Container and related.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker 简介
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-30T05:46:25+00:00" content="2016-08-30">
+              2016-08-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/docker-overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/docker-overview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>翻译自<a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a></em></p>
+<h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。</p>
+<p>Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。</p>
+<h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。</p>
+<p>容器核心之外是周边的一些工具和平台，可以在下面几个方面有所帮助：</p>
+<ul>
+<li>把您的应用程序以及其支持组件放入Docker容器</li>
+<li>分发容器给您的团队以用于进一步的开发和测试</li>
+<li>部署应用程序到生产环境，无论其在本地数据中心还是在云端</li>
+</ul>
+<h2 id="什么是Docker引擎？"><a href="#什么是Docker引擎？" class="headerlink" title="什么是Docker引擎？"></a>什么是Docker引擎？</h2><p>Docker引擎是一个C/S架构的应用程序，包含以下主要组件：</p>
+<ul>
+<li>服务器 - 运行着一种被称为守护进程的长期运行程序</li>
+<li>REST应用程序接口 - 定义了与守护进程交互的接口</li>
+<li>命令行接口（CLI）客户端</li>
+</ul>
+<p><img src="https://docs.docker.com/engine/article-img/engine-components-flow.png" alt="engine-components-flow.png"></p>
+<p>命令行接口使用Docker的REST应用程序接口与Docker守护进程进行交互，许多其它Docker应用程序利用底层REST应用程序接口和命令行接口。</p>
+<p>Docker守护进程创建和管理Docker对象，包括镜像、容器、网络以及数据卷等。</p>
+<blockquote>
+<p>Docker受Apache 2.0的开源许可保护</p>
+</blockquote>
+<h2 id="能用Docker做什么？"><a href="#能用Docker做什么？" class="headerlink" title="能用Docker做什么？"></a>能用Docker做什么？</h2><h3 id="快速交付您的应用程序"><a href="#快速交付您的应用程序" class="headerlink" title="快速交付您的应用程序"></a><em>快速交付您的应用程序</em></h3><p>Docker十分适用于开发生命周期。Docker允许开发者在包含应用程序和服务的本地容器中进行开发，然后可以将本地容器集成到持续集成（CI）和持续部署（CD）的工作流程中。</p>
+<p>举例来说，开发人员可以在本地编写代码，并可以通过Docker将他们的本地开发栈共享给他们的同事。当开发完成后，开发人员把他们的代码和开发栈发布到一个测试环境进行相关测试，测试完成后，可以把测试环境的Docker镜像发布到生产环境，从而完成代码部署。</p>
+<h3 id="更易于部署和扩展"><a href="#更易于部署和扩展" class="headerlink" title="更易于部署和扩展"></a><em>更易于部署和扩展</em></h3><p>Docker基于容器的平台有很高的可移植性，Docker容器可以运行在开发人员的本地机器，或者数据中心的物理机与虚拟机，甚至在云端。</p>
+<p>Docker的可移植性和轻量特性使负载的动态管理更加容易，可以使用Docker快速地对应用程序和服务进行扩展或缩减。</p>
+<h3 id="实现高密度和运行更多负载"><a href="#实现高密度和运行更多负载" class="headerlink" title="实现高密度和运行更多负载"></a><em>实现高密度和运行更多负载</em></h3><p>Docker很轻量很快，它提供了一个切实可行的并且具有成本效益的用于替代基于hypervisor虚拟机的方案，这对于高密集的环境尤其有用（比如构建私有云或者PaaS平台），但同时对于中小型的部署也很有用，能最大化硬件的资源利用。</p>
+<h2 id="Docker的架构如何？"><a href="#Docker的架构如何？" class="headerlink" title="Docker的架构如何？"></a>Docker的架构如何？</h2><p>Docker用的是一个C/S的架构，Docker客户端与Docker守护进程交互，Docker守护进程负责容器的构建、运行与分发等繁重工作。Docker客户端与守护进程可以运行在同一个系统上，或者Docker客户端也可以连接远程的Docker守护进程。Docker客户端与守护进程通过Sockets或者REST应用程序接口进行交互。</p>
+<p><img src="https://docs.docker.com/engine/article-img/architecture.svg" alt="architecture.svg"></p>
+<h3 id="Docker守护进程"><a href="#Docker守护进程" class="headerlink" title="Docker守护进程"></a>Docker守护进程</h3><p>如上图所示，Docker守护进程运行在宿主机上，用户不直接与Docker守护进程交互，而是通过Docker客户端。</p>
+<h3 id="Docker客户端"><a href="#Docker客户端" class="headerlink" title="Docker客户端"></a>Docker客户端</h3><p>Docker客户端是<code>docker</code>二进制命令，是Docker的主要交互接口，其接收来自用户的命令并继而与Docker守护进程进行交互。</p>
+<h3 id="深入Docker"><a href="#深入Docker" class="headerlink" title="深入Docker"></a>深入Docker</h3><p>为了了解Docker的内部，您需要了解下面三个方面：</p>
+<ul>
+<li>Docker镜像</li>
+<li>Docker镜像库</li>
+<li>Docker容器</li>
+</ul>
+<h4 id="Docker镜像"><a href="#Docker镜像" class="headerlink" title="Docker镜像"></a>Docker镜像</h4><p>Docker镜像是一个只读模板。举例来说，一个镜像可以包含一个装有Apache和web应用程序的Ubuntu操作系统。镜像用于创建Docker容器，Docker提供了一个简单的方式构建新的镜像或者更新已有镜像，或者您也可以下载其他人构建好的已有镜像。Docker镜像是Docker的<strong>构建</strong>组件。</p>
+<h4 id="Docker镜像库"><a href="#Docker镜像库" class="headerlink" title="Docker镜像库"></a>Docker镜像库</h4><p>Docker镜像库存储Docker镜像文件，您可以从公开镜像库或者私有镜像库上传或下载镜像，<a href="http://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>提供了一个公开镜像库，上面提供了很多已经构建好的镜像。这些已有镜像可以是您构建的或者是其他人构建的。Docker镜像库是Docker的<strong>分发</strong>组件。更多信息，请访问<a href="https://docs.docker.com/registry/overview/" target="_blank" rel="external">Docker镜像库</a>和<a href="https://docs.docker.com/docker-trusted-registry/overview/" target="_blank" rel="external">Docker受信镜像库</a>。</p>
+<h4 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h4><p>Docker容器与目录相似。一个Docker容器包含运行一个应用程序的所需的一切。Docker容器是由Docker镜像创建而来。Docker容器可以被运行、启动、停止、移动或者删除。每个容器都是一个隔离并且安全的应用程序平台。Docker容器是Docker的<strong>运行</strong>组件。</p>
+<h3 id="Docker镜像是如何工作的？"><a href="#Docker镜像是如何工作的？" class="headerlink" title="Docker镜像是如何工作的？"></a>Docker镜像是如何工作的？</h3><p>我们已经了解到Docker镜像是一个只读模板，并由此启动Docker容器。每个Docker镜像由一系列的层组成，Docker使用<a href="http://en.wikipedia.org/wiki/UnionFS" target="_blank" rel="external">联合文件系统</a>把这些层组成一个Docker镜像。联合文件系统可以使来自不同文件系统的文件或目录（也称为分支）进行透明的堆叠，进而形成一个单一连贯的文件系统。</p>
+<p>Docker能如此轻量的其中一个原因是使用了这些层技术。当您更改一个Docker镜像时（比如更新应用程序到新版本），一个新的层会被创建，因此只有那个层被添加或者被修改，而不是像虚拟机那样需要替换整个镜像。这样您就不必分发整个镜像，而只需要分发更新的部分。这样使得Docker镜像的分发更快更简单。</p>
+<p>每个镜像都有一个基础镜像，比如一个Ubuntu基础镜像或者一个Fedora基础镜像。您也可以使用您自己构建的镜像作为新镜像的基础镜像，比如您可以基于一个Apache的基础镜像构建所有的web应用程序镜像。</p>
+<blockquote>
+<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>是一个公开镜像库，里面用来存储Docker镜像。</p>
+</blockquote>
+<p>然后Docker镜像可以在这些基础镜像之上构建而来，通过一种称为指令（instructions）的一系列步骤。每个指令会在镜像中产生一个新的层。指令包含的动作诸如：</p>
+<ul>
+<li>运行一条命令</li>
+<li>添加一个文件或目录</li>
+<li>创建一个环境变量</li>
+<li>制定在容器启动时运行什么进程</li>
+</ul>
+<p>这些指定的指令定义在一个叫做<code>Dockerfile</code>的文件里，<code>Dockerfile</code>是一种文本类型的文件，其中包含了用于从基础镜像构建新镜像所需的指令。当您请求构建一个镜像时，Docker会读取<code>Dockerfile</code>并执行其中的指令，最终构建成一个新镜像。</p>
+<h3 id="Docker镜像库是如何工作的？"><a href="#Docker镜像库是如何工作的？" class="headerlink" title="Docker镜像库是如何工作的？"></a>Docker镜像库是如何工作的？</h3><p>Docker镜像库用于存储您的镜像文件。一旦您构建了一个Docker镜像，您可以推送（push）这个镜像到一个公开镜像库（如<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>），或者您自己在防火墙后面的私有镜像库。</p>
+<p>通过Docker客户端，您可以搜索已有的公开镜像，然后拉取（pull）下来到您的Docker宿主机中，并依据这些镜像启动容器。</p>
+<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>为镜像提供了公开和私有两种存储方式。公开存储的镜像可以被任何人检索并下载，而私有存储的镜像只有您和您的成员可以获取。您可以<a href="https://www.docker.com/pricing" target="_blank" rel="external">在这里登记一个存储计划</a>。</p>
+<h3 id="容器是如何工作的？"><a href="#容器是如何工作的？" class="headerlink" title="容器是如何工作的？"></a>容器是如何工作的？</h3><p>一个容器是由一个操作系统、用户添加的文件以及元数据（metadata）组成，如我们之前看到的，每个容器都是由一个镜像创建而来的，那个镜像决定了容器应该包含什么内容、在启动时应该运行什么进程，以及各种不同的配置信息。Docker镜像本身是只读的，在容器启动时，Docker通过联合文件系统在镜像的最上层增加一个可读写的层。</p>
+<h3 id="当运行容器时发生了什么？"><a href="#当运行容器时发生了什么？" class="headerlink" title="当运行容器时发生了什么？"></a>当运行容器时发生了什么？</h3><p>Docker客户端可以通过<code>docker</code>二进制程序或者REST应用程序接口，来通知Docker守护进程运行一个容器。</p>
+<p><code>$ docker run -i -t ubuntu /bin/bash</code></p>
+<p>Docker引擎客户端通过<code>docker</code>启动，然后通过<code>run</code>命令开启一个新容器。要通知Docker守护进程启动一个容器，Docker客户端至少要提供：</p>
+<ul>
+<li>容器从哪个镜像创建，如Ubuntu</li>
+<li>当容器启动后要在其中运行什么命令，如<code>/bin/bash</code></li>
+</ul>
+<p>那么在我们运行这个命令时在后台发生了什么？</p>
+<p>Docker引擎按序进行了下面的操作：</p>
+<ul>
+<li>拉取Ubuntu镜像：Docker引擎在本地宿主机上检查Ubuntu镜像是否存在。如果镜像存在，Docker引擎将用这个镜像创建新的容器。如果镜像在本地宿主机上不存在，Docker引擎会从<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>上拉取该镜像。</li>
+<li>创建新的容器。</li>
+<li>分配文件系统并挂载可读写层：在文件系统中创建容器并且在镜像之上增加一个可读写层。</li>
+<li>分配网络接口：创建网络接口，用于容器与宿主机的通信。</li>
+<li>设置网络IP：从资源池中寻找并配置可用IP。</li>
+<li>执行指定的进程。</li>
+<li>捕获并提供应用程序输出：连接并记录标准输入、标准输出和标准错误，以便您检查应用程序的运行状况。</li>
+</ul>
+<p>至此您拥有了一个运行中的容器！现在您可以管理您的容器，与您的应用程序交互，当完成后，您也可以停止并删除掉容器。</p>
+<h2 id="底层的技术"><a href="#底层的技术" class="headerlink" title="底层的技术"></a>底层的技术</h2><p>Docker是用go语言编写的，通过调用内核的一些特性来完成我们所看到的这些功能。</p>
+<h3 id="命名空间（Namespaces）"><a href="#命名空间（Namespaces）" class="headerlink" title="命名空间（Namespaces）"></a>命名空间（Namespaces）</h3><p>Docker利用了命名空间技术来提供容器的这种隔离环境。当您运行一个容器时，Docker会为这个容器创建一系列的命名空间。</p>
+<p>命名空间提供了一层隔离保障：容器里的各个部分都运行在独有的命名空间里，并不能进行外部的访问。</p>
+<p>Docker引擎使用到的Linux命名空间有：</p>
+<ul>
+<li><code>pid</code>命名空间：进程隔离</li>
+<li><code>net</code>命名空间：管理网络接口</li>
+<li><code>ipc</code>命名空间：管理进程间通信的访问</li>
+<li><code>mnt</code>命名空间：管理挂载点</li>
+<li><code>uts</code>命名空间：隔离内核和版本标识</li>
+</ul>
+<h3 id="控制组（Control-Groups）"><a href="#控制组（Control-Groups）" class="headerlink" title="控制组（Control Groups）"></a>控制组（Control Groups）</h3><p>Linux上的Docker引擎也使用了叫做<code>cgroups</code>或控制组的技术，以隔离的方式运行应用程序的一个关键点是可控的资源占用，这点确保容器在多租户环境的主机中工作良好。通过控制组，使Docker引擎把可用的硬件资源分配给容器，并在必要的时候进行资源配额限制。举例来说，给特定的容器分配一定量的内存。</p>
+<h3 id="联合文件系统（Union-file-systems）"><a href="#联合文件系统（Union-file-systems）" class="headerlink" title="联合文件系统（Union file systems）"></a>联合文件系统（Union file systems）</h3><p>联合文件系统（或UnionFS）是通过创建层的方式来工作的文件系统，因此联合文件系统变得很轻量很快速。Docker引擎使用联合文件系统来构建容器。Docker引擎可以使用多种类型联合文件系统，如AUFS，btrfs，vfs以及DeviceMapper。</p>
+<h3 id="容器格式"><a href="#容器格式" class="headerlink" title="容器格式"></a>容器格式</h3><p>Docker引擎把所有这些组件组合封装成一个容器格式。默认的容器格式称为<code>libcontainer</code>。未来，Docker或许会通过集成诸如BSD Jails或者Solaris Zones来支持其它容器格式.</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>了解<a href="https://docs.docker.com/engine/installation/#installation" target="_blank" rel="external">安装Docker引擎</a>。了解<a href="https://docs.docker.com/engine/userguide/" target="_blank" rel="external">Docker引擎用户手册</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/understand-images-and-containers/" rel="prev" title="理解镜像、容器与存储驱动">
+                理解镜像、容器与存储驱动 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/docker-overview/"
+           data-title="Docker 简介" data-url="http://buildship.run/2016/docker-overview/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="buildshiprun" />
+          <p class="site-author-name" itemprop="name">buildshiprun</p>
+          <p class="site-description motion-element" itemprop="description">Learning, Sharing and Growing.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker简介"><span class="nav-number">1.</span> <span class="nav-text">Docker简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Docker平台？"><span class="nav-number">2.</span> <span class="nav-text">什么是Docker平台？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Docker引擎？"><span class="nav-number">3.</span> <span class="nav-text">什么是Docker引擎？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能用Docker做什么？"><span class="nav-number">4.</span> <span class="nav-text">能用Docker做什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速交付您的应用程序"><span class="nav-number">4.1.</span> <span class="nav-text">快速交付您的应用程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更易于部署和扩展"><span class="nav-number">4.2.</span> <span class="nav-text">更易于部署和扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现高密度和运行更多负载"><span class="nav-number">4.3.</span> <span class="nav-text">实现高密度和运行更多负载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker的架构如何？"><span class="nav-number">5.</span> <span class="nav-text">Docker的架构如何？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker守护进程"><span class="nav-number">5.1.</span> <span class="nav-text">Docker守护进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker客户端"><span class="nav-number">5.2.</span> <span class="nav-text">Docker客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深入Docker"><span class="nav-number">5.3.</span> <span class="nav-text">深入Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker镜像"><span class="nav-number">5.3.1.</span> <span class="nav-text">Docker镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker镜像库"><span class="nav-number">5.3.2.</span> <span class="nav-text">Docker镜像库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker容器"><span class="nav-number">5.3.3.</span> <span class="nav-text">Docker容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker镜像是如何工作的？"><span class="nav-number">5.4.</span> <span class="nav-text">Docker镜像是如何工作的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker镜像库是如何工作的？"><span class="nav-number">5.5.</span> <span class="nav-text">Docker镜像库是如何工作的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器是如何工作的？"><span class="nav-number">5.6.</span> <span class="nav-text">容器是如何工作的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当运行容器时发生了什么？"><span class="nav-number">5.7.</span> <span class="nav-text">当运行容器时发生了什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#底层的技术"><span class="nav-number">6.</span> <span class="nav-text">底层的技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命名空间（Namespaces）"><span class="nav-number">6.1.</span> <span class="nav-text">命名空间（Namespaces）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制组（Control-Groups）"><span class="nav-number">6.2.</span> <span class="nav-text">控制组（Control Groups）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联合文件系统（Union-file-systems）"><span class="nav-number">6.3.</span> <span class="nav-text">联合文件系统（Union file systems）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器格式"><span class="nav-number">6.4.</span> <span class="nav-text">容器格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一步"><span class="nav-number">7.</span> <span class="nav-text">下一步</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">buildshiprun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"buildshiprun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Re5AtB1NDghRAczaO5XDHCLK-gzGzoHsz", "Ji1KNjafkLn3CSFjw5BwK041");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

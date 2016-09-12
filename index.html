@@ -1,0 +1,1062 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Docker, Rancher, Container, Linux" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BSR's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Learning, Sharing and Growing.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BSR's Notes">
+<meta property="og:url" content="http://buildship.run/index.html">
+<meta property="og:site_name" content="BSR's Notes">
+<meta property="og:description" content="Learning, Sharing and Growing.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BSR's Notes">
+<meta name="twitter:description" content="Learning, Sharing and Growing.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6328197603464840000,
+      author: '作者'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://buildship.run/"/>
+
+  <title> BSR's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">BSR's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Linux, Container and related.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/understand-images-and-containers/" itemprop="url">
+                  理解镜像、容器与存储驱动
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-06T13:46:25+08:00" content="2016-09-06">
+              2016-09-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/understand-images-and-containers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/understand-images-and-containers/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/understand-images-and-containers/" class="leancloud_visitors" data-flag-title="理解镜像、容器与存储驱动">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>翻译自<a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a></em></p>
+<h2 id="理解镜像、容器与存储驱动"><a href="#理解镜像、容器与存储驱动" class="headerlink" title="理解镜像、容器与存储驱动"></a>理解镜像、容器与存储驱动</h2><p>为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。</p>
+<h2 id="镜像和层"><a href="#镜像和层" class="headerlink" title="镜像和层"></a>镜像和层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg" alt="image-layers.jpg"></p>
+<p>Docker的存储驱动负责这些层的堆叠并提供一个联合的文件视图。</p>
+<p>当您创建一个新的容器，在堆栈的顶层会创建一个新的薄薄的可写层，这个层通常称为“容器层”。对容器运行期间的更改（如创建新文件，更改已有文件和删除文件）都会写到这个薄的可写层中。下面的图展示了一个基于Ubuntu 15.04镜像的容器：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers.jpg" alt="container-layers.jpg"></p>
+<h2 id="可寻址内容存储（Content-addressable-storage）"><a href="#可寻址内容存储（Content-addressable-storage）" class="headerlink" title="可寻址内容存储（Content addressable storage）"></a>可寻址内容存储（Content addressable storage）</h2><p>Docker 1.10引入了一个新的可寻址内容存储模型，这是一个用于定位磁盘上镜像和容器数据的全新方法。1.10之前的版本是通过一个随机生成的UUID来引用镜像和层数据，而在新模型中取而代之的是<em>安全内容哈希（secure content hash）</em>。</p>
+<p>新模型增强了安全性，提供了一个内嵌的方式来防止ID冲突，并且保证了在镜像的拉取（pull），推送（push）、载入（load）和保存（save）等操作后数据的一致性。同时对于来自不同编译版本的镜像文件的层，也提供了更好的复用机制。</p>
+<p>下面的图是之前的图的升级版，着重突出了Docker 1.10的更改：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers-cas.jpg" alt="container-layers-cas.jpg"></p>
+<p>如您看到的一样，所有镜像层的ID都是加密的哈希，然而容器的ID仍然是随机生成的UUID。</p>
+<p>关于新模型，有些事项需要注意，包括：</p>
+<ul>
+<li>现有镜像的迁移</li>
+<li>镜像和层的文件系统结构</li>
+</ul>
+<p>由先前版本Docker拉取和创建的镜像文件需要迁移并升级后才能使用新模型的机制。迁移包括计算新的安全校验码（secure checksums），这个操作会在您第一次运行更新版的Docker守护进程时自动完成。迁移操作完成后，所有的镜像和标签（tag）都会使用全新的安全哈希ID。</p>
+<p>尽管迁移操作是自动并无须人工干预的，但操作本身是计算密集型操作，意味着如果有很多镜像文件，升级会花费较长时间，并且在升级期间，Docker守护进程会停止处理其它操作请求。</p>
+<p>有一个迁移工具可以帮助您在升级Docker守护进程之前迁移升级已有镜像文件至新格式，这样Docker守护进程无需就地执行升级操作，从而避免了必要的宕机时间。同时也提供了一个手动升级的方法，这样这些镜像可以在手动升级后在已经是新版本Docker守护进程的环境中使用。</p>
+<p>这个迁移工具由Docker公司官方提供，其本身是一个容器，可以在<a href="https://github.com/docker/v1.10-migrator/releases" target="_blank" rel="external">这里下载</a>。</p>
+<p>在运行这个迁移工具的容器时，您需要共享容器宿主机的数据目录给容器，如果您使用的是Docker的默认数据目录地址，运行迁移工具的容器命令如下：</p>
+<p><code>$ sudo docker run --rm -v /var/lib/docker:/var/lib/docker docker/v1.10-migrator</code></p>
+<p>假如您使用的是<code>devicemapper</code>存储驱动，您需要使用<code>--privileged</code>选项，这样容器才有权限访问您的存储设备。</p>
+<h3 id="迁移示例"><a href="#迁移示例" class="headerlink" title="迁移示例"></a>迁移示例</h3><p>下面的示例演示了在1.9.1版本的Docker守护进程和AUFS存储驱动的Docker宿主机上使用这个迁移工具。Docker宿主机是一个运行在亚马逊EC2上的环境，环境配置为1 vCPU，1GB内存，和1块8G的固态EBS磁盘。Docker的数据目录（<code>/var/lib/docker</code>）占用了2GB的空间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line"></span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jenkins             latest              285c9f0f9d3d        17 hours ago        708.5 MB</span><br><span class="line">mysql               latest              d39c3fa09ced        8 days ago          360.3 MB</span><br><span class="line">mongo               latest              a74137af4532        13 days ago         317.4 MB</span><br><span class="line">postgres            latest              9aae83d4127f        13 days ago         270.7 MB</span><br><span class="line">redis               latest              8bccd73928d9        2 weeks ago         151.3 MB</span><br><span class="line">centos              latest              c8a648134623        4 weeks ago         196.6 MB</span><br><span class="line">ubuntu              15.04               c8be1ac8145a        7 weeks ago         131.3 MB</span><br><span class="line"></span><br><span class="line">$ sudo du -hs /var/lib/docker</span><br><span class="line"></span><br><span class="line">2.0G    /var/lib/docker</span><br><span class="line"></span><br><span class="line">$ time docker run --rm -v /var/lib/docker:/var/lib/docker docker/v1.10-migrator</span><br><span class="line"></span><br><span class="line">Unable to find image &apos;docker/v1.10-migrator:latest&apos; locally</span><br><span class="line">latest: Pulling from docker/v1.10-migrator</span><br><span class="line">ed1f33c5883d: Pull complete</span><br><span class="line">b3ca410aa2c1: Pull complete</span><br><span class="line">2b9c6ed9099e: Pull complete</span><br><span class="line">dce7e318b173: Pull complete</span><br><span class="line">Digest: sha256:bd2b245d5d22dd94ec4a8417a9b81bb5e90b171031c6e216484db3fe300c2097</span><br><span class="line">Status: Downloaded newer image for docker/v1.10-migrator:latest</span><br><span class="line">time=&quot;2016-01-27T12:31:06Z&quot; level=debug msg=&quot;Assembling tar data for 01e70da302a553ba13485ad020a0d77dbb47575a31c4f48221137bb08f45878d from /var/lib/docker/aufs/diff/01e70da302a553ba13485ad020a0d77dbb47575a31c4f48221137bb08f45878d&quot;</span><br><span class="line">time=&quot;2016-01-27T12:31:06Z&quot; level=debug msg=&quot;Assembling tar data for 07ac220aeeef9febf1ac16a9d1a4eff7ef3c8cbf5ed0be6b6f4c35952ed7920d from /var/lib/docker/aufs/diff/07ac220aeeef9febf1ac16a9d1a4eff7ef3c8cbf5ed0be6b6f4c35952ed7920d&quot;</span><br><span class="line">&lt;snip&gt;</span><br><span class="line">time=&quot;2016-01-27T12:32:00Z&quot; level=debug msg=&quot;layer dbacfa057b30b1feaf15937c28bd8ca0d6c634fc311ccc35bd8d56d017595d5b took 10.80 seconds&quot;</span><br><span class="line"></span><br><span class="line">real    0m59.583s</span><br><span class="line">user    0m0.046s</span><br><span class="line">sys     0m0.008s</span><br></pre></td></tr></table></figure>
+<p><code>docker run</code>前的<code>time</code>命令用于输出操作所占用的时间。如您看到的，迁移占用2GB的7个镜像文件共占时约1分钟，其中包括拉取<code>docker/v1.10-migrator</code>镜像所花的3.5秒。同样的操作在一个具有40 vCPU，160GB内存和8GB的IOPS磁盘的环境中所占用的时间为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">real    0m9.871s</span><br><span class="line">user    0m0.094s</span><br><span class="line">sys     0m0.021s</span><br></pre></td></tr></table></figure>
+<p>这说明迁移的操作会受到硬件条件的影响。</p>
+<h2 id="容器和层"><a href="#容器和层" class="headerlink" title="容器和层"></a>容器和层</h2><p>容器和镜像最显著的区别在于顶层的可读写层，对容器的改动（如添加新文件或更改已有文件）会被存储到这个可读写层中。当容器被删除时，这个可读写层同时也会被删除，而底层的镜像保持不变。</p>
+<p>因为每个容器都有它自己的可写层，并且所有的更改都存储在这个可写层，这意味着多个容器可以共享使用相同的底层镜像，同时可以有它们自己的数据状态。下图显示了共享使用相同的Ubuntu 15.04镜像的多个容器：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg" alt="sharing-layers.jpg"></p>
+<p>Docker存储驱动负责启用和管理镜像层和可写容器层，不同的存储驱动实现方式会有不同。Docker镜像和容器管理的两个关键技术分别是可堆叠的镜像层和写时复制（copy-on-write）。</p>
+<h2 id="写时复制"><a href="#写时复制" class="headerlink" title="写时复制"></a>写时复制</h2><p>共享是优化资源的一种好方法，大家在日常生活中也习惯性的这么做。举例来说，双胞胎Jane和Joseph在不同时间参加不同老师的代数课，他们就可以互相传递使用同一本练习书。现在假设Jane要完成书中第11页的功课，这时Jane把第11页复制下来并完成她的功课，然后把这个副本交上去。这样原始的练习书并没有变化，而Jane变更的是第11页的副本。</p>
+<p>写时复制的策略是类似于这样的拷贝与共享的机制。使用这种策略，需要相同数据的系统进程共享使用相同实例的那份数据而不是使用那份数据的副本。在某个时间，如果一个进程需要修改或者写入数据，这个时候系统才会特别复制一份数据以供这个进程使用。只有这个进程在使用复制出来的那份数据，其它进程继续共享使用原始数据。</p>
+<p>Docker镜像和容器都使用了写时复制的机制。写时复制的策略优化了镜像的磁盘占用和容器启动时的性能。接下来的部分看看镜像和容器是如何通过共享和复制来利用写时复制的。</p>
+<h3 id="用分享机制实现更小的镜像"><a href="#用分享机制实现更小的镜像" class="headerlink" title="用分享机制实现更小的镜像"></a>用分享机制实现更小的镜像</h3><p>本节介绍镜像层和写时复制技术。所有的镜像和容器层都存在容器宿主机的本地存储内，并由存储驱动程序管理。在基于Linux的Docker宿主机上，通常位于<code>/var/lib/docker/</code>。</p>
+<p>在使用<code>docker pull</code>和<code>docker push</code>命令拉取和推送镜像时，Docker客户端会显示镜像的层信息。下面的命令是从Docker Hub上拉取Ubuntu 15.04镜像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:15.04</span><br><span class="line"></span><br><span class="line">15.04: Pulling from library/ubuntu</span><br><span class="line">1ba8ac955b97: Pull complete</span><br><span class="line">f157c4e5ede7: Pull complete</span><br><span class="line">0b7e98f84c4c: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:5e279a9df07990286cce22e1b0f5b0490629ca6d187698746ae5e28e604a640e</span><br><span class="line">Status: Downloaded newer image for ubuntu:15.04</span><br></pre></td></tr></table></figure>
+<p>通过输出信息，您可以看到上述命令实际上拉取了4个镜像层。上面的每一行都列出了镜像层的UUID或者加密的哈希ID，这四个层组成了Ubuntu 15.04的镜像。</p>
+<p>每个镜像层都存储在Docker宿主机的本地存储下的单独目录中。</p>
+<p>Docker 1.10之前的版本里，每个镜像层都存储在与镜像层ID相同名称的目录中，而在Docker 1.10和之后的版本中情况会不一样。举例来说，下面的命令展示了在一个运行着Docker 1.9.1版本的宿主机上，从Docker Hub拉取一个镜像，然后紧接着显示的是存储镜像层的目录列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$  docker pull ubuntu:15.04</span><br><span class="line"></span><br><span class="line">15.04: Pulling from library/ubuntu</span><br><span class="line">47984b517ca9: Pull complete</span><br><span class="line">df6e891a3ea9: Pull complete</span><br><span class="line">e65155041eed: Pull complete</span><br><span class="line">c8be1ac8145a: Pull complete</span><br><span class="line">Digest: sha256:5e279a9df07990286cce22e1b0f5b0490629ca6d187698746ae5e28e604a640e</span><br><span class="line">Status: Downloaded newer image for ubuntu:15.04</span><br><span class="line"></span><br><span class="line">$ ls /var/lib/docker/aufs/layers</span><br><span class="line"></span><br><span class="line">47984b517ca9ca0312aced5c9698753ffa964c2015f2a5f18e5efa9848cf30e2</span><br><span class="line">c8be1ac8145a6e59a55667f573883749ad66eaeef92b4df17e5ea1260e2d7356</span><br><span class="line">df6e891a3ea9cdce2a388a2cf1b1711629557454fd120abd5be6d32329a0e0ac</span><br><span class="line">e65155041eed7ec58dea78d90286048055ca75d41ea893c7246e794389ecf203</span><br></pre></td></tr></table></figure>
+<p>注意看一下这四个目录的名称和下载的镜像的层的ID是如何匹配的，现在来比较一下同样的操作在运行着Docker 1.10版本的宿主机上的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:15.04</span><br><span class="line">15.04: Pulling from library/ubuntu</span><br><span class="line">1ba8ac955b97: Pull complete</span><br><span class="line">f157c4e5ede7: Pull complete</span><br><span class="line">0b7e98f84c4c: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:5e279a9df07990286cce22e1b0f5b0490629ca6d187698746ae5e28e604a640e</span><br><span class="line">Status: Downloaded newer image for ubuntu:15.04</span><br><span class="line"></span><br><span class="line">$ ls /var/lib/docker/aufs/layers/</span><br><span class="line">1d6674ff835b10f76e354806e16b950f91a191d3b471236609ab13a930275e24</span><br><span class="line">5dbb0cbe0148cf447b9464a358c1587be586058d9a4c9ce079320265e2bb94e7</span><br><span class="line">bef7199f2ed8e86fa4ada1309cfad3089e0542fec8894690529e4c04a7ca2d73</span><br><span class="line">ebf814eccfe98f2704660ca1d844e4348db3b5ccc637eb905d4818fbfb00a06a</span><br></pre></td></tr></table></figure>
+<p>可以看到这次这四个目录的名称和下载的镜像的层的ID是不匹配的。</p>
+<p>尽管版本1.10前后的镜像管理方式有差异，Docker的所有版本中镜像的层都是可以共享的。举例来说，假如您要拉取的镜像中的某些层和一个已经在本地的镜像中的层是共享的，Docker守护进程会识别到这一点，随后只拉取在本地没有存储的镜像层。镜像拉取完成后，这两个镜像会共享那些公共层。</p>
+<p>现在您可以自己亲自演练一下。从刚才拉取的Ubuntu 15.04镜像开始，更新一些内容后构建一个新的镜像。使用<code>Dockerfile</code>和<code>docker build</code>命令可以实现这一点。</p>
+<ol>
+<li><p>在一个空目录中，创建一个空的<code>Dockerfile</code>文件，把Ubuntu 15.04作为基础镜像</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在/tmp目录下添加一个名为“newfile”的新文件，文件的内容为“Hello world”。这一步完成后，<code>Dockerfile</code>文件应该包含下面两行：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br><span class="line">RUN echo &quot;Hello world&quot; &gt; /tmp/newfile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保持并关闭<code>Dockerfile</code>文件</p>
+</li>
+<li><p>在命令行终端里，切换到<code>Dockerfile</code>文件所在的目录，运行下面的命令：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t changed-ubuntu .</span><br><span class="line"></span><br><span class="line">Sending build context to Docker daemon 2.048 kB</span><br><span class="line">Step 1 : FROM ubuntu:15.04</span><br><span class="line"> ---&gt; 3f7bcee56709</span><br><span class="line">Step 2 : RUN echo &quot;Hello world&quot; &gt; /tmp/newfile</span><br><span class="line"> ---&gt; Running in d14acd6fad4e</span><br><span class="line"> ---&gt; 94e6b7d2c720</span><br><span class="line">Removing intermediate container d14acd6fad4e</span><br><span class="line">Successfully built 94e6b7d2c720</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>备注：命令末尾的句号（.）是必须的，其作用是通知<code>docker build</code>命令使用当前的工作目录作为构建上下文。</p>
+</blockquote>
+<pre><code>上面的输出信息显示构建了一个ID为`94e6b7d2c720`的新镜像。
+</code></pre><ol>
+<li><p>运行<code>docker images</code>命令验证这个新的<code>changed-ubuntu</code>镜像是否在Docker宿主机的本地存储目录中。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    REPOSITORY       TAG      IMAGE ID       CREATED           SIZE</span><br><span class="line">changed-ubuntu   latest   03b964f68d06   33 seconds ago    131.4 MB</span><br><span class="line">ubuntu           15.04    013f3d01d247   6 weeks ago       131.3 MB</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行<code>docker history</code>命令查看新的<code>changed-ubuntu</code>镜像里添加了哪些镜像层</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	$ docker history changed-ubuntu</span><br><span class="line">IMAGE               CREATED              CREATED BY                                      SIZE        COMMENT</span><br><span class="line">94e6b7d2c720        2 minutes ago       /bin/sh -c echo &quot;Hello world&quot; &gt; /tmp/newfile    12 B </span><br><span class="line">3f7bcee56709        6 weeks ago         /bin/sh -c #(nop) CMD [&quot;/bin/bash&quot;]             0 B  </span><br><span class="line">&lt;missing&gt;           6 weeks ago         /bin/sh -c sed -i &apos;s/^#\s*\(deb.*universe\)$/   1.879 kB</span><br><span class="line">&lt;missing&gt;           6 weeks ago         /bin/sh -c echo &apos;#!/bin/sh&apos; &gt; /usr/sbin/polic   701 B</span><br><span class="line">&lt;missing&gt;           6 weeks ago         /bin/sh -c #(nop) ADD file:8e4943cd86e9b2ca13   131.3 MB</span><br></pre></td></tr></table></figure>
+<p> <code>docker history</code>命令显示了顶层有一个新增的<code>94e6b7d2c720</code>的镜像层，这个层正是由您写的<code>Dockerfile</code>文件里的<code>echo &quot;Hello world&quot; &gt; /tmp/newfile</code>命令创建的，其下的4个层正是组成Ubuntu 15.04镜像的层。</p>
+<blockquote>
+<p>在Docker 1.10版本引入的内容寻址存储模型下，镜像的构建历史信息不存储在每个镜像层的配置文件中，而是以文本字符串的方式存储在一个整体镜像的单个配置文件中，导致了在用<code>docker hisotry</code>命令的输出时会显示为<code>missing</code>的情况，这是一个正常的可以忽略的行为。<br>您可能会听到把类似的镜像称为扁平镜像（flat images）的说法。</p>
+</blockquote>
+<p> 注意到这个新的<code>changed-ubuntu</code>镜像里，并不是所有的层都有独有的拷贝。通过下方的图例，您可以看到这个新的镜像底层的4个镜像层实际上共享自<code>Ubuntu 15.04</code>镜像。</p>
+<p> <img src="https://docs.docker.com/engine/userguide/storagedriver/images/saving-space.jpg" alt="saving-space.jpg"></p>
+<p> <code>docker history</code>命令同时也显示了每个镜像层的大小，如您看到的，<code>94e6b7d2c720</code>这个层只占用了12个字节的磁盘空间。这意味着这个新的<code>changed-ubuntu</code>镜像只在Docker宿主机上额外占用了12个字节的磁盘空间，而<code>94e6b7d2c720</code>层下方的其它所有层是在Docker宿主机上已经存在的并且可以共享给其它镜像的层。</p>
+<p> 镜像层的共享机制使Docker的镜像和容器变得十分高效。</p>
+</li>
+</ol>
+<h3 id="用复制机制使得容器更加高效"><a href="#用复制机制使得容器更加高效" class="headerlink" title="用复制机制使得容器更加高效"></a>用复制机制使得容器更加高效</h3><p>之前您了解到一个容器是一个镜像加上一个在顶层的可读写容器层，下面的图例展示了一个基于<code>Ubuntu 15.04</code>镜像的容器的层：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers-cas.jpg" alt="container-layers-cas.jpg"></p>
+<p>所有对容器的写入操作都存储在那个可读写容器层里，其它的层是不可更改的只读镜像层，这意味着多个容器可以安全地共享单个的底层镜像。下面的图例展示了多个容器共享单个的<code>Ubuntu 15.04</code>镜像。每个容器都有独有的可读写层，但是它们都共享单个的<code>Ubuntu 15.04</code>镜像：</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg" alt="sharing-layers.jpg"></p>
+<p>当容器里面的已有文件被更改时，Docker使用存储驱动程序执行一个写时复制操作，具体的操作取决于存储驱动程序的实现方式。对于AUFS和OverlayFS存储驱动，写时复制操作基本上如下所示：</p>
+<ul>
+<li>从上之下逐层搜索要更改的文件。</li>
+<li>如果找到要更改的文件，执行一个“向上复制”（copy-up）操作，把文件拷贝到顶层的可读写层中。</li>
+<li>在可读写层中进行文件的更改。</li>
+</ul>
+<p>Btrfs，ZFS和其它的存储驱动的写时复制机制是不一样的，您可以在这些存储驱动程序的文档中了解到更多的信息。</p>
+<p>写入大量数据的容器会占用更多的磁盘空间，因为大多数写操作需要在顶层的可读写层中消耗更多的空间。如果您的容器需要写入大量的数据，建议您使用数据卷（data volume）。</p>
+<p>“向上复制”操作会带来显著的性能开销。取决于使用何种存储驱动程序，这种性能开销会有所不同。然而，对于很多大文件，很多层，并且目录结构很深的情况，这种影响尤其显著。幸运的是，这个操作仅在第一次更改文件的时候发生，对同样文件的后续更改不会触发“向上复制”的操作，因为文件已经拷贝到顶层的可读写容器层中了。</p>
+<p>我们来看一下如果启动5个基于先前新建的<code>changed-ubuntu</code>镜像的容器会发生什么情况：</p>
+<ol>
+<li><p>在Docker宿主机的命令行终端里，把下面的<code>docker run</code>命令运行5次。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -dit changed-ubuntu bash</span><br><span class="line"></span><br><span class="line">75bab0d54f3cf193cfdc3a86483466363f442fba30859f7dcd1b816b6ede82d4</span><br><span class="line"></span><br><span class="line">$ docker run -dit changed-ubuntu bash</span><br><span class="line"></span><br><span class="line">9280e777d109e2eb4b13ab211553516124a3d4d4280a0edfc7abf75c59024d47</span><br><span class="line"></span><br><span class="line">$ docker run -dit changed-ubuntu bash</span><br><span class="line"></span><br><span class="line">a651680bd6c2ef64902e154eeb8a064b85c9abf08ac46f922ad8dfc11bb5cd8a</span><br><span class="line"></span><br><span class="line">$ docker run -dit changed-ubuntu bash</span><br><span class="line"></span><br><span class="line">8eb24b3b2d246f225b24f2fca39625aaad71689c392a7b552b78baf264647373</span><br><span class="line"></span><br><span class="line">$ docker run -dit changed-ubuntu bash</span><br><span class="line"></span><br><span class="line">0ad25d06bdf6fca0dedc38301b2aff7478b3e1ce3d1acd676573bba57cb1cfef</span><br></pre></td></tr></table></figure>
+<p> 运行完会启动5个基于<code>changed-ubuntu</code>镜像的容器，当容器创建时，Docker添加了一个可读写层并且分配了一个随机的UUID，这也是<code>docker run</code>命令的返回值。</p>
+</li>
+<li><p>运行<code>docker ps</code>命令验证这5个容器是否在运行。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	$ docker ps</span><br><span class="line">CONTAINER ID    IMAGE             COMMAND    CREATED              STATUS              PORTS    NAMES</span><br><span class="line">0ad25d06bdf6    changed-ubuntu    &quot;bash&quot;     About a minute ago   Up About a minute            stoic_ptolemy</span><br><span class="line">8eb24b3b2d24    changed-ubuntu    &quot;bash&quot;     About a minute ago   Up About a minute            pensive_bartik</span><br><span class="line">a651680bd6c2    changed-ubuntu    &quot;bash&quot;     2 minutes ago        Up 2 minutes                 hopeful_turing</span><br><span class="line">9280e777d109    changed-ubuntu    &quot;bash&quot;     2 minutes ago        Up 2 minutes                 backstabbing_mahavira</span><br><span class="line">75bab0d54f3c    changed-ubuntu    &quot;bash&quot;     2 minutes ago        Up 2 minutes                 boring_pasteur</span><br></pre></td></tr></table></figure>
+<p> 上面的输出显示有5个基于<code>changed-ubuntu</code>镜像的容器在运行，每个<code>CONTAINER ID</code>都源自于创建容器时的UUID。</p>
+</li>
+<li><p>列出本地存储目录下的内容</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ls /var/lib/docker/containers</span><br><span class="line"></span><br><span class="line">0ad25d06bdf6fca0dedc38301b2aff7478b3e1ce3d1acd676573bba57cb1cfef</span><br><span class="line">9280e777d109e2eb4b13ab211553516124a3d4d4280a0edfc7abf75c59024d47</span><br><span class="line">75bab0d54f3cf193cfdc3a86483466363f442fba30859f7dcd1b816b6ede82d4</span><br><span class="line">a651680bd6c2ef64902e154eeb8a064b85c9abf08ac46f922ad8dfc11bb5cd8a</span><br><span class="line">8eb24b3b2d246f225b24f2fca39625aaad71689c392a7b552b78baf264647373</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Docker的写时复制机制不仅减少了容器的磁盘占用，同时也缩减了启动容器所需的时间。在运行开始时，Docker只需要为启动的容器创建一个薄薄的的可读写层，下面的图例展示了5个基于<code>changed-ubuntu</code>镜像的容器。</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/shared-uuid.jpg" alt="shared-uuid.jpg"></p>
+<p>假如Docker需要在每次启动容器的时候都要拷贝底层镜像的所有层，容器的启动时间和磁盘占用会显著增加。</p>
+<h2 id="数据卷和存储驱动"><a href="#数据卷和存储驱动" class="headerlink" title="数据卷和存储驱动"></a>数据卷和存储驱动</h2><p>当一个容器被删除时，任何对于容器的更改，不存储在一个数据卷里的数据是随着容器一起删除的。</p>
+<p>一个数据卷是一个直接挂载到容器内的Docker宿主机上的目录或者文件。数据卷不受存储驱动程序控制。对数据卷的读写操作会绕过存储驱动程序，操作会像在本地主机上快速。您可以在容器里挂载任意数量的数据卷，多个容器也可以共享一个或多个数据卷。</p>
+<p>下面的图例展示了单个Docker宿主机运行了两个容器，每个容器在Docker宿主机的本地存储区域里占用了独有的空间（<code>/var/lib/docker/...</code>），另外在Docker宿主机的<code>/data</code>目录下还有单个共享的数据卷，这个目录被同时挂载到了两个容器里。</p>
+<p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/shared-volume.jpg" alt="shared-volume.jpg"></p>
+<p>数据卷驻留在Docker宿主机的本地存储区域之外，进一步剥离开存储驱动程序对其的控制。当一个容器被删除时，任何存储在数据卷里的数据会保留在Docker宿主机上。</p>
+<p>更多有关数据卷的详细信息，请参考<a href="https://docs.docker.com/userguide/dockervolumes/" target="_blank" rel="external">管理容器内的数据</a>。</p>
+<h2 id="相关信息"><a href="#相关信息" class="headerlink" title="相关信息"></a>相关信息</h2><ul>
+<li><a href="https://docs.docker.com/engine/userguide/storagedriver/selectadriver/" target="_blank" rel="external">存储驱动的选取</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/storagedriver/aufs-driver/" target="_blank" rel="external">AUFS存储驱动实践</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/" target="_blank" rel="external">Btrfs存储驱动实践</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/storagedriver/device-mapper-driver/" target="_blank" rel="external">Device Mapper存储驱动实践</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/docker-overview/" itemprop="url">
+                  Docker 简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-30T13:46:25+08:00" content="2016-08-30">
+              2016-08-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/docker-overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/docker-overview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>翻译自<a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a></em></p>
+<h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。</p>
+<p>Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。</p>
+<h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。</p>
+<p>容器核心之外是周边的一些工具和平台，可以在下面几个方面有所帮助：</p>
+<ul>
+<li>把您的应用程序以及其支持组件放入Docker容器</li>
+<li>分发容器给您的团队以用于进一步的开发和测试</li>
+<li>部署应用程序到生产环境，无论其在本地数据中心还是在云端</li>
+</ul>
+<h2 id="什么是Docker引擎？"><a href="#什么是Docker引擎？" class="headerlink" title="什么是Docker引擎？"></a>什么是Docker引擎？</h2><p>Docker引擎是一个C/S架构的应用程序，包含以下主要组件：</p>
+<ul>
+<li>服务器 - 运行着一种被称为守护进程的长期运行程序</li>
+<li>REST应用程序接口 - 定义了与守护进程交互的接口</li>
+<li>命令行接口（CLI）客户端</li>
+</ul>
+<p><img src="https://docs.docker.com/engine/article-img/engine-components-flow.png" alt="engine-components-flow.png"></p>
+<p>命令行接口使用Docker的REST应用程序接口与Docker守护进程进行交互，许多其它Docker应用程序利用底层REST应用程序接口和命令行接口。</p>
+<p>Docker守护进程创建和管理Docker对象，包括镜像、容器、网络以及数据卷等。</p>
+<blockquote>
+<p>Docker受Apache 2.0的开源许可保护</p>
+</blockquote>
+<h2 id="能用Docker做什么？"><a href="#能用Docker做什么？" class="headerlink" title="能用Docker做什么？"></a>能用Docker做什么？</h2><h3 id="快速交付您的应用程序"><a href="#快速交付您的应用程序" class="headerlink" title="快速交付您的应用程序"></a><em>快速交付您的应用程序</em></h3><p>Docker十分适用于开发生命周期。Docker允许开发者在包含应用程序和服务的本地容器中进行开发，然后可以将本地容器集成到持续集成（CI）和持续部署（CD）的工作流程中。</p>
+<p>举例来说，开发人员可以在本地编写代码，并可以通过Docker将他们的本地开发栈共享给他们的同事。当开发完成后，开发人员把他们的代码和开发栈发布到一个测试环境进行相关测试，测试完成后，可以把测试环境的Docker镜像发布到生产环境，从而完成代码部署。</p>
+<h3 id="更易于部署和扩展"><a href="#更易于部署和扩展" class="headerlink" title="更易于部署和扩展"></a><em>更易于部署和扩展</em></h3><p>Docker基于容器的平台有很高的可移植性，Docker容器可以运行在开发人员的本地机器，或者数据中心的物理机与虚拟机，甚至在云端。</p>
+<p>Docker的可移植性和轻量特性使负载的动态管理更加容易，可以使用Docker快速地对应用程序和服务进行扩展或缩减。</p>
+<h3 id="实现高密度和运行更多负载"><a href="#实现高密度和运行更多负载" class="headerlink" title="实现高密度和运行更多负载"></a><em>实现高密度和运行更多负载</em></h3><p>Docker很轻量很快，它提供了一个切实可行的并且具有成本效益的用于替代基于hypervisor虚拟机的方案，这对于高密集的环境尤其有用（比如构建私有云或者PaaS平台），但同时对于中小型的部署也很有用，能最大化硬件的资源利用。</p>
+<h2 id="Docker的架构如何？"><a href="#Docker的架构如何？" class="headerlink" title="Docker的架构如何？"></a>Docker的架构如何？</h2><p>Docker用的是一个C/S的架构，Docker客户端与Docker守护进程交互，Docker守护进程负责容器的构建、运行与分发等繁重工作。Docker客户端与守护进程可以运行在同一个系统上，或者Docker客户端也可以连接远程的Docker守护进程。Docker客户端与守护进程通过Sockets或者REST应用程序接口进行交互。</p>
+<p><img src="https://docs.docker.com/engine/article-img/architecture.svg" alt="architecture.svg"></p>
+<h3 id="Docker守护进程"><a href="#Docker守护进程" class="headerlink" title="Docker守护进程"></a>Docker守护进程</h3><p>如上图所示，Docker守护进程运行在宿主机上，用户不直接与Docker守护进程交互，而是通过Docker客户端。</p>
+<h3 id="Docker客户端"><a href="#Docker客户端" class="headerlink" title="Docker客户端"></a>Docker客户端</h3><p>Docker客户端是<code>docker</code>二进制命令，是Docker的主要交互接口，其接收来自用户的命令并继而与Docker守护进程进行交互。</p>
+<h3 id="深入Docker"><a href="#深入Docker" class="headerlink" title="深入Docker"></a>深入Docker</h3><p>为了了解Docker的内部，您需要了解下面三个方面：</p>
+<ul>
+<li>Docker镜像</li>
+<li>Docker镜像库</li>
+<li>Docker容器</li>
+</ul>
+<h4 id="Docker镜像"><a href="#Docker镜像" class="headerlink" title="Docker镜像"></a>Docker镜像</h4><p>Docker镜像是一个只读模板。举例来说，一个镜像可以包含一个装有Apache和web应用程序的Ubuntu操作系统。镜像用于创建Docker容器，Docker提供了一个简单的方式构建新的镜像或者更新已有镜像，或者您也可以下载其他人构建好的已有镜像。Docker镜像是Docker的<strong>构建</strong>组件。</p>
+<h4 id="Docker镜像库"><a href="#Docker镜像库" class="headerlink" title="Docker镜像库"></a>Docker镜像库</h4><p>Docker镜像库存储Docker镜像文件，您可以从公开镜像库或者私有镜像库上传或下载镜像，<a href="http://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>提供了一个公开镜像库，上面提供了很多已经构建好的镜像。这些已有镜像可以是您构建的或者是其他人构建的。Docker镜像库是Docker的<strong>分发</strong>组件。更多信息，请访问<a href="https://docs.docker.com/registry/overview/" target="_blank" rel="external">Docker镜像库</a>和<a href="https://docs.docker.com/docker-trusted-registry/overview/" target="_blank" rel="external">Docker受信镜像库</a>。</p>
+<h4 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h4><p>Docker容器与目录相似。一个Docker容器包含运行一个应用程序的所需的一切。Docker容器是由Docker镜像创建而来。Docker容器可以被运行、启动、停止、移动或者删除。每个容器都是一个隔离并且安全的应用程序平台。Docker容器是Docker的<strong>运行</strong>组件。</p>
+<h3 id="Docker镜像是如何工作的？"><a href="#Docker镜像是如何工作的？" class="headerlink" title="Docker镜像是如何工作的？"></a>Docker镜像是如何工作的？</h3><p>我们已经了解到Docker镜像是一个只读模板，并由此启动Docker容器。每个Docker镜像由一系列的层组成，Docker使用<a href="http://en.wikipedia.org/wiki/UnionFS" target="_blank" rel="external">联合文件系统</a>把这些层组成一个Docker镜像。联合文件系统可以使来自不同文件系统的文件或目录（也称为分支）进行透明的堆叠，进而形成一个单一连贯的文件系统。</p>
+<p>Docker能如此轻量的其中一个原因是使用了这些层技术。当您更改一个Docker镜像时（比如更新应用程序到新版本），一个新的层会被创建，因此只有那个层被添加或者被修改，而不是像虚拟机那样需要替换整个镜像。这样您就不必分发整个镜像，而只需要分发更新的部分。这样使得Docker镜像的分发更快更简单。</p>
+<p>每个镜像都有一个基础镜像，比如一个Ubuntu基础镜像或者一个Fedora基础镜像。您也可以使用您自己构建的镜像作为新镜像的基础镜像，比如您可以基于一个Apache的基础镜像构建所有的web应用程序镜像。</p>
+<blockquote>
+<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>是一个公开镜像库，里面用来存储Docker镜像。</p>
+</blockquote>
+<p>然后Docker镜像可以在这些基础镜像之上构建而来，通过一种称为指令（instructions）的一系列步骤。每个指令会在镜像中产生一个新的层。指令包含的动作诸如：</p>
+<ul>
+<li>运行一条命令</li>
+<li>添加一个文件或目录</li>
+<li>创建一个环境变量</li>
+<li>制定在容器启动时运行什么进程</li>
+</ul>
+<p>这些指定的指令定义在一个叫做<code>Dockerfile</code>的文件里，<code>Dockerfile</code>是一种文本类型的文件，其中包含了用于从基础镜像构建新镜像所需的指令。当您请求构建一个镜像时，Docker会读取<code>Dockerfile</code>并执行其中的指令，最终构建成一个新镜像。</p>
+<h3 id="Docker镜像库是如何工作的？"><a href="#Docker镜像库是如何工作的？" class="headerlink" title="Docker镜像库是如何工作的？"></a>Docker镜像库是如何工作的？</h3><p>Docker镜像库用于存储您的镜像文件。一旦您构建了一个Docker镜像，您可以推送（push）这个镜像到一个公开镜像库（如<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>），或者您自己在防火墙后面的私有镜像库。</p>
+<p>通过Docker客户端，您可以搜索已有的公开镜像，然后拉取（pull）下来到您的Docker宿主机中，并依据这些镜像启动容器。</p>
+<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>为镜像提供了公开和私有两种存储方式。公开存储的镜像可以被任何人检索并下载，而私有存储的镜像只有您和您的成员可以获取。您可以<a href="https://www.docker.com/pricing" target="_blank" rel="external">在这里登记一个存储计划</a>。</p>
+<h3 id="容器是如何工作的？"><a href="#容器是如何工作的？" class="headerlink" title="容器是如何工作的？"></a>容器是如何工作的？</h3><p>一个容器是由一个操作系统、用户添加的文件以及元数据（metadata）组成，如我们之前看到的，每个容器都是由一个镜像创建而来的，那个镜像决定了容器应该包含什么内容、在启动时应该运行什么进程，以及各种不同的配置信息。Docker镜像本身是只读的，在容器启动时，Docker通过联合文件系统在镜像的最上层增加一个可读写的层。</p>
+<h3 id="当运行容器时发生了什么？"><a href="#当运行容器时发生了什么？" class="headerlink" title="当运行容器时发生了什么？"></a>当运行容器时发生了什么？</h3><p>Docker客户端可以通过<code>docker</code>二进制程序或者REST应用程序接口，来通知Docker守护进程运行一个容器。</p>
+<p><code>$ docker run -i -t ubuntu /bin/bash</code></p>
+<p>Docker引擎客户端通过<code>docker</code>启动，然后通过<code>run</code>命令开启一个新容器。要通知Docker守护进程启动一个容器，Docker客户端至少要提供：</p>
+<ul>
+<li>容器从哪个镜像创建，如Ubuntu</li>
+<li>当容器启动后要在其中运行什么命令，如<code>/bin/bash</code></li>
+</ul>
+<p>那么在我们运行这个命令时在后台发生了什么？</p>
+<p>Docker引擎按序进行了下面的操作：</p>
+<ul>
+<li>拉取Ubuntu镜像：Docker引擎在本地宿主机上检查Ubuntu镜像是否存在。如果镜像存在，Docker引擎将用这个镜像创建新的容器。如果镜像在本地宿主机上不存在，Docker引擎会从<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>上拉取该镜像。</li>
+<li>创建新的容器。</li>
+<li>分配文件系统并挂载可读写层：在文件系统中创建容器并且在镜像之上增加一个可读写层。</li>
+<li>分配网络接口：创建网络接口，用于容器与宿主机的通信。</li>
+<li>设置网络IP：从资源池中寻找并配置可用IP。</li>
+<li>执行指定的进程。</li>
+<li>捕获并提供应用程序输出：连接并记录标准输入、标准输出和标准错误，以便您检查应用程序的运行状况。</li>
+</ul>
+<p>至此您拥有了一个运行中的容器！现在您可以管理您的容器，与您的应用程序交互，当完成后，您也可以停止并删除掉容器。</p>
+<h2 id="底层的技术"><a href="#底层的技术" class="headerlink" title="底层的技术"></a>底层的技术</h2><p>Docker是用go语言编写的，通过调用内核的一些特性来完成我们所看到的这些功能。</p>
+<h3 id="命名空间（Namespaces）"><a href="#命名空间（Namespaces）" class="headerlink" title="命名空间（Namespaces）"></a>命名空间（Namespaces）</h3><p>Docker利用了命名空间技术来提供容器的这种隔离环境。当您运行一个容器时，Docker会为这个容器创建一系列的命名空间。</p>
+<p>命名空间提供了一层隔离保障：容器里的各个部分都运行在独有的命名空间里，并不能进行外部的访问。</p>
+<p>Docker引擎使用到的Linux命名空间有：</p>
+<ul>
+<li><code>pid</code>命名空间：进程隔离</li>
+<li><code>net</code>命名空间：管理网络接口</li>
+<li><code>ipc</code>命名空间：管理进程间通信的访问</li>
+<li><code>mnt</code>命名空间：管理挂载点</li>
+<li><code>uts</code>命名空间：隔离内核和版本标识</li>
+</ul>
+<h3 id="控制组（Control-Groups）"><a href="#控制组（Control-Groups）" class="headerlink" title="控制组（Control Groups）"></a>控制组（Control Groups）</h3><p>Linux上的Docker引擎也使用了叫做<code>cgroups</code>或控制组的技术，以隔离的方式运行应用程序的一个关键点是可控的资源占用，这点确保容器在多租户环境的主机中工作良好。通过控制组，使Docker引擎把可用的硬件资源分配给容器，并在必要的时候进行资源配额限制。举例来说，给特定的容器分配一定量的内存。</p>
+<h3 id="联合文件系统（Union-file-systems）"><a href="#联合文件系统（Union-file-systems）" class="headerlink" title="联合文件系统（Union file systems）"></a>联合文件系统（Union file systems）</h3><p>联合文件系统（或UnionFS）是通过创建层的方式来工作的文件系统，因此联合文件系统变得很轻量很快速。Docker引擎使用联合文件系统来构建容器。Docker引擎可以使用多种类型联合文件系统，如AUFS，btrfs，vfs以及DeviceMapper。</p>
+<h3 id="容器格式"><a href="#容器格式" class="headerlink" title="容器格式"></a>容器格式</h3><p>Docker引擎把所有这些组件组合封装成一个容器格式。默认的容器格式称为<code>libcontainer</code>。未来，Docker或许会通过集成诸如BSD Jails或者Solaris Zones来支持其它容器格式.</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>了解<a href="https://docs.docker.com/engine/installation/#installation" target="_blank" rel="external">安装Docker引擎</a>。了解<a href="https://docs.docker.com/engine/userguide/" target="_blank" rel="external">Docker引擎用户手册</a>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="buildshiprun" />
+          <p class="site-author-name" itemprop="name">buildshiprun</p>
+          <p class="site-description motion-element" itemprop="description">Learning, Sharing and Growing.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">buildshiprun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"buildshiprun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Re5AtB1NDghRAczaO5XDHCLK-gzGzoHsz", "Ji1KNjafkLn3CSFjw5BwK041");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
