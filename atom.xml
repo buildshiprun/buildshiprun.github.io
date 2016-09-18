@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://buildship.run/"/>
-  <updated>2016-09-18T06:23:36.000Z</updated>
+  <updated>2016-09-18T06:28:47.000Z</updated>
   <id>http://buildship.run/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://buildship.run/2016/dockerfiles-best-practices/"/>
     <id>http://buildship.run/2016/dockerfiles-best-practices/</id>
     <published>2016-09-09T05:46:25.000Z</published>
-    <updated>2016-09-18T06:23:36.000Z</updated>
+    <updated>2016-09-18T06:28:47.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/&lt;/a&gt;&lt;br&gt;由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！&lt;/p&gt;
@@ -50,14 +50,10 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;构建缓存&quot;&gt;&lt;a href=&quot;#构建缓存&quot; class=&quot;headerlink&quot; title=&quot;构建缓存&quot;&gt;&lt;/a&gt;构建缓存&lt;/h3&gt;&lt;p&gt;在构建镜像文件的过程中，Docker会逐行解析并按序执行&lt;code&gt;Dockerfiles&lt;/code&gt;文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用&lt;code&gt;docker build&lt;/code&gt;指令的&lt;code&gt;--no-cache=true&lt;/code&gt;选项。&lt;/p&gt;
 &lt;p&gt;但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;通常情况下，只需将&lt;code&gt;Dockerfiles&lt;/code&gt;中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;对于&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;除&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行&lt;code&gt;RUN apt-get -y update&lt;/code&gt;指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。&lt;/li&gt;
+&lt;li&gt;通常情况下，只需将&lt;code&gt;Dockerfiles&lt;/code&gt;中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。&lt;/li&gt;
+&lt;li&gt;对于&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。&lt;/li&gt;
+&lt;li&gt;除&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行&lt;code&gt;RUN apt-get -y update&lt;/code&gt;指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;一旦缓存失效，所有后续的&lt;code&gt;Dockerfiles&lt;/code&gt;指令会创建新的镜像文件，而将不会使用缓存。&lt;/p&gt;
 &lt;h2 id=&quot;Dockerfile-指令&quot;&gt;&lt;a href=&quot;#Dockerfile-指令&quot; class=&quot;headerlink&quot; title=&quot;Dockerfile 指令&quot;&gt;&lt;/a&gt;Dockerfile 指令&lt;/h2&gt;&lt;p&gt;在下文中， 您可以找到各类可用于编写&lt;code&gt;Dockerfile&lt;/code&gt;的指令和其建议的用法。&lt;/p&gt;
@@ -198,24 +194,16 @@ ENTRYPOINT [&amp;quot;/docker-entrypoint.sh&amp;quot;]
 &lt;p&gt;在&lt;code&gt;ONBUILD&lt;/code&gt;指令中插入&lt;code&gt;ADD&lt;/code&gt;或&lt;code&gt;COPY&lt;/code&gt;指令时要注意。如果在新构建的镜像里要&lt;code&gt;ADD&lt;/code&gt;的资源丢了，那这个&lt;code&gt;ONBUILD&lt;/code&gt;的镜像构建会失败。像上面推荐的那样，您可以增加一个单独的标签，这样&lt;code&gt;Dockerfile&lt;/code&gt;创建者就可以作出相应选择并消除构建失败的风险。&lt;/p&gt;
 &lt;h2 id=&quot;官方镜像库示例&quot;&gt;&lt;a href=&quot;#官方镜像库示例&quot; class=&quot;headerlink&quot; title=&quot;官方镜像库示例&quot;&gt;&lt;/a&gt;官方镜像库示例&lt;/h2&gt;&lt;p&gt;这些官方镜像库中有比较好的&lt;code&gt;Dockerfile&lt;/code&gt;可以参考：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/golang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GO&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/perl/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Perl&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/hylang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hy&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/rails/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rails&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hub.docker.com/_/golang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hub.docker.com/_/perl/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Perl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hub.docker.com/_/hylang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hub.docker.com/_/rails/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rails&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&quot;附加资源&quot;&gt;&lt;a href=&quot;#附加资源&quot; class=&quot;headerlink&quot; title=&quot;附加资源&quot;&gt;&lt;/a&gt;附加资源&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/baseimages/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;基础镜像详解&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/builds/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;自动化构建详解&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/official_repos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方镜像库使用指南&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/baseimages/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;基础镜像详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/builds/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;自动化构建详解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/official_repos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方镜像库使用指南&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     

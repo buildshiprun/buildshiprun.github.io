@@ -359,14 +359,10 @@
 </code></pre><h3 id="构建缓存"><a href="#构建缓存" class="headerlink" title="构建缓存"></a>构建缓存</h3><p>在构建镜像文件的过程中，Docker会逐行解析并按序执行<code>Dockerfiles</code>文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用<code>docker build</code>指令的<code>--no-cache=true</code>选项。</p>
 <p>但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：</p>
 <ul>
-<li><p>首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</p>
-</li>
-<li><p>通常情况下，只需将<code>Dockerfiles</code>中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。</p>
-</li>
-<li><p>对于<code>ADD</code>和<code>COPY</code>指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。</p>
-</li>
-<li><p>除<code>ADD</code>和<code>COPY</code>指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行<code>RUN apt-get -y update</code>指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。</p>
-</li>
+<li>首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</li>
+<li>通常情况下，只需将<code>Dockerfiles</code>中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。</li>
+<li>对于<code>ADD</code>和<code>COPY</code>指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。</li>
+<li>除<code>ADD</code>和<code>COPY</code>指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行<code>RUN apt-get -y update</code>指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。</li>
 </ul>
 <p>一旦缓存失效，所有后续的<code>Dockerfiles</code>指令会创建新的镜像文件，而将不会使用缓存。</p>
 <h2 id="Dockerfile-指令"><a href="#Dockerfile-指令" class="headerlink" title="Dockerfile 指令"></a>Dockerfile 指令</h2><p>在下文中， 您可以找到各类可用于编写<code>Dockerfile</code>的指令和其建议的用法。</p>
@@ -507,24 +503,16 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
 <p>在<code>ONBUILD</code>指令中插入<code>ADD</code>或<code>COPY</code>指令时要注意。如果在新构建的镜像里要<code>ADD</code>的资源丢了，那这个<code>ONBUILD</code>的镜像构建会失败。像上面推荐的那样，您可以增加一个单独的标签，这样<code>Dockerfile</code>创建者就可以作出相应选择并消除构建失败的风险。</p>
 <h2 id="官方镜像库示例"><a href="#官方镜像库示例" class="headerlink" title="官方镜像库示例"></a>官方镜像库示例</h2><p>这些官方镜像库中有比较好的<code>Dockerfile</code>可以参考：</p>
 <ul>
-<li><p><a href="https://hub.docker.com/_/golang/" target="_blank" rel="external">GO</a></p>
-</li>
-<li><p><a href="https://hub.docker.com/_/perl/" target="_blank" rel="external">Perl</a></p>
-</li>
-<li><p><a href="https://hub.docker.com/_/hylang/" target="_blank" rel="external">Hy</a></p>
-</li>
-<li><p><a href="https://hub.docker.com/_/rails/" target="_blank" rel="external">Rails</a></p>
-</li>
+<li><a href="https://hub.docker.com/_/golang/" target="_blank" rel="external">GO</a></li>
+<li><a href="https://hub.docker.com/_/perl/" target="_blank" rel="external">Perl</a></li>
+<li><a href="https://hub.docker.com/_/hylang/" target="_blank" rel="external">Hy</a></li>
+<li><a href="https://hub.docker.com/_/rails/" target="_blank" rel="external">Rails</a></li>
 </ul>
 <h2 id="附加资源"><a href="#附加资源" class="headerlink" title="附加资源"></a>附加资源</h2><ul>
-<li><p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfile参考</a></p>
-</li>
-<li><p><a href="https://docs.docker.com/engine/userguide/eng-image/baseimages/" target="_blank" rel="external">基础镜像详解</a></p>
-</li>
-<li><p><a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">自动化构建详解</a></p>
-</li>
-<li><p><a href="https://docs.docker.com/docker-hub/official_repos/" target="_blank" rel="external">官方镜像库使用指南</a></p>
-</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfile参考</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/eng-image/baseimages/" target="_blank" rel="external">基础镜像详解</a></li>
+<li><a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">自动化构建详解</a></li>
+<li><a href="https://docs.docker.com/docker-hub/official_repos/" target="_blank" rel="external">官方镜像库使用指南</a></li>
 </ul>
 
           
