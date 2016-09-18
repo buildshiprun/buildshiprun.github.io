@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="翻译自https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。
-镜像和层每个Docker镜像引用了来自不同文件系">
+<meta name="description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解镜像、容器与存储驱动">
+<meta property="og:title" content="理解镜像、容器与存储驱动 [译文]">
 <meta property="og:url" content="http://buildship.run/2016/understand-images-and-containers/index.html">
 <meta property="og:site_name" content="BSR's Notes">
-<meta property="og:description" content="翻译自https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。
-镜像和层每个Docker镜像引用了来自不同文件系">
+<meta property="og:description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers-cas.jpg">
@@ -105,12 +105,12 @@
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/shared-uuid.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/shared-volume.jpg">
-<meta property="og:updated_time" content="2016-09-12T05:11:23.000Z">
+<meta property="og:updated_time" content="2016-09-18T02:58:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解镜像、容器与存储驱动">
-<meta name="twitter:description" content="翻译自https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。
-镜像和层每个Docker镜像引用了来自不同文件系">
+<meta name="twitter:title" content="理解镜像、容器与存储驱动 [译文]">
+<meta name="twitter:description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
 <meta name="twitter:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg">
 
 
@@ -134,7 +134,7 @@
 
   <link rel="canonical" href="http://buildship.run/2016/understand-images-and-containers/"/>
 
-  <title> 理解镜像、容器与存储驱动 | BSR's Notes </title>
+  <title> 理解镜像、容器与存储驱动 [译文] | BSR's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -254,7 +254,7 @@
             
             
               
-                理解镜像、容器与存储驱动
+                理解镜像、容器与存储驱动 [译文]
               
             
           </h1>
@@ -319,7 +319,7 @@
 
           
           
-             <span id="/2016/understand-images-and-containers/" class="leancloud_visitors" data-flag-title="理解镜像、容器与存储驱动">
+             <span id="/2016/understand-images-and-containers/" class="leancloud_visitors" data-flag-title="理解镜像、容器与存储驱动 [译文]">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,7 +341,9 @@
       
 
       
-        <p><em>翻译自<a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a></em></p>
+        <blockquote>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+</blockquote>
 <h2 id="理解镜像、容器与存储驱动"><a href="#理解镜像、容器与存储驱动" class="headerlink" title="理解镜像、容器与存储驱动"></a>理解镜像、容器与存储驱动</h2><p>为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。</p>
 <h2 id="镜像和层"><a href="#镜像和层" class="headerlink" title="镜像和层"></a>镜像和层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg" alt="image-layers.jpg"></p>
@@ -495,13 +497,17 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/docker-overview/" rel="next" title="Docker 简介">
-                <i class="fa fa-chevron-left"></i> Docker 简介
+              <a href="/2016/docker-overview/" rel="next" title="Docker 简介 [译文]">
+                <i class="fa fa-chevron-left"></i> Docker 简介 [译文]
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/dockerfiles-best-practices/" rel="prev" title="编写Dockerfiles的最佳实践 [译文]">
+                编写Dockerfiles的最佳实践 [译文] <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -551,7 +557,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/understand-images-and-containers/"
-           data-title="理解镜像、容器与存储驱动" data-url="http://buildship.run/2016/understand-images-and-containers/">
+           data-title="理解镜像、容器与存储驱动 [译文]" data-url="http://buildship.run/2016/understand-images-and-containers/">
       </div>
     
   </div>
@@ -596,7 +602,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

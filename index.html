@@ -240,8 +240,343 @@
             
               
                 
+                <a class="post-title-link" href="/2016/dockerfiles-best-practices/" itemprop="url">
+                  编写Dockerfiles的最佳实践 [译文]
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-09T13:46:25+08:00" content="2016-09-09">
+              2016-09-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/dockerfiles-best-practices/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/dockerfiles-best-practices/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/dockerfiles-best-practices/" class="leancloud_visitors" data-flag-title="编写Dockerfiles的最佳实践 [译文]">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+</blockquote>
+<p>通过解读<code>Dockerfiles</code>的指令，Docker可以自动构建镜像文件。<code>Dockerfiles</code>属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。<code>Dockerfiles</code>具有特定的文件格式，使用的也是特定的指令。您可以访问<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfiles参考</a>页面了解基本知识，如果您才刚接触<code>Dockerfiles</code>代码编写的话，您可以从该页面开始了解。</p>
+<p>本文提供了Docker公司及其社区所推荐的Dockerfiles最佳创建方式，您可以利用这些方法创建易用度高、运行效率好的<code>Dockerfiles</code>。在此，我们强烈建议您遵循这些建议（如果您在创建官方镜像的话，您必须要坚持这些做法）。</p>
+<p>您可以在<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">buildpack-deps</a>的Dockerfile页面了解到这些具体实践方法。</p>
+<blockquote>
+<p><strong>注意</strong>：有关文中提到的Dockerfiles指令，您可以访问<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfiles参考</a>页面了解详情。</p>
+</blockquote>
+<h2 id="一般准则与建议"><a href="#一般准则与建议" class="headerlink" title="一般准则与建议"></a>一般准则与建议</h2><h3 id="容器的构建应该是转瞬即逝的（ephemeral）"><a href="#容器的构建应该是转瞬即逝的（ephemeral）" class="headerlink" title="容器的构建应该是转瞬即逝的（ephemeral）"></a>容器的构建应该是转瞬即逝的（ephemeral）</h3><p>由<code>Dockerfiles</code>定义的镜像所构建的容器应尽可能转瞬即逝的。这里的“转瞬即逝”指的是，仅需要最低限度的配置工作，就可以完成容器的停用和删除，以及新容器的构建与到位。</p>
+<blockquote>
+<p><strong>译者注</strong>：原文所表达的意思应该是指容器的创建或销毁过程应该是敏捷快速的，并不是指容器本身是ephemeral的。</p>
+</blockquote>
+<h3 id="使用-dockerignore文件"><a href="#使用-dockerignore文件" class="headerlink" title="使用.dockerignore文件"></a>使用.dockerignore文件</h3><p>通常情况下，最好将每个Dockerfile文件都存储在一个空目录下，这样在构建Dockerfile时，只需将所需的文件添加到目录中即可。但为了提高构建Dockerfile的效率，您可以选择通过添加<code>.dockerignore</code>文件把不需要的文件与目录排除在外。<code>.dockerignore</code>文件支持的排除模式与<code>.gitignore</code>文件相似，有关创建<code>.dockerignore</code>文件的具体信息请参考<a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="external">.dockerignore文件</a>。</p>
+<h3 id="避免安装冗余程序包"><a href="#避免安装冗余程序包" class="headerlink" title="避免安装冗余程序包"></a>避免安装冗余程序包</h3><p>为降低复杂度和依赖性、减小文件规格、以及节省构建时间，您应该避免安装额外可选的或者不必要的程序包。例如，在数据库镜像文件中，您不需要安装文本编辑器。</p>
+<h3 id="在每一个容器中只运行一个进程"><a href="#在每一个容器中只运行一个进程" class="headerlink" title="在每一个容器中只运行一个进程"></a>在每一个容器中只运行一个进程</h3><p>通常情况下，您应该在一个容器中只运行一个进程。把多个应用程序解耦并运行在多个不同的容器中有助于容器的复用和进行应用的横向扩展。如果某个服务程序依赖与其它服务程序，您可以利用<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/" target="_blank" rel="external">容器链接</a>来解决这个问题。</p>
+<h3 id="减少层的数量"><a href="#减少层的数量" class="headerlink" title="减少层的数量"></a>减少层的数量</h3><p>您需要在<code>Dockerfiles</code>的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定层的数量时，您应当谨慎考虑，做出战略性的选择。</p>
+<h3 id="对多行参数进行排序"><a href="#对多行参数进行排序" class="headerlink" title="对多行参数进行排序"></a>对多行参数进行排序</h3><p>尽可能对多行参数按照字母顺序进行排序，这样做能为后期对多行参数的更改提供便利。同时，这样做还能避免使用重复的程序包，有利于参数列表的更新，也方便PR(Pull Request)的阅读和核查。在反斜杠[<code>\</code>]前面加空格也会有所帮助。</p>
+<p>以下这个例子摘自<code>buildpack-deps</code><a href="https://github.com/docker-library/buildpack-deps/" target="_blank" rel="external">镜像</a>：</p>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
+    bzr \
+    cvs \
+    git \
+    mercurial \
+    subversion
+</code></pre><h3 id="构建缓存"><a href="#构建缓存" class="headerlink" title="构建缓存"></a>构建缓存</h3><p>在构建镜像文件的过程中，Docker会逐行解析并按序执行<code>Dockerfiles</code>文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用<code>docker build</code>指令的<code>--no-cache=true</code>选项。</p>
+<p>但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：</p>
+<ul>
+<li><p>首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</p>
+</li>
+<li><p>通常情况下，只需将<code>Dockerfiles</code>中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。</p>
+</li>
+<li><p>对于<code>ADD</code>和<code>COPY</code>指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。</p>
+</li>
+<li><p>除<code>ADD</code>和<code>COPY</code>指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行<code>RUN apt-get -y update</code>指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。</p>
+</li>
+</ul>
+<p>一旦缓存失效，所有后续的<code>Dockerfiles</code>指令会创建新的镜像文件，而将不会使用缓存。</p>
+<h2 id="Dockerfile-指令"><a href="#Dockerfile-指令" class="headerlink" title="Dockerfile 指令"></a>Dockerfile 指令</h2><p>在下文中， 您可以找到各类可用于编写<code>Dockerfile</code>的指令和其建议的用法。</p>
+<h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p><a href="https://docs.docker.com/engine/reference/builder/#from" target="_blank" rel="external">Dockerfile参考中的FROM指令</a></p>
+<p>构建您的镜像时尽可能以现有的官方镜像库中的镜像为基础。我们推荐<a href="https://hub.docker.com/_/debian/" target="_blank" rel="external">Debian 镜像</a>，因为该镜像是完整的发行版本，而且受严格管控，所占空间小（目前不足150兆）。</p>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p><a href="https://docs.docker.com/engine/reference/builder/#run" target="_blank" rel="external">Dockerfile参考中的RUN指令</a></p>
+<p>一如既往地，为了让您的<code>Dockerfile</code>文件可读性更强，更容易理解，和更方便维护，请把较长或较为复杂的<code>RUN</code>指令用反斜杠分成多行。</p>
+<h3 id="apt-get"><a href="#apt-get" class="headerlink" title="apt-get"></a>apt-get</h3><p><code>RUN</code>指令常用于执行<code>apt-get</code>指令。在安装程序包的过程中，要注意提防<code>RUN apt-get</code>指令的几大陷阱。</p>
+<p>在一个以非特权权限运行的容器中，许多来源于基础镜像的“基础”软件包是不会更新升级的，所以在运行指令的过程中要避免运行<code>RUN apt-get upgrade</code>或<code>dist-upgrade</code>指令。如果基础镜像中的软件包过期了，您最好联系维护人员。如果您知道某个名称为foo的特定软件包需要升级，那您可以运行<code>apt-get install -y foo</code>指令进行自动升级。</p>
+<p>在同一个<code>RUN</code>指令中，始终把<code>RUN apt-get upgrade</code>指令同<code>apt-get install</code>结合起来用，例如：</p>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
+    package-bar \
+    package-baz \
+    package-foo
+</code></pre><p>如果在<code>RUN</code>指令中只运行<code>apt-get upgrade</code>指令，会导致出现缓存问题进而导致后续的<code>apt-get install</code>指令结果出现错误，比如您有这样一个Dockerfile指令：</p>
+<pre><code>FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y curl
+</code></pre><p>镜像构建后，所有的镜像层都会在Docker缓存中。假设您后来修改了<code>apt-get install</code>指令，增加了额外的软件包：</p>
+<pre><code>FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y curl nginx
+</code></pre><p>Docker会把原来的指令和修改过的指令看成是同样的指令，并会重用前一个步骤的缓存，最后的结果是<code>apt-get updade</code>指令<em>未能</em>执行，因为这次的构建指令直接应用的是前一步缓存的结果。<code>apt-get updade</code>指令未能运行，您所构建的镜像可能包含的是过期版本的<code>curl</code>和<code>nginx</code>软件包。</p>
+<p>使用<code>RUN apt-get update &amp;&amp; apt-get install -y</code>能确保Dockerfile安装最新的软件包，从而不需要后续写代码或手动干预进行更新。这种技巧叫做“缓存破坏（cache busting）”。您也可以通过明确指定软件包的版本来实现“缓存破坏”，这种方式也称为“版本固定（version pinning）”，例如：</p>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
+    package-bar \
+    package-foo=1.3.*
+</code></pre><p>“版本固定”会迫使构建时获取特定的版本，而不管缓存里有什么。这还可以减少因软件包预期外的变化引起的故障。</p>
+<p>下面是一个格式良好的<code>RUN</code>指令，演示了所有有关<code>apt-get</code>的建议写法：</p>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
+    aufs-tools \
+    automake \
+    build-essential \
+    curl \
+    dpkg-sig \
+    libcap-dev \
+    libsqlite3-dev \
+    mercurial \
+    reprepro \
+    ruby1.9.1 \
+    ruby1.9.1-dev \
+    s3cmd=1.1.* \
+ &amp;&amp; rm -rf /var/lib/apt/lists/*
+</code></pre><p>其中的<code>s3cmd</code>指令明确指定了软件包版本为<code>1.1.0*</code>。如果镜像之前用的是旧版本，那指定新版本之后就会执行<code>apt-get update</code>指令，确保新版本的安装。把软件包按行排列也能避免软件包重复。</p>
+<p>此外，清除软件包缓存并删除<code>/var/lib/apt/lists</code>有助于缩小镜像文件的大小。由于<code>RUN</code>指令首先执行了<code>apt-get updade</code>指令，所以在<code>apt-get install</code>指令执行之前，软件包缓存总是更新过的。</p>
+<blockquote>
+<p><strong>注意</strong>：Debia和Ubuntu的官方镜像文件都会<a href="https://github.com/docker/docker/blob/03e2923e42446dbb830c654d0eec323a0b4ef02a/contrib/mkimage/debootstrap#L82-L105" target="_blank" rel="external">自动运行</a><code>apt-get clean</code>，不需要做额外处理。</p>
+</blockquote>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p><a href="https://docs.docker.com/engine/reference/builder/#cmd" target="_blank" rel="external">Dockerfile参考中的CMD指令</a></p>
+<p>配合其它参数一起，<code>CMD</code>指令可以用于运行镜像中所包含的软件。<code>CMD</code>应始终以<code>[“executable”, “param1”, “param2”…]</code>的形式使用。如果镜像用于某种服务（如Apache， Rails等），您需要像<code>CMD [&quot;apache2&quot;,&quot;-DFOREGROUND&quot;]</code>这样的指令。当然，这种指令形式适用于所有服务型的镜像。</p>
+<p>通常情况下，运行<code>CMD</code>指令时要为其提供一个交互的shell终端（bash, python, perl等），例如<code>CMD [&quot;perl&quot;, &quot;-de0&quot;]</code>，<code>CMD [&quot;python&quot;]</code>或<code>CMD [“php”, “-a”]</code>。意味着您在执行<code>docker run -it python</code>这类指令时，您会进入一个可用的shell环境。一般情况下，<code>CMD</code>很少会以<code>CMD [“param”, “param”]</code>的形式与<code>ENTRYPOINT</code>一同使用，除非您或您的预期用户已经很了解<code>ENTRYPOINT</code>是如何运作的。</p>
+<h3 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h3><p><a href="https://docs.docker.com/engine/reference/builder/#expose" target="_blank" rel="external">Dockerfile参考中的EXPOSE指令</a></p>
+<p><code>EXPOSE</code>指令指定容器监听的端口，您应该设定应用程序使用常用或惯用的端口。例如，一个包含Apache网页服务器的镜像文件应使用<code>EXPOSE 80</code>指令，而含有MongoDB的镜像文件则应使用<code>EXPOSE 27017</code>指令，以此类推。</p>
+<p>如果客户从外部访问的话，他们可以执行<code>docker run</code>指令的同时使用特定标识，指明如何将客户所选的端口与指定端口连接起来。至于容器链接的问题，Docker为连接双方的容器提供了环境变量支持(如, MYSQL_PORT_3306_TCP)。</p>
+<h3 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h3><p><a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank" rel="external">Dockerfile参考中的ENV指令</a></p>
+<p>为确保新软件的流畅运行，您可以用<code>ENV</code>指令为容器中的软件更新<code>PATH</code>环境变量。例如，<code>ENV PATH /usr/local/nginx/bin:$PATHV</code>指令能确保<code>CMD [“nginx”]</code>的正确运行。</p>
+<p><code>ENV</code>指令也可以为容器中的特定服务提供运行所必须的环境变量，如Postgres的<code>PGDATA</code>。</p>
+<p>最后，<code>ENV</code>指令也能用于设定常用的版本号，有利于维护版本，例如：</p>
+<pre><code>ENV PG_MAJOR 9.3
+ENV PG_VERSION 9.3.4
+RUN curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress &amp;&amp;
+ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PAT
+</code></pre><p>和程序中的常量一样（和硬编码相反），通过这种方式您可以改变单个的<code>ENV</code>指令，从而自动维护容器中所安装软件的版本。</p>
+<h3 id="ADD或COPY"><a href="#ADD或COPY" class="headerlink" title="ADD或COPY"></a>ADD或COPY</h3><p><a href="https://docs.docker.com/engine/reference/builder/#add" target="_blank" rel="external">Dockerfile参考中的ADD指令</a></p>
+<p><a href="https://docs.docker.com/engine/reference/builder/#copy" target="_blank" rel="external">Dockerfile参考中的COPY指令</a></p>
+<p>虽然<code>ADD</code>指令和<code>COPY</code>指令功能相似，但通常情况下，<code>COPY</code>指令更被推荐。因为<code>COPY</code>指令的运行过程要比<code>ADD</code>指令更具透明性。<code>COPY</code>只支持将基本的本地文件复制到容器中，而<code>ADD</code>还有一些其它不是很明显的功能（例如本地tar文件的解压缩、远程URL支持），因此，<code>ADD</code>指令最好用于将本地tar文件自动解压到镜像中，比如<code>ADD rootfs.tar.xz /</code>。</p>
+<p>如果您的<code>Dockerfile</code>中的多个步骤用到用于不同目的的文件，最好不好将这些文件一次<code>COPY</code>过来，而是要分别<code>COPY</code>。这样能确保只有特定文件更改才会使特定步骤的缓存失效。</p>
+<p>例如：</p>
+<pre><code>COPY requirements.txt /tmp/
+RUN pip install --requirement /tmp/requirements.txt
+COPY . /tmp/
+</code></pre><p>相比把<code>COPY . /tmp/</code>指令放在<code>RUN pip install --requirement /tmp/requirements.txt</code>指令之前而言，这样的方式会让<code>RUN pip install --requirement /tmp/requirements.txt</code>有更多机会使用缓存。</p>
+<p>因为镜像文件的大小十分重要，所以非常不建议使用<code>ADD</code>指令从远端URLs上获取软件包，推荐您使用<code>curl</code>或<code>wget</code>。这样的话，你可以在解压完成后删除不需要的文件，同时不会在镜像中增加额外的层。例如，您应该避免使用下面这样的指令：</p>
+<pre><code>ADD http://example.com/big.tar.xz /usr/src/things/
+RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things
+RUN make -C /usr/src/things all
+</code></pre><p>而应该使用这样的指令：</p>
+<pre><code>RUN mkdir -p /usr/src/things \
+&amp;&amp; curl -SL http://example.com/big.tar.xz \
+| tar -xJC /usr/src/things \
+&amp;&amp; make -C /usr/src/things all
+</code></pre><p>对于其它不需要<code>ADD</code>具备的本地tar文件自动解压功能的项目（文件、目录），您应该总是使用<code>COPY</code>指令。</p>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><p><a href="https://docs.docker.com/engine/reference/builder/#entrypoint" target="_blank" rel="external">Dockerfile参考中的ENTRYPOINT指令</a></p>
+<p><code>ENTRYPOINT</code>指令的最大用途是可以设定镜像的主要指令，就好像运行镜像就是在运行那个命令（同时<code>CMD</code>指令会作为默认参数传入）。</p>
+<p>让我们以一个<code>s3cmd</code>命令行工具的镜像为例：</p>
+<pre><code>ENTRYPOINT [&quot;s3cmd&quot;]
+CMD [&quot;--help&quot;]
+</code></pre><p>镜像可以按用如下的方式运行来显示命令帮助信息：</p>
+<pre><code>$ docker run s3cmd
+</code></pre><p>或者通过使用正确的参数执行指令：</p>
+<pre><code>$ docker run s3cmd ls s3://mybucket
+</code></pre><p>这样做很有帮助，因为镜像名字也是<code>s3cmd</code>命令的名字。</p>
+<p><code>ENTRYPOINT</code>指令也可以与helper脚本相结合，采用与上文指令相似的方式运行。</p>
+<p>例如，<a href="https://hub.docker.com/_/postgres/" target="_blank" rel="external">Postgres 官方镜像</a>就把下列脚本作为它的<code>ENTRYPOINT</code>指令：</p>
+<pre><code>#!/bin/bash
+set -e
+
+if [ &quot;$1&quot; = &apos;postgres&apos; ]; then
+   chown -R postgres &quot;$PGDATA&quot;
+
+   if [ -z &quot;$(ls -A &quot;$PGDATA&quot;)&quot; ]; then
+      gosu postgres initdb
+   fi
+
+   exec gosu postgres &quot;$@&quot;
+fi
+
+exec &quot;$@&quot;
+</code></pre><blockquote>
+<p><strong>注意</strong>： 该脚本使用了<a href="http://wiki.bash-hackers.org/commands/builtin/exec" target="_blank" rel="external">exec Bash 指令</a>，所以最后运行的应用程序就成了容器的PID1的进程。这样一来，该应用程序便可接收到向该容器发送过来的任何Unix信号。更多详情参见<a href="https://docs.docker.com/engine/reference/builder/#entrypoint" target="_blank" rel="external">ENTRYPOINT</a>页面。</p>
+</blockquote>
+<p>helper脚本已经被复制到容器中了，可以在容器启动时通过<code>ENTRYPOINT</code>指令运行：</p>
+<pre><code>COPY ./docker-entrypoint.sh /
+ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
+</code></pre><p>该脚本可以让用户通过不同方式与Postgres交互。</p>
+<p>该脚本可以启动Postgres：</p>
+<pre><code>$ docker run postgres
+</code></pre><p>或者，该脚本可以用于运行Postgres并传入参数：</p>
+<pre><code>$ docker run postgres postgres --help
+</code></pre><p>最后，该脚本亦可以启动不同的工具，如Bash:</p>
+<pre><code>$ docker run --rm -it postgres bash
+</code></pre><h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p><a href="https://docs.docker.com/engine/reference/builder/#volume" target="_blank" rel="external">Dockerfile参考中的VOLUME指令</a></p>
+<p><code>VOLUME</code>指令可用于公开数据库存储区域、配置存储或由Docker容器创建的文件或文件夹。建议您将<code>VOLUME</code>指令用于您镜像文件中可变的或用户可更改的部分。</p>
+<h3 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h3><p><a href="https://docs.docker.com/engine/reference/builder/#user" target="_blank" rel="external">Dockerfile参考中的USER指令</a></p>
+<p>如果某服务可以在无特权权限的情况下运行，那您可以用<code>USER</code>指令变成一个非root用户。首先用<code>RUN groupadd -r postgres &amp;&amp; useradd -r -g postgres postgres</code>指令在<code>Dockerfile</code>中创建用户或用户组：</p>
+<blockquote>
+<p><strong>注意</strong>：镜像中的用户和用户组的UID/GID是非确定性的，不管镜像有没有重建，都会分配“新的”UID/GID。所以如果这点很重要的话，您应当明确指定特定的UID/GID。</p>
+</blockquote>
+<p>您最好不要安装或使用<code>sudo</code>，因为<code>sudo</code>有不可预知的TTY和不可预知的信号转发行为，使用<code>sudo</code>会带来更多的麻烦。如果您的确需要功能和<code>sudo</code>相似的程序的话（例如需要root用户初始化守护进程但以非root用户执行），您可以使用<a href="https://github.com/tianon/gosu" target="_blank" rel="external">“gosu”</a>。</p>
+<p>最后，为减少镜像层级，降低复杂性，您应当避免频繁切换<code>USER</code>。</p>
+<h3 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h3><p><a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank" rel="external">Dockerfile参考中的WORKDIR指令</a></p>
+<p>为确保清晰性和可靠性，您应当总是为<code>WORKDIR</code>指定绝对路径。同时应该尽可能使用<code>WORKDIR</code>指令，而不是选择用难以解读、难以调试和难以维护的指令，如<code>RUN cd … &amp;&amp; do-something</code>。</p>
+<h3 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h3><p><a href="https://docs.docker.com/engine/reference/builder/#onbuild" target="_blank" rel="external">Dockerfile参考中的ONBUILD指令</a></p>
+<p>在<code>Dockerfile</code>镜像构建完成后，后续子镜像的构建中<code>ONBUILD</code>指令才会运行。<code>ONBUILD</code>指令会在所有的子镜像中执行。<code>ONBUILD</code>指令相当于父镜像传给子镜像的指令。</p>
+<p>Docker会在子<code>Dockerfile</code>文件执行任何指令之前先执行<code>ONBUILD</code>指令。</p>
+<p>在从给定的镜像构建新的镜像，<code>ONBUILD</code>指令比较有用。举例来说，您可以把<code>ONBUILD</code>指令用于构建一个多语言用户软件的镜像，特定语言用特定语言的<code>Dockerfile</code>实现，具体参考<br><a href="https://github.com/docker-library/ruby/blob/master/2.1/onbuild/Dockerfile" target="_blank" rel="external">Ruby’s ONBUILD variants</a>。</p>
+<p>通过<code>ONBUILD</code>指令构建的镜像应设立单独的标签，例如<code>ruby:1.9-onbuild</code>或者<code>ruby:2.0-onbuild</code></p>
+<p>在<code>ONBUILD</code>指令中插入<code>ADD</code>或<code>COPY</code>指令时要注意。如果在新构建的镜像里要<code>ADD</code>的资源丢了，那这个<code>ONBUILD</code>的镜像构建会失败。像上面推荐的那样，您可以增加一个单独的标签，这样<code>Dockerfile</code>创建者就可以作出相应选择并消除构建失败的风险。</p>
+<h2 id="官方镜像库示例"><a href="#官方镜像库示例" class="headerlink" title="官方镜像库示例"></a>官方镜像库示例</h2><p>这些官方镜像库中有比较好的<code>Dockerfile</code>可以参考：</p>
+<ul>
+<li><p><a href="https://hub.docker.com/_/golang/" target="_blank" rel="external">GO</a></p>
+</li>
+<li><p><a href="https://hub.docker.com/_/perl/" target="_blank" rel="external">Perl</a></p>
+</li>
+<li><p><a href="https://hub.docker.com/_/hylang/" target="_blank" rel="external">Hy</a></p>
+</li>
+<li><p><a href="https://hub.docker.com/_/rails/" target="_blank" rel="external">Rails</a></p>
+</li>
+</ul>
+<h2 id="附加资源"><a href="#附加资源" class="headerlink" title="附加资源"></a>附加资源</h2><ul>
+<li><p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfile参考</a></p>
+</li>
+<li><p><a href="https://docs.docker.com/engine/userguide/eng-image/baseimages/" target="_blank" rel="external">基础镜像详解</a></p>
+</li>
+<li><p><a href="https://docs.docker.com/docker-hub/builds/" target="_blank" rel="external">自动化构建详解</a></p>
+</li>
+<li><p><a href="https://docs.docker.com/docker-hub/official_repos/" target="_blank" rel="external">官方镜像库使用指南</a></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/understand-images-and-containers/" itemprop="url">
-                  理解镜像、容器与存储驱动
+                  理解镜像、容器与存储驱动 [译文]
                 </a>
               
             
@@ -307,7 +642,7 @@
 
           
           
-             <span id="/2016/understand-images-and-containers/" class="leancloud_visitors" data-flag-title="理解镜像、容器与存储驱动">
+             <span id="/2016/understand-images-and-containers/" class="leancloud_visitors" data-flag-title="理解镜像、容器与存储驱动 [译文]">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -331,7 +666,9 @@
       
         
           
-            <p><em>翻译自<a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a></em></p>
+            <blockquote>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+</blockquote>
 <h2 id="理解镜像、容器与存储驱动"><a href="#理解镜像、容器与存储驱动" class="headerlink" title="理解镜像、容器与存储驱动"></a>理解镜像、容器与存储驱动</h2><p>为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。</p>
 <h2 id="镜像和层"><a href="#镜像和层" class="headerlink" title="镜像和层"></a>镜像和层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg" alt="image-layers.jpg"></p>
@@ -504,7 +841,7 @@
               
                 
                 <a class="post-title-link" href="/2016/docker-overview/" itemprop="url">
-                  Docker 简介
+                  Docker 简介 [译文]
                 </a>
               
             
@@ -570,7 +907,7 @@
 
           
           
-             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介">
+             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介 [译文]">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -594,7 +931,9 @@
       
         
           
-            <p><em>翻译自<a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a></em></p>
+            <blockquote>
+<p>翻译自: <a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+</blockquote>
 <h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。</p>
 <p>Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。</p>
 <h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。</p>
@@ -755,7 +1094,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

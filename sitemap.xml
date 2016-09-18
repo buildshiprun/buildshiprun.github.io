@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://buildship.run/2016/dockerfiles-best-practices/</loc>
+    
+    <lastmod>2016-09-18T06:23:36.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://buildship.run/2016/docker-overview/</loc>
     
-    <lastmod>2016-09-12T05:11:40.000Z</lastmod>
+    <lastmod>2016-09-18T02:58:49.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://buildship.run/2016/understand-images-and-containers/</loc>
     
-    <lastmod>2016-09-12T05:11:23.000Z</lastmod>
+    <lastmod>2016-09-18T02:58:10.000Z</lastmod>
     
   </url>
   

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://buildship.run/"/>
-  <updated>2016-09-12T05:11:23.000Z</updated>
+  <updated>2016-09-18T06:23:36.000Z</updated>
   <id>http://buildship.run/</id>
   
   <author>
@@ -16,13 +16,235 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>理解镜像、容器与存储驱动</title>
+    <title>编写Dockerfiles的最佳实践 [译文]</title>
+    <link href="http://buildship.run/2016/dockerfiles-best-practices/"/>
+    <id>http://buildship.run/2016/dockerfiles-best-practices/</id>
+    <published>2016-09-09T05:46:25.000Z</published>
+    <updated>2016-09-18T06:23:36.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/&lt;/a&gt;&lt;br&gt;由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;通过解读&lt;code&gt;Dockerfiles&lt;/code&gt;的指令，Docker可以自动构建镜像文件。&lt;code&gt;Dockerfiles&lt;/code&gt;属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。&lt;code&gt;Dockerfiles&lt;/code&gt;具有特定的文件格式，使用的也是特定的指令。您可以访问&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfiles参考&lt;/a&gt;页面了解基本知识，如果您才刚接触&lt;code&gt;Dockerfiles&lt;/code&gt;代码编写的话，您可以从该页面开始了解。&lt;/p&gt;
+&lt;p&gt;本文提供了Docker公司及其社区所推荐的Dockerfiles最佳创建方式，您可以利用这些方法创建易用度高、运行效率好的&lt;code&gt;Dockerfiles&lt;/code&gt;。在此，我们强烈建议您遵循这些建议（如果您在创建官方镜像的话，您必须要坚持这些做法）。&lt;/p&gt;
+&lt;p&gt;您可以在&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;buildpack-deps&lt;/a&gt;的Dockerfile页面了解到这些具体实践方法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：有关文中提到的Dockerfiles指令，您可以访问&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfiles参考&lt;/a&gt;页面了解详情。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;一般准则与建议&quot;&gt;&lt;a href=&quot;#一般准则与建议&quot; class=&quot;headerlink&quot; title=&quot;一般准则与建议&quot;&gt;&lt;/a&gt;一般准则与建议&lt;/h2&gt;&lt;h3 id=&quot;容器的构建应该是转瞬即逝的（ephemeral）&quot;&gt;&lt;a href=&quot;#容器的构建应该是转瞬即逝的（ephemeral）&quot; class=&quot;headerlink&quot; title=&quot;容器的构建应该是转瞬即逝的（ephemeral）&quot;&gt;&lt;/a&gt;容器的构建应该是转瞬即逝的（ephemeral）&lt;/h3&gt;&lt;p&gt;由&lt;code&gt;Dockerfiles&lt;/code&gt;定义的镜像所构建的容器应尽可能转瞬即逝的。这里的“转瞬即逝”指的是，仅需要最低限度的配置工作，就可以完成容器的停用和删除，以及新容器的构建与到位。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;译者注&lt;/strong&gt;：原文所表达的意思应该是指容器的创建或销毁过程应该是敏捷快速的，并不是指容器本身是ephemeral的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;使用-dockerignore文件&quot;&gt;&lt;a href=&quot;#使用-dockerignore文件&quot; class=&quot;headerlink&quot; title=&quot;使用.dockerignore文件&quot;&gt;&lt;/a&gt;使用.dockerignore文件&lt;/h3&gt;&lt;p&gt;通常情况下，最好将每个Dockerfile文件都存储在一个空目录下，这样在构建Dockerfile时，只需将所需的文件添加到目录中即可。但为了提高构建Dockerfile的效率，您可以选择通过添加&lt;code&gt;.dockerignore&lt;/code&gt;文件把不需要的文件与目录排除在外。&lt;code&gt;.dockerignore&lt;/code&gt;文件支持的排除模式与&lt;code&gt;.gitignore&lt;/code&gt;文件相似，有关创建&lt;code&gt;.dockerignore&lt;/code&gt;文件的具体信息请参考&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#dockerignore-file&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;.dockerignore文件&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;避免安装冗余程序包&quot;&gt;&lt;a href=&quot;#避免安装冗余程序包&quot; class=&quot;headerlink&quot; title=&quot;避免安装冗余程序包&quot;&gt;&lt;/a&gt;避免安装冗余程序包&lt;/h3&gt;&lt;p&gt;为降低复杂度和依赖性、减小文件规格、以及节省构建时间，您应该避免安装额外可选的或者不必要的程序包。例如，在数据库镜像文件中，您不需要安装文本编辑器。&lt;/p&gt;
+&lt;h3 id=&quot;在每一个容器中只运行一个进程&quot;&gt;&lt;a href=&quot;#在每一个容器中只运行一个进程&quot; class=&quot;headerlink&quot; title=&quot;在每一个容器中只运行一个进程&quot;&gt;&lt;/a&gt;在每一个容器中只运行一个进程&lt;/h3&gt;&lt;p&gt;通常情况下，您应该在一个容器中只运行一个进程。把多个应用程序解耦并运行在多个不同的容器中有助于容器的复用和进行应用的横向扩展。如果某个服务程序依赖与其它服务程序，您可以利用&lt;a href=&quot;https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;容器链接&lt;/a&gt;来解决这个问题。&lt;/p&gt;
+&lt;h3 id=&quot;减少层的数量&quot;&gt;&lt;a href=&quot;#减少层的数量&quot; class=&quot;headerlink&quot; title=&quot;减少层的数量&quot;&gt;&lt;/a&gt;减少层的数量&lt;/h3&gt;&lt;p&gt;您需要在&lt;code&gt;Dockerfiles&lt;/code&gt;的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定层的数量时，您应当谨慎考虑，做出战略性的选择。&lt;/p&gt;
+&lt;h3 id=&quot;对多行参数进行排序&quot;&gt;&lt;a href=&quot;#对多行参数进行排序&quot; class=&quot;headerlink&quot; title=&quot;对多行参数进行排序&quot;&gt;&lt;/a&gt;对多行参数进行排序&lt;/h3&gt;&lt;p&gt;尽可能对多行参数按照字母顺序进行排序，这样做能为后期对多行参数的更改提供便利。同时，这样做还能避免使用重复的程序包，有利于参数列表的更新，也方便PR(Pull Request)的阅读和核查。在反斜杠[&lt;code&gt;\&lt;/code&gt;]前面加空格也会有所帮助。&lt;/p&gt;
+&lt;p&gt;以下这个例子摘自&lt;code&gt;buildpack-deps&lt;/code&gt;&lt;a href=&quot;https://github.com/docker-library/buildpack-deps/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;镜像&lt;/a&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RUN apt-get update &amp;amp;&amp;amp; apt-get install -y \
+    bzr \
+    cvs \
+    git \
+    mercurial \
+    subversion
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;构建缓存&quot;&gt;&lt;a href=&quot;#构建缓存&quot; class=&quot;headerlink&quot; title=&quot;构建缓存&quot;&gt;&lt;/a&gt;构建缓存&lt;/h3&gt;&lt;p&gt;在构建镜像文件的过程中，Docker会逐行解析并按序执行&lt;code&gt;Dockerfiles&lt;/code&gt;文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用&lt;code&gt;docker build&lt;/code&gt;指令的&lt;code&gt;--no-cache=true&lt;/code&gt;选项。&lt;/p&gt;
+&lt;p&gt;但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;通常情况下，只需将&lt;code&gt;Dockerfiles&lt;/code&gt;中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;对于&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;除&lt;code&gt;ADD&lt;/code&gt;和&lt;code&gt;COPY&lt;/code&gt;指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行&lt;code&gt;RUN apt-get -y update&lt;/code&gt;指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一旦缓存失效，所有后续的&lt;code&gt;Dockerfiles&lt;/code&gt;指令会创建新的镜像文件，而将不会使用缓存。&lt;/p&gt;
+&lt;h2 id=&quot;Dockerfile-指令&quot;&gt;&lt;a href=&quot;#Dockerfile-指令&quot; class=&quot;headerlink&quot; title=&quot;Dockerfile 指令&quot;&gt;&lt;/a&gt;Dockerfile 指令&lt;/h2&gt;&lt;p&gt;在下文中， 您可以找到各类可用于编写&lt;code&gt;Dockerfile&lt;/code&gt;的指令和其建议的用法。&lt;/p&gt;
+&lt;h3 id=&quot;FROM&quot;&gt;&lt;a href=&quot;#FROM&quot; class=&quot;headerlink&quot; title=&quot;FROM&quot;&gt;&lt;/a&gt;FROM&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#from&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的FROM指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;构建您的镜像时尽可能以现有的官方镜像库中的镜像为基础。我们推荐&lt;a href=&quot;https://hub.docker.com/_/debian/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Debian 镜像&lt;/a&gt;，因为该镜像是完整的发行版本，而且受严格管控，所占空间小（目前不足150兆）。&lt;/p&gt;
+&lt;h3 id=&quot;RUN&quot;&gt;&lt;a href=&quot;#RUN&quot; class=&quot;headerlink&quot; title=&quot;RUN&quot;&gt;&lt;/a&gt;RUN&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#run&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的RUN指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;一如既往地，为了让您的&lt;code&gt;Dockerfile&lt;/code&gt;文件可读性更强，更容易理解，和更方便维护，请把较长或较为复杂的&lt;code&gt;RUN&lt;/code&gt;指令用反斜杠分成多行。&lt;/p&gt;
+&lt;h3 id=&quot;apt-get&quot;&gt;&lt;a href=&quot;#apt-get&quot; class=&quot;headerlink&quot; title=&quot;apt-get&quot;&gt;&lt;/a&gt;apt-get&lt;/h3&gt;&lt;p&gt;&lt;code&gt;RUN&lt;/code&gt;指令常用于执行&lt;code&gt;apt-get&lt;/code&gt;指令。在安装程序包的过程中，要注意提防&lt;code&gt;RUN apt-get&lt;/code&gt;指令的几大陷阱。&lt;/p&gt;
+&lt;p&gt;在一个以非特权权限运行的容器中，许多来源于基础镜像的“基础”软件包是不会更新升级的，所以在运行指令的过程中要避免运行&lt;code&gt;RUN apt-get upgrade&lt;/code&gt;或&lt;code&gt;dist-upgrade&lt;/code&gt;指令。如果基础镜像中的软件包过期了，您最好联系维护人员。如果您知道某个名称为foo的特定软件包需要升级，那您可以运行&lt;code&gt;apt-get install -y foo&lt;/code&gt;指令进行自动升级。&lt;/p&gt;
+&lt;p&gt;在同一个&lt;code&gt;RUN&lt;/code&gt;指令中，始终把&lt;code&gt;RUN apt-get upgrade&lt;/code&gt;指令同&lt;code&gt;apt-get install&lt;/code&gt;结合起来用，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RUN apt-get update &amp;amp;&amp;amp; apt-get install -y \
+    package-bar \
+    package-baz \
+    package-foo
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果在&lt;code&gt;RUN&lt;/code&gt;指令中只运行&lt;code&gt;apt-get upgrade&lt;/code&gt;指令，会导致出现缓存问题进而导致后续的&lt;code&gt;apt-get install&lt;/code&gt;指令结果出现错误，比如您有这样一个Dockerfile指令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y curl
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;镜像构建后，所有的镜像层都会在Docker缓存中。假设您后来修改了&lt;code&gt;apt-get install&lt;/code&gt;指令，增加了额外的软件包：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y curl nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Docker会把原来的指令和修改过的指令看成是同样的指令，并会重用前一个步骤的缓存，最后的结果是&lt;code&gt;apt-get updade&lt;/code&gt;指令&lt;em&gt;未能&lt;/em&gt;执行，因为这次的构建指令直接应用的是前一步缓存的结果。&lt;code&gt;apt-get updade&lt;/code&gt;指令未能运行，您所构建的镜像可能包含的是过期版本的&lt;code&gt;curl&lt;/code&gt;和&lt;code&gt;nginx&lt;/code&gt;软件包。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;RUN apt-get update &amp;amp;&amp;amp; apt-get install -y&lt;/code&gt;能确保Dockerfile安装最新的软件包，从而不需要后续写代码或手动干预进行更新。这种技巧叫做“缓存破坏（cache busting）”。您也可以通过明确指定软件包的版本来实现“缓存破坏”，这种方式也称为“版本固定（version pinning）”，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RUN apt-get update &amp;amp;&amp;amp; apt-get install -y \
+    package-bar \
+    package-foo=1.3.*
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;“版本固定”会迫使构建时获取特定的版本，而不管缓存里有什么。这还可以减少因软件包预期外的变化引起的故障。&lt;/p&gt;
+&lt;p&gt;下面是一个格式良好的&lt;code&gt;RUN&lt;/code&gt;指令，演示了所有有关&lt;code&gt;apt-get&lt;/code&gt;的建议写法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RUN apt-get update &amp;amp;&amp;amp; apt-get install -y \
+    aufs-tools \
+    automake \
+    build-essential \
+    curl \
+    dpkg-sig \
+    libcap-dev \
+    libsqlite3-dev \
+    mercurial \
+    reprepro \
+    ruby1.9.1 \
+    ruby1.9.1-dev \
+    s3cmd=1.1.* \
+ &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/*
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中的&lt;code&gt;s3cmd&lt;/code&gt;指令明确指定了软件包版本为&lt;code&gt;1.1.0*&lt;/code&gt;。如果镜像之前用的是旧版本，那指定新版本之后就会执行&lt;code&gt;apt-get update&lt;/code&gt;指令，确保新版本的安装。把软件包按行排列也能避免软件包重复。&lt;/p&gt;
+&lt;p&gt;此外，清除软件包缓存并删除&lt;code&gt;/var/lib/apt/lists&lt;/code&gt;有助于缩小镜像文件的大小。由于&lt;code&gt;RUN&lt;/code&gt;指令首先执行了&lt;code&gt;apt-get updade&lt;/code&gt;指令，所以在&lt;code&gt;apt-get install&lt;/code&gt;指令执行之前，软件包缓存总是更新过的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：Debia和Ubuntu的官方镜像文件都会&lt;a href=&quot;https://github.com/docker/docker/blob/03e2923e42446dbb830c654d0eec323a0b4ef02a/contrib/mkimage/debootstrap#L82-L105&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;自动运行&lt;/a&gt;&lt;code&gt;apt-get clean&lt;/code&gt;，不需要做额外处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;CMD&quot;&gt;&lt;a href=&quot;#CMD&quot; class=&quot;headerlink&quot; title=&quot;CMD&quot;&gt;&lt;/a&gt;CMD&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#cmd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的CMD指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;配合其它参数一起，&lt;code&gt;CMD&lt;/code&gt;指令可以用于运行镜像中所包含的软件。&lt;code&gt;CMD&lt;/code&gt;应始终以&lt;code&gt;[“executable”, “param1”, “param2”…]&lt;/code&gt;的形式使用。如果镜像用于某种服务（如Apache， Rails等），您需要像&lt;code&gt;CMD [&amp;quot;apache2&amp;quot;,&amp;quot;-DFOREGROUND&amp;quot;]&lt;/code&gt;这样的指令。当然，这种指令形式适用于所有服务型的镜像。&lt;/p&gt;
+&lt;p&gt;通常情况下，运行&lt;code&gt;CMD&lt;/code&gt;指令时要为其提供一个交互的shell终端（bash, python, perl等），例如&lt;code&gt;CMD [&amp;quot;perl&amp;quot;, &amp;quot;-de0&amp;quot;]&lt;/code&gt;，&lt;code&gt;CMD [&amp;quot;python&amp;quot;]&lt;/code&gt;或&lt;code&gt;CMD [“php”, “-a”]&lt;/code&gt;。意味着您在执行&lt;code&gt;docker run -it python&lt;/code&gt;这类指令时，您会进入一个可用的shell环境。一般情况下，&lt;code&gt;CMD&lt;/code&gt;很少会以&lt;code&gt;CMD [“param”, “param”]&lt;/code&gt;的形式与&lt;code&gt;ENTRYPOINT&lt;/code&gt;一同使用，除非您或您的预期用户已经很了解&lt;code&gt;ENTRYPOINT&lt;/code&gt;是如何运作的。&lt;/p&gt;
+&lt;h3 id=&quot;EXPOSE&quot;&gt;&lt;a href=&quot;#EXPOSE&quot; class=&quot;headerlink&quot; title=&quot;EXPOSE&quot;&gt;&lt;/a&gt;EXPOSE&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#expose&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的EXPOSE指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EXPOSE&lt;/code&gt;指令指定容器监听的端口，您应该设定应用程序使用常用或惯用的端口。例如，一个包含Apache网页服务器的镜像文件应使用&lt;code&gt;EXPOSE 80&lt;/code&gt;指令，而含有MongoDB的镜像文件则应使用&lt;code&gt;EXPOSE 27017&lt;/code&gt;指令，以此类推。&lt;/p&gt;
+&lt;p&gt;如果客户从外部访问的话，他们可以执行&lt;code&gt;docker run&lt;/code&gt;指令的同时使用特定标识，指明如何将客户所选的端口与指定端口连接起来。至于容器链接的问题，Docker为连接双方的容器提供了环境变量支持(如, MYSQL_PORT_3306_TCP)。&lt;/p&gt;
+&lt;h3 id=&quot;ENV&quot;&gt;&lt;a href=&quot;#ENV&quot; class=&quot;headerlink&quot; title=&quot;ENV&quot;&gt;&lt;/a&gt;ENV&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#env&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的ENV指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;为确保新软件的流畅运行，您可以用&lt;code&gt;ENV&lt;/code&gt;指令为容器中的软件更新&lt;code&gt;PATH&lt;/code&gt;环境变量。例如，&lt;code&gt;ENV PATH /usr/local/nginx/bin:$PATHV&lt;/code&gt;指令能确保&lt;code&gt;CMD [“nginx”]&lt;/code&gt;的正确运行。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ENV&lt;/code&gt;指令也可以为容器中的特定服务提供运行所必须的环境变量，如Postgres的&lt;code&gt;PGDATA&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;最后，&lt;code&gt;ENV&lt;/code&gt;指令也能用于设定常用的版本号，有利于维护版本，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ENV PG_MAJOR 9.3
+ENV PG_VERSION 9.3.4
+RUN curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress &amp;amp;&amp;amp;
+ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PAT
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;和程序中的常量一样（和硬编码相反），通过这种方式您可以改变单个的&lt;code&gt;ENV&lt;/code&gt;指令，从而自动维护容器中所安装软件的版本。&lt;/p&gt;
+&lt;h3 id=&quot;ADD或COPY&quot;&gt;&lt;a href=&quot;#ADD或COPY&quot; class=&quot;headerlink&quot; title=&quot;ADD或COPY&quot;&gt;&lt;/a&gt;ADD或COPY&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#add&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的ADD指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#copy&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的COPY指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;虽然&lt;code&gt;ADD&lt;/code&gt;指令和&lt;code&gt;COPY&lt;/code&gt;指令功能相似，但通常情况下，&lt;code&gt;COPY&lt;/code&gt;指令更被推荐。因为&lt;code&gt;COPY&lt;/code&gt;指令的运行过程要比&lt;code&gt;ADD&lt;/code&gt;指令更具透明性。&lt;code&gt;COPY&lt;/code&gt;只支持将基本的本地文件复制到容器中，而&lt;code&gt;ADD&lt;/code&gt;还有一些其它不是很明显的功能（例如本地tar文件的解压缩、远程URL支持），因此，&lt;code&gt;ADD&lt;/code&gt;指令最好用于将本地tar文件自动解压到镜像中，比如&lt;code&gt;ADD rootfs.tar.xz /&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;如果您的&lt;code&gt;Dockerfile&lt;/code&gt;中的多个步骤用到用于不同目的的文件，最好不好将这些文件一次&lt;code&gt;COPY&lt;/code&gt;过来，而是要分别&lt;code&gt;COPY&lt;/code&gt;。这样能确保只有特定文件更改才会使特定步骤的缓存失效。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;COPY requirements.txt /tmp/
+RUN pip install --requirement /tmp/requirements.txt
+COPY . /tmp/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;相比把&lt;code&gt;COPY . /tmp/&lt;/code&gt;指令放在&lt;code&gt;RUN pip install --requirement /tmp/requirements.txt&lt;/code&gt;指令之前而言，这样的方式会让&lt;code&gt;RUN pip install --requirement /tmp/requirements.txt&lt;/code&gt;有更多机会使用缓存。&lt;/p&gt;
+&lt;p&gt;因为镜像文件的大小十分重要，所以非常不建议使用&lt;code&gt;ADD&lt;/code&gt;指令从远端URLs上获取软件包，推荐您使用&lt;code&gt;curl&lt;/code&gt;或&lt;code&gt;wget&lt;/code&gt;。这样的话，你可以在解压完成后删除不需要的文件，同时不会在镜像中增加额外的层。例如，您应该避免使用下面这样的指令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ADD http://example.com/big.tar.xz /usr/src/things/
+RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things
+RUN make -C /usr/src/things all
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而应该使用这样的指令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RUN mkdir -p /usr/src/things \
+&amp;amp;&amp;amp; curl -SL http://example.com/big.tar.xz \
+| tar -xJC /usr/src/things \
+&amp;amp;&amp;amp; make -C /usr/src/things all
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;对于其它不需要&lt;code&gt;ADD&lt;/code&gt;具备的本地tar文件自动解压功能的项目（文件、目录），您应该总是使用&lt;code&gt;COPY&lt;/code&gt;指令。&lt;/p&gt;
+&lt;h3 id=&quot;ENTRYPOINT&quot;&gt;&lt;a href=&quot;#ENTRYPOINT&quot; class=&quot;headerlink&quot; title=&quot;ENTRYPOINT&quot;&gt;&lt;/a&gt;ENTRYPOINT&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#entrypoint&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的ENTRYPOINT指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;指令的最大用途是可以设定镜像的主要指令，就好像运行镜像就是在运行那个命令（同时&lt;code&gt;CMD&lt;/code&gt;指令会作为默认参数传入）。&lt;/p&gt;
+&lt;p&gt;让我们以一个&lt;code&gt;s3cmd&lt;/code&gt;命令行工具的镜像为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;s3cmd&amp;quot;]
+CMD [&amp;quot;--help&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;镜像可以按用如下的方式运行来显示命令帮助信息：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run s3cmd
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;或者通过使用正确的参数执行指令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run s3cmd ls s3://mybucket
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样做很有帮助，因为镜像名字也是&lt;code&gt;s3cmd&lt;/code&gt;命令的名字。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;指令也可以与helper脚本相结合，采用与上文指令相似的方式运行。&lt;/p&gt;
+&lt;p&gt;例如，&lt;a href=&quot;https://hub.docker.com/_/postgres/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Postgres 官方镜像&lt;/a&gt;就把下列脚本作为它的&lt;code&gt;ENTRYPOINT&lt;/code&gt;指令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+set -e
+
+if [ &amp;quot;$1&amp;quot; = &amp;apos;postgres&amp;apos; ]; then
+   chown -R postgres &amp;quot;$PGDATA&amp;quot;
+
+   if [ -z &amp;quot;$(ls -A &amp;quot;$PGDATA&amp;quot;)&amp;quot; ]; then
+      gosu postgres initdb
+   fi
+
+   exec gosu postgres &amp;quot;$@&amp;quot;
+fi
+
+exec &amp;quot;$@&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;： 该脚本使用了&lt;a href=&quot;http://wiki.bash-hackers.org/commands/builtin/exec&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;exec Bash 指令&lt;/a&gt;，所以最后运行的应用程序就成了容器的PID1的进程。这样一来，该应用程序便可接收到向该容器发送过来的任何Unix信号。更多详情参见&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#entrypoint&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ENTRYPOINT&lt;/a&gt;页面。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;helper脚本已经被复制到容器中了，可以在容器启动时通过&lt;code&gt;ENTRYPOINT&lt;/code&gt;指令运行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;COPY ./docker-entrypoint.sh /
+ENTRYPOINT [&amp;quot;/docker-entrypoint.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;该脚本可以让用户通过不同方式与Postgres交互。&lt;/p&gt;
+&lt;p&gt;该脚本可以启动Postgres：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;或者，该脚本可以用于运行Postgres并传入参数：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run postgres postgres --help
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;最后，该脚本亦可以启动不同的工具，如Bash:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker run --rm -it postgres bash
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;VOLUME&quot;&gt;&lt;a href=&quot;#VOLUME&quot; class=&quot;headerlink&quot; title=&quot;VOLUME&quot;&gt;&lt;/a&gt;VOLUME&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#volume&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的VOLUME指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;VOLUME&lt;/code&gt;指令可用于公开数据库存储区域、配置存储或由Docker容器创建的文件或文件夹。建议您将&lt;code&gt;VOLUME&lt;/code&gt;指令用于您镜像文件中可变的或用户可更改的部分。&lt;/p&gt;
+&lt;h3 id=&quot;USER&quot;&gt;&lt;a href=&quot;#USER&quot; class=&quot;headerlink&quot; title=&quot;USER&quot;&gt;&lt;/a&gt;USER&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#user&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的USER指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果某服务可以在无特权权限的情况下运行，那您可以用&lt;code&gt;USER&lt;/code&gt;指令变成一个非root用户。首先用&lt;code&gt;RUN groupadd -r postgres &amp;amp;&amp;amp; useradd -r -g postgres postgres&lt;/code&gt;指令在&lt;code&gt;Dockerfile&lt;/code&gt;中创建用户或用户组：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：镜像中的用户和用户组的UID/GID是非确定性的，不管镜像有没有重建，都会分配“新的”UID/GID。所以如果这点很重要的话，您应当明确指定特定的UID/GID。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;您最好不要安装或使用&lt;code&gt;sudo&lt;/code&gt;，因为&lt;code&gt;sudo&lt;/code&gt;有不可预知的TTY和不可预知的信号转发行为，使用&lt;code&gt;sudo&lt;/code&gt;会带来更多的麻烦。如果您的确需要功能和&lt;code&gt;sudo&lt;/code&gt;相似的程序的话（例如需要root用户初始化守护进程但以非root用户执行），您可以使用&lt;a href=&quot;https://github.com/tianon/gosu&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;“gosu”&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;最后，为减少镜像层级，降低复杂性，您应当避免频繁切换&lt;code&gt;USER&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;WORKDIR&quot;&gt;&lt;a href=&quot;#WORKDIR&quot; class=&quot;headerlink&quot; title=&quot;WORKDIR&quot;&gt;&lt;/a&gt;WORKDIR&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#workdir&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的WORKDIR指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;为确保清晰性和可靠性，您应当总是为&lt;code&gt;WORKDIR&lt;/code&gt;指定绝对路径。同时应该尽可能使用&lt;code&gt;WORKDIR&lt;/code&gt;指令，而不是选择用难以解读、难以调试和难以维护的指令，如&lt;code&gt;RUN cd … &amp;amp;&amp;amp; do-something&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;ONBUILD&quot;&gt;&lt;a href=&quot;#ONBUILD&quot; class=&quot;headerlink&quot; title=&quot;ONBUILD&quot;&gt;&lt;/a&gt;ONBUILD&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/#onbuild&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考中的ONBUILD指令&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Dockerfile&lt;/code&gt;镜像构建完成后，后续子镜像的构建中&lt;code&gt;ONBUILD&lt;/code&gt;指令才会运行。&lt;code&gt;ONBUILD&lt;/code&gt;指令会在所有的子镜像中执行。&lt;code&gt;ONBUILD&lt;/code&gt;指令相当于父镜像传给子镜像的指令。&lt;/p&gt;
+&lt;p&gt;Docker会在子&lt;code&gt;Dockerfile&lt;/code&gt;文件执行任何指令之前先执行&lt;code&gt;ONBUILD&lt;/code&gt;指令。&lt;/p&gt;
+&lt;p&gt;在从给定的镜像构建新的镜像，&lt;code&gt;ONBUILD&lt;/code&gt;指令比较有用。举例来说，您可以把&lt;code&gt;ONBUILD&lt;/code&gt;指令用于构建一个多语言用户软件的镜像，特定语言用特定语言的&lt;code&gt;Dockerfile&lt;/code&gt;实现，具体参考&lt;br&gt;&lt;a href=&quot;https://github.com/docker-library/ruby/blob/master/2.1/onbuild/Dockerfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Ruby’s ONBUILD variants&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;通过&lt;code&gt;ONBUILD&lt;/code&gt;指令构建的镜像应设立单独的标签，例如&lt;code&gt;ruby:1.9-onbuild&lt;/code&gt;或者&lt;code&gt;ruby:2.0-onbuild&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;ONBUILD&lt;/code&gt;指令中插入&lt;code&gt;ADD&lt;/code&gt;或&lt;code&gt;COPY&lt;/code&gt;指令时要注意。如果在新构建的镜像里要&lt;code&gt;ADD&lt;/code&gt;的资源丢了，那这个&lt;code&gt;ONBUILD&lt;/code&gt;的镜像构建会失败。像上面推荐的那样，您可以增加一个单独的标签，这样&lt;code&gt;Dockerfile&lt;/code&gt;创建者就可以作出相应选择并消除构建失败的风险。&lt;/p&gt;
+&lt;h2 id=&quot;官方镜像库示例&quot;&gt;&lt;a href=&quot;#官方镜像库示例&quot; class=&quot;headerlink&quot; title=&quot;官方镜像库示例&quot;&gt;&lt;/a&gt;官方镜像库示例&lt;/h2&gt;&lt;p&gt;这些官方镜像库中有比较好的&lt;code&gt;Dockerfile&lt;/code&gt;可以参考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/golang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GO&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/perl/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Perl&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/hylang/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hy&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://hub.docker.com/_/rails/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rails&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;附加资源&quot;&gt;&lt;a href=&quot;#附加资源&quot; class=&quot;headerlink&quot; title=&quot;附加资源&quot;&gt;&lt;/a&gt;附加资源&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile参考&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/baseimages/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;基础镜像详解&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/builds/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;自动化构建详解&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/docker-hub/official_repos/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方镜像库使用指南&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;
+    
+    </summary>
+    
+      <category term="转载" scheme="http://buildship.run/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+      <category term="翻译" scheme="http://buildship.run/categories/%E8%BD%AC%E8%BD%BD/%E7%BF%BB%E8%AF%91/"/>
+    
+    
+      <category term="Docker" scheme="http://buildship.run/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解镜像、容器与存储驱动 [译文]</title>
     <link href="http://buildship.run/2016/understand-images-and-containers/"/>
     <id>http://buildship.run/2016/understand-images-and-containers/</id>
     <published>2016-09-06T05:46:25.000Z</published>
-    <updated>2016-09-12T05:11:23.000Z</updated>
+    <updated>2016-09-18T02:58:10.000Z</updated>
     
-    <content type="html">&lt;p&gt;&lt;em&gt;翻译自&lt;a href=&quot;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&lt;/a&gt;&lt;br&gt;由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&quot;理解镜像、容器与存储驱动&quot;&gt;&lt;a href=&quot;#理解镜像、容器与存储驱动&quot; class=&quot;headerlink&quot; title=&quot;理解镜像、容器与存储驱动&quot;&gt;&lt;/a&gt;理解镜像、容器与存储驱动&lt;/h2&gt;&lt;p&gt;为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。&lt;/p&gt;
 &lt;h2 id=&quot;镜像和层&quot;&gt;&lt;a href=&quot;#镜像和层&quot; class=&quot;headerlink&quot; title=&quot;镜像和层&quot;&gt;&lt;/a&gt;镜像和层&lt;/h2&gt;&lt;p&gt;每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg&quot; alt=&quot;image-layers.jpg&quot;&gt;&lt;/p&gt;
@@ -149,7 +371,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;em&gt;翻译自&lt;a href=&quot;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.
+      &lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ht
     
     </summary>
     
@@ -163,13 +386,15 @@
   </entry>
   
   <entry>
-    <title>Docker 简介</title>
+    <title>Docker 简介 [译文]</title>
     <link href="http://buildship.run/2016/docker-overview/"/>
     <id>http://buildship.run/2016/docker-overview/</id>
     <published>2016-08-30T05:46:25.000Z</published>
-    <updated>2016-09-12T05:11:40.000Z</updated>
+    <updated>2016-09-18T02:58:49.000Z</updated>
     
-    <content type="html">&lt;p&gt;&lt;em&gt;翻译自&lt;a href=&quot;https://docs.docker.com/engine/understanding-docker/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/understanding-docker/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/understanding-docker/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/understanding-docker/&lt;/a&gt;&lt;br&gt;由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&quot;Docker简介&quot;&gt;&lt;a href=&quot;#Docker简介&quot; class=&quot;headerlink&quot; title=&quot;Docker简介&quot;&gt;&lt;/a&gt;Docker简介&lt;/h2&gt;&lt;p&gt;Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。&lt;/p&gt;
 &lt;p&gt;Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。&lt;/p&gt;
 &lt;h2 id=&quot;什么是Docker平台？&quot;&gt;&lt;a href=&quot;#什么是Docker平台？&quot; class=&quot;headerlink&quot; title=&quot;什么是Docker平台？&quot;&gt;&lt;/a&gt;什么是Docker平台？&lt;/h2&gt;&lt;p&gt;Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。&lt;/p&gt;
@@ -265,7 +490,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;em&gt;翻译自&lt;a href=&quot;https://docs.docker.com/engine/understanding-docker/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/engine/under
+      &lt;blockquote&gt;
+&lt;p&gt;翻译自: &lt;a href=&quot;https://docs.docker.com/engine/understanding-docker/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.docker.com/e
     
     </summary>
     

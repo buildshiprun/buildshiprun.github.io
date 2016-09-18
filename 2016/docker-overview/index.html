@@ -86,21 +86,24 @@
 
 
 
-<meta name="description" content="翻译自https://docs.docker.com/engine/understanding-docker/
-Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta name="description" content="翻译自: https://docs.docker.com/engine/understanding-docker/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 简介">
+<meta property="og:title" content="Docker 简介 [译文]">
 <meta property="og:url" content="http://buildship.run/2016/docker-overview/index.html">
 <meta property="og:site_name" content="BSR's Notes">
-<meta property="og:description" content="翻译自https://docs.docker.com/engine/understanding-docker/
-Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta property="og:description" content="翻译自: https://docs.docker.com/engine/understanding-docker/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用">
 <meta property="og:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
 <meta property="og:image" content="https://docs.docker.com/engine/article-img/architecture.svg">
-<meta property="og:updated_time" content="2016-09-12T05:11:40.000Z">
+<meta property="og:updated_time" content="2016-09-18T02:58:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 简介">
-<meta name="twitter:description" content="翻译自https://docs.docker.com/engine/understanding-docker/
-Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和">
+<meta name="twitter:title" content="Docker 简介 [译文]">
+<meta name="twitter:description" content="翻译自: https://docs.docker.com/engine/understanding-docker/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+
+Docker简介Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用">
 <meta name="twitter:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
 
 
@@ -124,7 +127,7 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
 
   <link rel="canonical" href="http://buildship.run/2016/docker-overview/"/>
 
-  <title> Docker 简介 | BSR's Notes </title>
+  <title> Docker 简介 [译文] | BSR's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +247,7 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
             
             
               
-                Docker 简介
+                Docker 简介 [译文]
               
             
           </h1>
@@ -309,7 +312,7 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
 
           
           
-             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介">
+             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介 [译文]">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -331,7 +334,9 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
       
 
       
-        <p><em>翻译自<a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a></em></p>
+        <blockquote>
+<p>翻译自: <a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+</blockquote>
 <h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。</p>
 <p>Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。</p>
 <h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。</p>
@@ -458,8 +463,8 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/understand-images-and-containers/" rel="prev" title="理解镜像、容器与存储驱动">
-                理解镜像、容器与存储驱动 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/understand-images-and-containers/" rel="prev" title="理解镜像、容器与存储驱动 [译文]">
+                理解镜像、容器与存储驱动 [译文] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -510,7 +515,7 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/docker-overview/"
-           data-title="Docker 简介" data-url="http://buildship.run/2016/docker-overview/">
+           data-title="Docker 简介 [译文]" data-url="http://buildship.run/2016/docker-overview/">
       </div>
     
   </div>
@@ -555,7 +560,7 @@ Docker简介Docker是一个用于开发、分发和运行应用程序的开放�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
