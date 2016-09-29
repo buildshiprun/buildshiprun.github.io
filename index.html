@@ -268,19 +268,7 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
                     <span itemprop="name">翻译</span>
                   </a>
                 </span>
@@ -332,7 +320,8 @@
         
           
             <blockquote>
-<p>翻译自: <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+<p>Docker版本: v1.12.0   </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
 </blockquote>
 <p>通过解读<code>Dockerfiles</code>的指令，Docker可以自动构建镜像文件。<code>Dockerfiles</code>属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。<code>Dockerfiles</code>具有特定的文件格式，使用的也是特定的指令。您可以访问<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfiles参考</a>页面了解基本知识，如果您才刚接触<code>Dockerfiles</code>代码编写的话，您可以从该页面开始了解。</p>
 <p>本文提供了Docker公司及其社区所推荐的Dockerfiles最佳创建方式，您可以利用这些方法创建易用度高、运行效率好的<code>Dockerfiles</code>。在此，我们强烈建议您遵循这些建议（如果您在创建官方镜像的话，您必须要坚持这些做法）。</p>
@@ -347,7 +336,7 @@
 <h3 id="使用-dockerignore文件"><a href="#使用-dockerignore文件" class="headerlink" title="使用.dockerignore文件"></a>使用.dockerignore文件</h3><p>通常情况下，最好将每个Dockerfile文件都存储在一个空目录下，这样在构建Dockerfile时，只需将所需的文件添加到目录中即可。但为了提高构建Dockerfile的效率，您可以选择通过添加<code>.dockerignore</code>文件把不需要的文件与目录排除在外。<code>.dockerignore</code>文件支持的排除模式与<code>.gitignore</code>文件相似，有关创建<code>.dockerignore</code>文件的具体信息请参考<a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="external">.dockerignore文件</a>。</p>
 <h3 id="避免安装冗余程序包"><a href="#避免安装冗余程序包" class="headerlink" title="避免安装冗余程序包"></a>避免安装冗余程序包</h3><p>为降低复杂度和依赖性、减小文件规格、以及节省构建时间，您应该避免安装额外可选的或者不必要的程序包。例如，在数据库镜像文件中，您不需要安装文本编辑器。</p>
 <h3 id="在每一个容器中只运行一个进程"><a href="#在每一个容器中只运行一个进程" class="headerlink" title="在每一个容器中只运行一个进程"></a>在每一个容器中只运行一个进程</h3><p>通常情况下，您应该在一个容器中只运行一个进程。把多个应用程序解耦并运行在多个不同的容器中有助于容器的复用和进行应用的横向扩展。如果某个服务程序依赖与其它服务程序，您可以利用<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/" target="_blank" rel="external">容器链接</a>来解决这个问题。</p>
-<h3 id="减少层的数量"><a href="#减少层的数量" class="headerlink" title="减少层的数量"></a>减少层的数量</h3><p>您需要在<code>Dockerfiles</code>的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定层的数量时，您应当谨慎考虑，做出战略性的选择。</p>
+<h3 id="减少镜像层的数量"><a href="#减少镜像层的数量" class="headerlink" title="减少镜像层的数量"></a>减少镜像层的数量</h3><p>您需要在<code>Dockerfiles</code>的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定镜像层的数量时，您应当谨慎考虑，做出战略性的选择。</p>
 <h3 id="对多行参数进行排序"><a href="#对多行参数进行排序" class="headerlink" title="对多行参数进行排序"></a>对多行参数进行排序</h3><p>尽可能对多行参数按照字母顺序进行排序，这样做能为后期对多行参数的更改提供便利。同时，这样做还能避免使用重复的程序包，有利于参数列表的更新，也方便PR(Pull Request)的阅读和核查。在反斜杠[<code>\</code>]前面加空格也会有所帮助。</p>
 <p>以下这个例子摘自<code>buildpack-deps</code><a href="https://github.com/docker-library/buildpack-deps/" target="_blank" rel="external">镜像</a>：</p>
 <pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
@@ -359,12 +348,21 @@
 </code></pre><h3 id="构建缓存"><a href="#构建缓存" class="headerlink" title="构建缓存"></a>构建缓存</h3><p>在构建镜像文件的过程中，Docker会逐行解析并按序执行<code>Dockerfiles</code>文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用<code>docker build</code>指令的<code>--no-cache=true</code>选项。</p>
 <p>但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：</p>
 <ul>
-<li>首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</li>
-<li>通常情况下，只需将<code>Dockerfiles</code>中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。</li>
+<li>首先从缓存中已有的基础镜像开始，读取下一条的指令，并把其与继承自基础镜像的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</li>
+<li>通常情况下，将<code>Dockerfiles</code>中的指令与子镜像的指令简单地进行语句比对就可以了。然而，有些指令需要进一步测试和解析。</li>
 <li>对于<code>ADD</code>和<code>COPY</code>指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。</li>
 <li>除<code>ADD</code>和<code>COPY</code>指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行<code>RUN apt-get -y update</code>指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。</li>
 </ul>
 <p>一旦缓存失效，所有后续的<code>Dockerfiles</code>指令会创建新的镜像文件，而将不会使用缓存。</p>
+<blockquote>
+<p><strong>译者注</strong>：关于镜像构建时的缓存，原文的解释其实不是特别清晰。根据译者的实践，缓存的判断步骤是：  </p>
+<ol>
+<li>读取<code>FROM</code>之下的指令，并在基础镜像及其所有子镜像的镜像层中查找同样的指令（关于子镜像的查找顺序不是很确定）。 举例来说，如果基础镜像是baseimage，并且在本地有两个子镜像imagea和imageb。  </li>
+<li>如果找到匹配的镜像层，就直接使用匹配到的镜像层，并把匹配到的镜像层作为下次缓存查找的父镜像。假设这里匹配到的镜像层来自imageb。  </li>
+<li>如果没找到匹配的镜像层，则断定本地没有缓存，则后面所有的指令都不会使用缓存，而会生成新的镜像层。  </li>
+<li>接着步骤2，读取下一条指令，这时会直接在imageb的那个镜像层的子镜像层中查找是否有同样的指令，后面重复步骤2和步骤3.</li>
+</ol>
+</blockquote>
 <h2 id="Dockerfile-指令"><a href="#Dockerfile-指令" class="headerlink" title="Dockerfile 指令"></a>Dockerfile 指令</h2><p>在下文中， 您可以找到各类可用于编写<code>Dockerfile</code>的指令和其建议的用法。</p>
 <h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p><a href="https://docs.docker.com/engine/reference/builder/#from" target="_blank" rel="external">Dockerfile参考中的FROM指令</a></p>
 <p>构建您的镜像时尽可能以现有的官方镜像库中的镜像为基础。我们推荐<a href="https://hub.docker.com/_/debian/" target="_blank" rel="external">Debian 镜像</a>，因为该镜像是完整的发行版本，而且受严格管控，所占空间小（目前不足150兆）。</p>
@@ -591,19 +589,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
                     <span itemprop="name">翻译</span>
                   </a>
                 </span>
@@ -655,12 +641,13 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
         
           
             <blockquote>
-<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+<p>Docker版本: v1.12.0  </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
 </blockquote>
 <h2 id="理解镜像、容器与存储驱动"><a href="#理解镜像、容器与存储驱动" class="headerlink" title="理解镜像、容器与存储驱动"></a>理解镜像、容器与存储驱动</h2><p>为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。</p>
-<h2 id="镜像和层"><a href="#镜像和层" class="headerlink" title="镜像和层"></a>镜像和层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
+<h2 id="镜像和镜像层"><a href="#镜像和镜像层" class="headerlink" title="镜像和镜像层"></a>镜像和镜像层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，镜像层和镜像层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg" alt="image-layers.jpg"></p>
-<p>Docker的存储驱动负责这些层的堆叠并提供一个联合的文件视图。</p>
+<p>Docker的存储驱动负责这些镜像层的堆叠并提供一个联合的文件视图。</p>
 <p>当您创建一个新的容器，在堆栈的顶层会创建一个新的薄薄的可写层，这个层通常称为“容器层”。对容器运行期间的更改（如创建新文件，更改已有文件和删除文件）都会写到这个薄的可写层中。下面的图展示了一个基于Ubuntu 15.04镜像的容器：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers.jpg" alt="container-layers.jpg"></p>
 <h2 id="可寻址内容存储（Content-addressable-storage）"><a href="#可寻址内容存储（Content-addressable-storage）" class="headerlink" title="可寻址内容存储（Content addressable storage）"></a>可寻址内容存储（Content addressable storage）</h2><p>Docker 1.10引入了一个新的可寻址内容存储模型，这是一个用于定位磁盘上镜像和容器数据的全新方法。1.10之前的版本是通过一个随机生成的UUID来引用镜像和层数据，而在新模型中取而代之的是<em>安全内容哈希（secure content hash）</em>。</p>
@@ -685,7 +672,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
 <p><code>docker run</code>前的<code>time</code>命令用于输出操作所占用的时间。如您看到的，迁移占用2GB的7个镜像文件共占时约1分钟，其中包括拉取<code>docker/v1.10-migrator</code>镜像所花的3.5秒。同样的操作在一个具有40 vCPU，160GB内存和8GB的IOPS磁盘的环境中所占用的时间为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">real    0m9.871s</span><br><span class="line">user    0m0.094s</span><br><span class="line">sys     0m0.021s</span><br></pre></td></tr></table></figure>
 <p>这说明迁移的操作会受到硬件条件的影响。</p>
-<h2 id="容器和层"><a href="#容器和层" class="headerlink" title="容器和层"></a>容器和层</h2><p>容器和镜像最显著的区别在于顶层的可读写层，对容器的改动（如添加新文件或更改已有文件）会被存储到这个可读写层中。当容器被删除时，这个可读写层同时也会被删除，而底层的镜像保持不变。</p>
+<h2 id="容器和层"><a href="#容器和层" class="headerlink" title="容器和层"></a>容器和层</h2><p>容器和镜像最显著的区别在于顶层的可写层，对容器的改动（如添加新文件或更改已有文件）会被存储到这个可写层中。当容器被删除时，这个可写层同时也会被删除，而底层的镜像保持不变。</p>
 <p>因为每个容器都有它自己的可写层，并且所有的更改都存储在这个可写层，这意味着多个容器可以共享使用相同的底层镜像，同时可以有它们自己的数据状态。下图显示了共享使用相同的Ubuntu 15.04镜像的多个容器：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg" alt="sharing-layers.jpg"></p>
 <p>Docker存储驱动负责启用和管理镜像层和可写容器层，不同的存储驱动实现方式会有不同。Docker镜像和容器管理的两个关键技术分别是可堆叠的镜像层和写时复制（copy-on-write）。</p>
@@ -829,7 +816,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
               
                 
                 <a class="post-title-link" href="/2016/docker-overview/" itemprop="url">
-                  Docker 简介 [译文]
+                  Docker简介 [译文]
                 </a>
               
             
@@ -856,19 +843,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
                     <span itemprop="name">翻译</span>
                   </a>
                 </span>
@@ -895,7 +870,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
 
           
           
-             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker 简介 [译文]">
+             <span id="/2016/docker-overview/" class="leancloud_visitors" data-flag-title="Docker简介 [译文]">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -920,12 +895,12 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
         
           
             <blockquote>
-<p>翻译自: <a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+<p>Docker版本: v1.12.0<br>更新日期: 2016-09-27  </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/understanding-docker/" target="_blank" rel="external">https://docs.docker.com/engine/understanding-docker/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
 </blockquote>
-<h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker被设计用于更快地交付您的应用程序。通过Docker，您可以把应用程序从基础架构中分开，而基础架构可以被看作是一个受托管的应用程序。Docker可以帮助您更快地分发、 测试和部署代码，并借此缩短编写代码和运行代码的周期。</p>
-<p>Docker通过内核容器特性，并结合用于管理和部署应用程序的工作流程和工具来实现上述目标。</p>
-<h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker其核心是提供一种方法，由此几乎任何应用程序都可以安全地运行在一个隔离的容器中。这种隔离性和安全性允许您在主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，意味着硬件设备得以充分利用。</p>
-<p>容器核心之外是周边的一些工具和平台，可以在下面几个方面有所帮助：</p>
+<h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><p>Docker是一个用于开发、分发和运行应用程序的开放平台。Docker使您能够把应用程序从基础架构中分离开来。通过Docker，您可以像管理应用程序一样管理您的基础架构。通过利用Docker快速分发、 测试和部署代码的机制，可以显著缩短从编写代码到在生产环境运行代码的周期。</p>
+<h2 id="什么是Docker平台？"><a href="#什么是Docker平台？" class="headerlink" title="什么是Docker平台？"></a>什么是Docker平台？</h2><p>Docker提供了打包和在一个称为容器（Container）的松散隔离环境中运行应用程序的能力。这种隔离性和安全性使您能够在一个主机上同时运行许多容器。容器具有轻量级的特性，其运行时不需要hypervisor的额外损耗，相比较虚拟机而言，在同样的硬件条件下可以运行更多的容器。</p>
+<p>容器提供了相关的工具和平台来管理容器的生命周期：</p>
 <ul>
 <li>把您的应用程序以及其支持组件放入Docker容器</li>
 <li>分发容器给您的团队以用于进一步的开发和测试</li>
@@ -934,7 +909,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
 <h2 id="什么是Docker引擎？"><a href="#什么是Docker引擎？" class="headerlink" title="什么是Docker引擎？"></a>什么是Docker引擎？</h2><p>Docker引擎是一个C/S架构的应用程序，包含以下主要组件：</p>
 <ul>
 <li>服务器 - 运行着一种被称为守护进程的长期运行程序</li>
-<li>REST应用程序接口 - 定义了与守护进程交互的接口</li>
+<li>REST应用程序接口 - 定义了可以与守护进程进行交互的接口</li>
 <li>命令行接口（CLI）客户端</li>
 </ul>
 <p><img src="https://docs.docker.com/engine/article-img/engine-components-flow.png" alt="engine-components-flow.png"></p>
@@ -943,76 +918,76 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
 <blockquote>
 <p>Docker受Apache 2.0的开源许可保护</p>
 </blockquote>
-<h2 id="能用Docker做什么？"><a href="#能用Docker做什么？" class="headerlink" title="能用Docker做什么？"></a>能用Docker做什么？</h2><h3 id="快速交付您的应用程序"><a href="#快速交付您的应用程序" class="headerlink" title="快速交付您的应用程序"></a><em>快速交付您的应用程序</em></h3><p>Docker十分适用于开发生命周期。Docker允许开发者在包含应用程序和服务的本地容器中进行开发，然后可以将本地容器集成到持续集成（CI）和持续部署（CD）的工作流程中。</p>
-<p>举例来说，开发人员可以在本地编写代码，并可以通过Docker将他们的本地开发栈共享给他们的同事。当开发完成后，开发人员把他们的代码和开发栈发布到一个测试环境进行相关测试，测试完成后，可以把测试环境的Docker镜像发布到生产环境，从而完成代码部署。</p>
-<h3 id="更易于部署和扩展"><a href="#更易于部署和扩展" class="headerlink" title="更易于部署和扩展"></a><em>更易于部署和扩展</em></h3><p>Docker基于容器的平台有很高的可移植性，Docker容器可以运行在开发人员的本地机器，或者数据中心的物理机与虚拟机，甚至在云端。</p>
-<p>Docker的可移植性和轻量特性使负载的动态管理更加容易，可以使用Docker快速地对应用程序和服务进行扩展或缩减。</p>
-<h3 id="实现高密度和运行更多负载"><a href="#实现高密度和运行更多负载" class="headerlink" title="实现高密度和运行更多负载"></a><em>实现高密度和运行更多负载</em></h3><p>Docker很轻量很快，它提供了一个切实可行的并且具有成本效益的用于替代基于hypervisor虚拟机的方案，这对于高密集的环境尤其有用（比如构建私有云或者PaaS平台），但同时对于中小型的部署也很有用，能最大化硬件的资源利用。</p>
+<h2 id="能用Docker做什么？"><a href="#能用Docker做什么？" class="headerlink" title="能用Docker做什么？"></a>能用Docker做什么？</h2><h3 id="持续快速地交付您的应用程序"><a href="#持续快速地交付您的应用程序" class="headerlink" title="持续快速地交付您的应用程序"></a><em>持续快速地交付您的应用程序</em></h3><p>让开发人员在那些利用本地容器来承载应用程序和服务的标准化环境中工作，可以简化开发的生命周期。您也可以将Docker集成到您的持续集成（CI）和持续部署（CD）的工作流程中。</p>
+<p>考虑这样一个示例场景，开发人员可以在本地编写代码，并可以通过Docker容器将他们的工作成果共享给他们的同事。他们可以通过Docker把他们的应用程序部署到一个测试环境并进行手动和自动化测试，当开发人员发现问题时，可以在开发环境修复问题并重新部署到测试环境进行测试，测试完成后，可以把修补程序提供给客户，这个过程和把更新的镜像部署到生产环境一样简便。</p>
+<h3 id="响应式部署和扩展"><a href="#响应式部署和扩展" class="headerlink" title="响应式部署和扩展"></a><em>响应式部署和扩展</em></h3><p>Docker基于容器的平台使应用程序具有高度可移植性，Docker容器可以运行在开发人员的本地机器上，或者在数据中心、云端或者混合架构环境的物理机与虚拟机上。</p>
+<p>Docker的可移植性和轻量特性也使应用程序的动态管理更加容易，可以按业务需要对应用程序和服务进行近乎实时的扩展或缩减。</p>
+<h3 id="承载更多负荷"><a href="#承载更多负荷" class="headerlink" title="承载更多负荷"></a><em>承载更多负荷</em></h3><p>Docker很轻量很快，它提供了一个切实可行的并且具有成本效益的用于替代基于hypervisor虚拟机的方案，使您获得更多的计算能力。这对于高密集的环境尤其有用（比如构建私有云或者PaaS平台），但同时对于中小型的部署也很有用，能最大化硬件的资源利用。</p>
 <h2 id="Docker的架构如何？"><a href="#Docker的架构如何？" class="headerlink" title="Docker的架构如何？"></a>Docker的架构如何？</h2><p>Docker用的是一个C/S的架构，Docker客户端与Docker守护进程交互，Docker守护进程负责容器的构建、运行与分发等繁重工作。Docker客户端与守护进程可以运行在同一个系统上，或者Docker客户端也可以连接远程的Docker守护进程。Docker客户端与守护进程通过Sockets或者REST应用程序接口进行交互。</p>
 <p><img src="https://docs.docker.com/engine/article-img/architecture.svg" alt="architecture.svg"></p>
-<h3 id="Docker守护进程"><a href="#Docker守护进程" class="headerlink" title="Docker守护进程"></a>Docker守护进程</h3><p>如上图所示，Docker守护进程运行在宿主机上，用户不直接与Docker守护进程交互，而是通过Docker客户端。</p>
-<h3 id="Docker客户端"><a href="#Docker客户端" class="headerlink" title="Docker客户端"></a>Docker客户端</h3><p>Docker客户端是<code>docker</code>二进制命令，是Docker的主要交互接口，其接收来自用户的命令并继而与Docker守护进程进行交互。</p>
-<h3 id="深入Docker"><a href="#深入Docker" class="headerlink" title="深入Docker"></a>深入Docker</h3><p>为了了解Docker的内部，您需要了解下面三个方面：</p>
-<ul>
-<li>Docker镜像</li>
-<li>Docker镜像库</li>
-<li>Docker容器</li>
-</ul>
-<h4 id="Docker镜像"><a href="#Docker镜像" class="headerlink" title="Docker镜像"></a>Docker镜像</h4><p>Docker镜像是一个只读模板。举例来说，一个镜像可以包含一个装有Apache和web应用程序的Ubuntu操作系统。镜像用于创建Docker容器，Docker提供了一个简单的方式构建新的镜像或者更新已有镜像，或者您也可以下载其他人构建好的已有镜像。Docker镜像是Docker的<strong>构建</strong>组件。</p>
-<h4 id="Docker镜像库"><a href="#Docker镜像库" class="headerlink" title="Docker镜像库"></a>Docker镜像库</h4><p>Docker镜像库存储Docker镜像文件，您可以从公开镜像库或者私有镜像库上传或下载镜像，<a href="http://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>提供了一个公开镜像库，上面提供了很多已经构建好的镜像。这些已有镜像可以是您构建的或者是其他人构建的。Docker镜像库是Docker的<strong>分发</strong>组件。更多信息，请访问<a href="https://docs.docker.com/registry/overview/" target="_blank" rel="external">Docker镜像库</a>和<a href="https://docs.docker.com/docker-trusted-registry/overview/" target="_blank" rel="external">Docker受信镜像库</a>。</p>
-<h4 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h4><p>Docker容器与目录相似。一个Docker容器包含运行一个应用程序的所需的一切。Docker容器是由Docker镜像创建而来。Docker容器可以被运行、启动、停止、移动或者删除。每个容器都是一个隔离并且安全的应用程序平台。Docker容器是Docker的<strong>运行</strong>组件。</p>
-<h3 id="Docker镜像是如何工作的？"><a href="#Docker镜像是如何工作的？" class="headerlink" title="Docker镜像是如何工作的？"></a>Docker镜像是如何工作的？</h3><p>我们已经了解到Docker镜像是一个只读模板，并由此启动Docker容器。每个Docker镜像由一系列的层组成，Docker使用<a href="http://en.wikipedia.org/wiki/UnionFS" target="_blank" rel="external">联合文件系统</a>把这些层组成一个Docker镜像。联合文件系统可以使来自不同文件系统的文件或目录（也称为分支）进行透明的堆叠，进而形成一个单一连贯的文件系统。</p>
-<p>Docker能如此轻量的其中一个原因是使用了这些层技术。当您更改一个Docker镜像时（比如更新应用程序到新版本），一个新的层会被创建，因此只有那个层被添加或者被修改，而不是像虚拟机那样需要替换整个镜像。这样您就不必分发整个镜像，而只需要分发更新的部分。这样使得Docker镜像的分发更快更简单。</p>
-<p>每个镜像都有一个基础镜像，比如一个Ubuntu基础镜像或者一个Fedora基础镜像。您也可以使用您自己构建的镜像作为新镜像的基础镜像，比如您可以基于一个Apache的基础镜像构建所有的web应用程序镜像。</p>
+<h3 id="Docker守护进程"><a href="#Docker守护进程" class="headerlink" title="Docker守护进程"></a>Docker守护进程</h3><p>如上图所示，Docker守护进程运行在宿主机上，用户通过Docker客户端与Docker守护进程进行交互。</p>
+<h3 id="Docker客户端"><a href="#Docker客户端" class="headerlink" title="Docker客户端"></a>Docker客户端</h3><p>Docker客户端是<code>docker</code>二进制命令，是Docker的主要交互接口，其接收来自用户的命令并继而与Docker守护进程进行交互。一个客户端甚至可以与多个不相干的守护进程进行交互。</p>
+<h3 id="深入Docker"><a href="#深入Docker" class="headerlink" title="深入Docker"></a>深入Docker</h3><p>为了了解Docker的内部，您需要了解下<em>Docker镜像</em>、<em>Docker镜像库</em> 和 <em>Docker容器</em>。</p>
+<h4 id="Docker镜像"><a href="#Docker镜像" class="headerlink" title="Docker镜像"></a>Docker镜像</h4><p>Docker镜像是一个包含着用于构建Docker容器所需指令的只读模板。举例来说，一个镜像可以包含一个装有Apache和web应用程序的Ubuntu操作系统。您可以亲自从头开始创建和更新自己的镜像，或者您也可以下载其他人构建好的已有镜像。一个镜像可以基于其它镜像构建或扩展而来。Docker镜像定义在一个称为<code>Dockerfile</code>的文本文件里，<code>Dockerfile</code>的语法简单明了。有关镜像的详细信息，请参见<a href="#Docker镜像是如何工作的？">Docker镜像是如何工作的？</a></p>
+<p>Docker镜像是Docker的<strong>构建</strong>组件。</p>
+<h4 id="Docker镜像库"><a href="#Docker镜像库" class="headerlink" title="Docker镜像库"></a>Docker镜像库</h4><p>Docker镜像库存储Docker镜像，镜像库有公开库和私有库，可以和Docker守护进程或者Docker客户端在同一台服务器上，也可以在一个完全独立的服务器上。有关镜像库的详细信息，请参见<a href="#Docker镜像库是如何工作的？">Docker镜像库是如何工作的？</a></p>
+<p>Docker镜像库是Docker的<strong>分发</strong>组件</p>
+<h4 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h4><p>Docker容器是Docker镜像的运行实例。您可以通过Docker应用程序接口或者命令行接口来运行、启动、停止、移动或者删除容器。当您运行容器时，您可以提供诸如网络配置和环境变量等配置信息。每个容器都是一个安全隔离的应用平台，但可以赋予其它宿主机及容器上资源的访问权限，包括持久化存储或数据库。有关容器的详细信息，请参见<a href="#容器是如何工作的？">容器是如何工作的？</a></p>
+<p>Docker容器是Docker的<strong>运行</strong>组件。</p>
+<h3 id="Docker服务"><a href="#Docker服务" class="headerlink" title="Docker服务"></a>Docker服务</h3><p>Docker服务使一群Docker节点可以一起工作，运行着一定数量的任务实例，任务本身是一个Docker镜像。您可以指定需要并行运行的任务数量，<code>swarm</code>管理器会确保负载均衡地分布到不同的Docker节点上。对于服务调用方来说，Docker服务可以被视为一个单一的应用程序。Docker引擎在1.12或更高版本中支持<code>swarm</code>模式。</p>
+<p>Docker服务是Docker的<strong>扩展</strong>组件。</p>
+<h3 id="Docker镜像是如何工作的？"><a href="#Docker镜像是如何工作的？" class="headerlink" title="Docker镜像是如何工作的？"></a>Docker镜像是如何工作的？</h3><p>Docker镜像是一个只读模板，并由此启动Docker容器。每个Docker镜像由一系列的镜像层组成，Docker使用<a href="http://en.wikipedia.org/wiki/UnionFS" target="_blank" rel="external">联合文件系统</a>把这些镜像层组成一个Docker镜像。联合文件系统可以使来自不同文件系统的文件或目录（也称为分支）进行透明的堆叠，进而形成一个单一连贯的文件系统。</p>
+<p>Docker能如此轻量的其中一个原因是使用了这些镜像层。当您更改一个Docker镜像时（比如更新应用程序到新版本），会创建一个新的镜像层来代替被更新的镜像层里的内容，其它镜像层不会受到影响。在发布更新的时候，您只需要移动更新的镜像层。镜像分层机制加速了Docker镜像的分发速度，Docker会在运行时判断哪些层需要被更新。</p>
+<p>Docker镜像是在<code>Dockerfile</code>里定义的。每个镜像都由一个基础镜像构建而来，比如一个Ubuntu基础镜像或者一个Fedora基础镜像。您也可以使用您自己构建的镜像作为新镜像的基础镜像，比如您可以基于一个Apache的基础镜像构建所有的web应用程序镜像。基础镜像是在<code>Dockerfile</code>里用<code>FROM</code>指令来指定的。</p>
 <blockquote>
 <p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>是一个公开镜像库，里面用来存储Docker镜像。</p>
 </blockquote>
-<p>然后Docker镜像可以在这些基础镜像之上构建而来，通过一种称为指令（instructions）的一系列步骤。每个指令会在镜像中产生一个新的层。指令包含的动作诸如：</p>
+<p>Docker镜像从一个基础镜像构建而来，通过<code>Dockerfile</code>里的一种称为指令（instructions）的一系列步骤来指定。每个指令会在镜像中产生一个新的镜像层。指令包含的动作诸如：</p>
 <ul>
-<li>运行一条命令</li>
-<li>添加一个文件或目录</li>
-<li>创建一个环境变量</li>
-<li>制定在容器启动时运行什么进程</li>
+<li>指定基础镜像 [<code>FROM</code>]</li>
+<li>指定镜像维护人员信息 [<code>MAINTAINER</code>]</li>
+<li>运行一条命令 [<code>RUN</code>]</li>
+<li>添加一个文件或目录 [<code>ADD</code>]</li>
+<li>创建一个环境变量 [<code>ENV</code>]</li>
+<li>制定在容器启动时运行什么进程 [<code>CMD</code>]</li>
 </ul>
-<p>这些指定的指令定义在一个叫做<code>Dockerfile</code>的文件里，<code>Dockerfile</code>是一种文本类型的文件，其中包含了用于从基础镜像构建新镜像所需的指令。当您请求构建一个镜像时，Docker会读取<code>Dockerfile</code>并执行其中的指令，最终构建成一个新镜像。</p>
-<h3 id="Docker镜像库是如何工作的？"><a href="#Docker镜像库是如何工作的？" class="headerlink" title="Docker镜像库是如何工作的？"></a>Docker镜像库是如何工作的？</h3><p>Docker镜像库用于存储您的镜像文件。一旦您构建了一个Docker镜像，您可以推送（push）这个镜像到一个公开镜像库（如<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>），或者您自己在防火墙后面的私有镜像库。</p>
-<p>通过Docker客户端，您可以搜索已有的公开镜像，然后拉取（pull）下来到您的Docker宿主机中，并依据这些镜像启动容器。</p>
-<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>为镜像提供了公开和私有两种存储方式。公开存储的镜像可以被任何人检索并下载，而私有存储的镜像只有您和您的成员可以获取。您可以<a href="https://www.docker.com/pricing" target="_blank" rel="external">在这里登记一个存储计划</a>。</p>
-<h3 id="容器是如何工作的？"><a href="#容器是如何工作的？" class="headerlink" title="容器是如何工作的？"></a>容器是如何工作的？</h3><p>一个容器是由一个操作系统、用户添加的文件以及元数据（metadata）组成，如我们之前看到的，每个容器都是由一个镜像创建而来的，那个镜像决定了容器应该包含什么内容、在启动时应该运行什么进程，以及各种不同的配置信息。Docker镜像本身是只读的，在容器启动时，Docker通过联合文件系统在镜像的最上层增加一个可读写的层。</p>
-<h3 id="当运行容器时发生了什么？"><a href="#当运行容器时发生了什么？" class="headerlink" title="当运行容器时发生了什么？"></a>当运行容器时发生了什么？</h3><p>Docker客户端可以通过<code>docker</code>二进制程序或者REST应用程序接口，来通知Docker守护进程运行一个容器。</p>
+<p>当您请求构建一个镜像时，Docker会读取<code>Dockerfile</code>并执行其中的指令，最终构建成一个新镜像。</p>
+<h3 id="Docker镜像库是如何工作的？"><a href="#Docker镜像库是如何工作的？" class="headerlink" title="Docker镜像库是如何工作的？"></a>Docker镜像库是如何工作的？</h3><p>Docker镜像库用于存储镜像文件。一旦您构建了一个Docker镜像，您可以推送（push）这个镜像到一个公开镜像库（如<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>），或者您自己在防火墙后面的私有镜像库。您也可以搜索镜像库中的已有镜像，然后拉取（pull）到本地宿主机上。</p>
+<p><a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>是一个公开镜像库，提供了大量的镜像可供使用，当然您也可以贡献自己的镜像。更多信息，请参见<a href="https://docs.docker.com/registry/overview/" target="_blank" rel="external">Docker镜像库</a>和<a href="https://docs.docker.com/docker-trusted-registry/overview/" target="_blank" rel="external">Docker授信镜像库</a>。</p>
+<p>您可以在<a href="http://store.docker.com/" target="_blank" rel="external">Docker商店</a>购买和售卖Docker镜像。您可以从软件供应商那儿购买一个包含着应用程序或服务的镜像，然后把这个镜像部署到您的测试，模拟（staging）和生产环境，并且可以通过拉取新版本镜像并重新部署容器的方式进行应用的升级。Docker商店目前在内测过程中。</p>
+<h3 id="容器是如何工作的？"><a href="#容器是如何工作的？" class="headerlink" title="容器是如何工作的？"></a>容器是如何工作的？</h3><p>容器调用宿主机的Linux内核，并结合在镜像构建阶段用户添加的文件，以及在容器启动阶段指定的元数据（metadata）。每个容器都是由一个镜像生成的，镜像决定了容器应该包含什么内容、在启动时应该运行什么进程，以及各种不同的配置信息。Docker镜像本身是只读的，在容器启动时，Docker通过联合文件系统在镜像的最上层增加一个可读写的层。</p>
+<h3 id="当运行容器时发生了什么？"><a href="#当运行容器时发生了什么？" class="headerlink" title="当运行容器时发生了什么？"></a>当运行容器时发生了什么？</h3><p>通过使用<code>docker run</code>命令行接口或其它类似接口，Docker客户端会通知Docker守护进程运行一个容器。下面的示例通知Docker守护进程使用<code>ubuntu</code>镜像启动一个在前端以交互式模式[<code>-i</code>]运行的容器，并且同时运行<code>/bin/bash</code>命令。</p>
 <p><code>$ docker run -i -t ubuntu /bin/bash</code></p>
-<p>Docker引擎客户端通过<code>docker</code>启动，然后通过<code>run</code>命令开启一个新容器。要通知Docker守护进程启动一个容器，Docker客户端至少要提供：</p>
-<ul>
-<li>容器从哪个镜像创建，如Ubuntu</li>
-<li>当容器启动后要在其中运行什么命令，如<code>/bin/bash</code></li>
-</ul>
-<p>那么在我们运行这个命令时在后台发生了什么？</p>
-<p>Docker引擎按序进行了下面的操作：</p>
-<ul>
+<p>当您运行这条命令的时候，Docker引擎进行了下面的操作：</p>
+<ol>
 <li>拉取Ubuntu镜像：Docker引擎在本地宿主机上检查Ubuntu镜像是否存在。如果镜像存在，Docker引擎将用这个镜像创建新的容器。如果镜像在本地宿主机上不存在，Docker引擎会从<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a>上拉取该镜像。</li>
 <li>创建新的容器。</li>
 <li>分配文件系统并挂载可读写层：在文件系统中创建容器并且在镜像之上增加一个可读写层。</li>
 <li>分配网络接口：创建网络接口，用于容器与宿主机的通信。</li>
 <li>设置网络IP：从资源池中寻找并配置可用IP。</li>
 <li>执行指定的进程。</li>
-<li>捕获并提供应用程序输出：连接并记录标准输入、标准输出和标准错误，以便您检查应用程序的运行状况。</li>
-</ul>
+<li>捕获并提供应用程序输出：由于指定为交互式模式，还会连接并记录标准输入、标准输出和标准错误，以便您检查应用程序的运行状况。</li>
+</ol>
 <p>至此您拥有了一个运行中的容器！现在您可以管理您的容器，与您的应用程序交互，当完成后，您也可以停止并删除掉容器。</p>
-<h2 id="底层的技术"><a href="#底层的技术" class="headerlink" title="底层的技术"></a>底层的技术</h2><p>Docker是用go语言编写的，通过调用内核的一些特性来完成我们所看到的这些功能。</p>
+<h2 id="底层的技术"><a href="#底层的技术" class="headerlink" title="底层的技术"></a>底层的技术</h2><p>Docker是用go语言编写的，通过调用内核的一些特性来实现我们所看到的这些功能。</p>
 <h3 id="命名空间（Namespaces）"><a href="#命名空间（Namespaces）" class="headerlink" title="命名空间（Namespaces）"></a>命名空间（Namespaces）</h3><p>Docker利用了命名空间技术来提供容器的这种隔离环境。当您运行一个容器时，Docker会为这个容器创建一系列的命名空间。</p>
-<p>命名空间提供了一层隔离保障：容器里的各个部分都运行在独有的命名空间里，并不能进行外部的访问。</p>
+<p>这些命名空间提供了一层隔离保障，容器里的各个部分都运行在单独的命名空间里，资源的访问权限仅限在这个单独的命名空间里。</p>
 <p>Docker引擎使用到的Linux命名空间有：</p>
 <ul>
-<li><code>pid</code>命名空间：进程隔离</li>
-<li><code>net</code>命名空间：管理网络接口</li>
-<li><code>ipc</code>命名空间：管理进程间通信的访问</li>
-<li><code>mnt</code>命名空间：管理挂载点</li>
-<li><code>uts</code>命名空间：隔离内核和版本标识</li>
+<li><code>pid</code>命名空间：进程隔离 (PID: Process ID)</li>
+<li><code>net</code>命名空间：管理网络接口 (NET: Networking)</li>
+<li><code>ipc</code>命名空间：管理进程间通信的访问 (IPC: InterProcess Communication)</li>
+<li><code>mnt</code>命名空间：管理挂载点 (MNT: Mount)</li>
+<li><code>uts</code>命名空间：隔离内核和版本标识 (UTS: Unix Timesharing System)</li>
 </ul>
-<h3 id="控制组（Control-Groups）"><a href="#控制组（Control-Groups）" class="headerlink" title="控制组（Control Groups）"></a>控制组（Control Groups）</h3><p>Linux上的Docker引擎也使用了叫做<code>cgroups</code>或控制组的技术，以隔离的方式运行应用程序的一个关键点是可控的资源占用，这点确保容器在多租户环境的主机中工作良好。通过控制组，使Docker引擎把可用的硬件资源分配给容器，并在必要的时候进行资源配额限制。举例来说，给特定的容器分配一定量的内存。</p>
+<h3 id="控制组（Control-Groups）"><a href="#控制组（Control-Groups）" class="headerlink" title="控制组（Control Groups）"></a>控制组（Control Groups）</h3><p>Linux上的Docker引擎也使用了叫做<code>cgroups</code>或控制组的技术，<code>cgroups</code>用以限制应用程序的资源占用。通过控制组，使Docker引擎把可用的硬件资源分配给容器，并在必要的时候进行资源配额限制。举例来说，您可以给特定的容器分配一定量的内存。</p>
 <h3 id="联合文件系统（Union-file-systems）"><a href="#联合文件系统（Union-file-systems）" class="headerlink" title="联合文件系统（Union file systems）"></a>联合文件系统（Union file systems）</h3><p>联合文件系统（或UnionFS）是通过创建层的方式来工作的文件系统，因此联合文件系统变得很轻量很快速。Docker引擎使用联合文件系统来构建容器。Docker引擎可以使用多种类型联合文件系统，如AUFS，btrfs，vfs以及DeviceMapper。</p>
-<h3 id="容器格式"><a href="#容器格式" class="headerlink" title="容器格式"></a>容器格式</h3><p>Docker引擎把所有这些组件组合封装成一个容器格式。默认的容器格式称为<code>libcontainer</code>。未来，Docker或许会通过集成诸如BSD Jails或者Solaris Zones来支持其它容器格式.</p>
-<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>了解<a href="https://docs.docker.com/engine/installation/#installation" target="_blank" rel="external">安装Docker引擎</a>。了解<a href="https://docs.docker.com/engine/userguide/" target="_blank" rel="external">Docker引擎用户手册</a>。</p>
+<h3 id="容器格式"><a href="#容器格式" class="headerlink" title="容器格式"></a>容器格式</h3><p>Docker引擎把命名空间、控制组以及联合文件系统组合封装成一个容器格式。默认的容器格式称为<code>libcontainer</code>。未来，Docker或许会通过集成诸如BSD Jails或者Solaris Zones来支持其它容器格式.</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><ul>
+<li>阅读更多有关<a href="https://docs.docker.com/engine/installation/#installation" target="_blank" rel="external">安装Docker引擎</a>。</li>
+<li>跟随<a href="https://docs.docker.com/engine/getstarted/" target="_blank" rel="external">Docker入门</a>教程进行动手实验。</li>
+<li>查看<a href="https://docs.docker.com/engine/userguide/" target="_blank" rel="external">Docker引擎用户手册</a>里的示例并深入了解相关主题内容。</li>
+</ul>
 
           
         
@@ -1090,7 +1065,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1099,7 +1074,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

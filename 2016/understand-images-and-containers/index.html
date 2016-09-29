@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Docker," />
+  <meta name="keywords" content="Docker,Docker基础," />
 
 
 
@@ -86,16 +86,18 @@
 
 
 
-<meta name="description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta name="description" content="Docker版本: v1.12.0  
+翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解镜像、容器与存储驱动 [译文]">
 <meta property="og:url" content="http://buildship.run/2016/understand-images-and-containers/index.html">
 <meta property="og:site_name" content="BSR's Notes">
-<meta property="og:description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta property="og:description" content="Docker版本: v1.12.0  
+翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers-cas.jpg">
@@ -105,12 +107,13 @@
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/shared-uuid.jpg">
 <meta property="og:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/shared-volume.jpg">
-<meta property="og:updated_time" content="2016-09-18T02:58:10.000Z">
+<meta property="og:updated_time" content="2016-09-29T03:02:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解镜像、容器与存储驱动 [译文]">
-<meta name="twitter:description" content="翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta name="twitter:description" content="Docker版本: v1.12.0  
+翻译自: https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相">
+理解镜像、容器与存储驱动为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，">
 <meta name="twitter:image" content="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg">
 
 
@@ -280,19 +283,7 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
                     <span itemprop="name">翻译</span>
                   </a>
                 </span>
@@ -342,12 +333,13 @@
 
       
         <blockquote>
-<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+<p>Docker版本: v1.12.0  </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
 </blockquote>
 <h2 id="理解镜像、容器与存储驱动"><a href="#理解镜像、容器与存储驱动" class="headerlink" title="理解镜像、容器与存储驱动"></a>理解镜像、容器与存储驱动</h2><p>为了更高效的使用存储驱动，您需要理解Docker是如何构建和存储镜像文件的，然后，您需要理解容器是如何使用镜像的，最后就镜像和容器的操作所相关的技术为您做一个简单介绍。</p>
-<h2 id="镜像和层"><a href="#镜像和层" class="headerlink" title="镜像和层"></a>镜像和层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，层和层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
+<h2 id="镜像和镜像层"><a href="#镜像和镜像层" class="headerlink" title="镜像和镜像层"></a>镜像和镜像层</h2><p>每个Docker镜像引用了来自不同文件系统的只读层列表，镜像层和镜像层堆叠在一起组成一个容器的基础根文件系统。下面的图展示了一个由4个层组成的Ubuntu 15.04的镜像：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/image-layers.jpg" alt="image-layers.jpg"></p>
-<p>Docker的存储驱动负责这些层的堆叠并提供一个联合的文件视图。</p>
+<p>Docker的存储驱动负责这些镜像层的堆叠并提供一个联合的文件视图。</p>
 <p>当您创建一个新的容器，在堆栈的顶层会创建一个新的薄薄的可写层，这个层通常称为“容器层”。对容器运行期间的更改（如创建新文件，更改已有文件和删除文件）都会写到这个薄的可写层中。下面的图展示了一个基于Ubuntu 15.04镜像的容器：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/container-layers.jpg" alt="container-layers.jpg"></p>
 <h2 id="可寻址内容存储（Content-addressable-storage）"><a href="#可寻址内容存储（Content-addressable-storage）" class="headerlink" title="可寻址内容存储（Content addressable storage）"></a>可寻址内容存储（Content addressable storage）</h2><p>Docker 1.10引入了一个新的可寻址内容存储模型，这是一个用于定位磁盘上镜像和容器数据的全新方法。1.10之前的版本是通过一个随机生成的UUID来引用镜像和层数据，而在新模型中取而代之的是<em>安全内容哈希（secure content hash）</em>。</p>
@@ -372,7 +364,7 @@
 <p><code>docker run</code>前的<code>time</code>命令用于输出操作所占用的时间。如您看到的，迁移占用2GB的7个镜像文件共占时约1分钟，其中包括拉取<code>docker/v1.10-migrator</code>镜像所花的3.5秒。同样的操作在一个具有40 vCPU，160GB内存和8GB的IOPS磁盘的环境中所占用的时间为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">real    0m9.871s</span><br><span class="line">user    0m0.094s</span><br><span class="line">sys     0m0.021s</span><br></pre></td></tr></table></figure>
 <p>这说明迁移的操作会受到硬件条件的影响。</p>
-<h2 id="容器和层"><a href="#容器和层" class="headerlink" title="容器和层"></a>容器和层</h2><p>容器和镜像最显著的区别在于顶层的可读写层，对容器的改动（如添加新文件或更改已有文件）会被存储到这个可读写层中。当容器被删除时，这个可读写层同时也会被删除，而底层的镜像保持不变。</p>
+<h2 id="容器和层"><a href="#容器和层" class="headerlink" title="容器和层"></a>容器和层</h2><p>容器和镜像最显著的区别在于顶层的可写层，对容器的改动（如添加新文件或更改已有文件）会被存储到这个可写层中。当容器被删除时，这个可写层同时也会被删除，而底层的镜像保持不变。</p>
 <p>因为每个容器都有它自己的可写层，并且所有的更改都存储在这个可写层，这意味着多个容器可以共享使用相同的底层镜像，同时可以有它们自己的数据状态。下图显示了共享使用相同的Ubuntu 15.04镜像的多个容器：</p>
 <p><img src="https://docs.docker.com/engine/userguide/storagedriver/images/sharing-layers.jpg" alt="sharing-layers.jpg"></p>
 <p>Docker存储驱动负责启用和管理镜像层和可写容器层，不同的存储驱动实现方式会有不同。Docker镜像和容器管理的两个关键技术分别是可堆叠的镜像层和写时复制（copy-on-write）。</p>
@@ -490,6 +482,8 @@
           
             <a href="/tags/Docker/" rel="tag">#Docker</a>
           
+            <a href="/tags/Docker基础/" rel="tag">#Docker基础</a>
+          
         </div>
       
 
@@ -497,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/docker-overview/" rel="next" title="Docker 简介 [译文]">
-                <i class="fa fa-chevron-left"></i> Docker 简介 [译文]
+              <a href="/2016/docker-overview/" rel="next" title="Docker简介 [译文]">
+                <i class="fa fa-chevron-left"></i> Docker简介 [译文]
               </a>
             
           </div>
@@ -610,7 +604,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -619,7 +613,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -655,7 +649,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解镜像、容器与存储驱动"><span class="nav-number">1.</span> <span class="nav-text">理解镜像、容器与存储驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像和层"><span class="nav-number">2.</span> <span class="nav-text">镜像和层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可寻址内容存储（Content-addressable-storage）"><span class="nav-number">3.</span> <span class="nav-text">可寻址内容存储（Content addressable storage）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移示例"><span class="nav-number">3.1.</span> <span class="nav-text">迁移示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器和层"><span class="nav-number">4.</span> <span class="nav-text">容器和层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写时复制"><span class="nav-number">5.</span> <span class="nav-text">写时复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用分享机制实现更小的镜像"><span class="nav-number">5.1.</span> <span class="nav-text">用分享机制实现更小的镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用复制机制使得容器更加高效"><span class="nav-number">5.2.</span> <span class="nav-text">用复制机制使得容器更加高效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据卷和存储驱动"><span class="nav-number">6.</span> <span class="nav-text">数据卷和存储驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关信息"><span class="nav-number">7.</span> <span class="nav-text">相关信息</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解镜像、容器与存储驱动"><span class="nav-number">1.</span> <span class="nav-text">理解镜像、容器与存储驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像和镜像层"><span class="nav-number">2.</span> <span class="nav-text">镜像和镜像层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可寻址内容存储（Content-addressable-storage）"><span class="nav-number">3.</span> <span class="nav-text">可寻址内容存储（Content addressable storage）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移示例"><span class="nav-number">3.1.</span> <span class="nav-text">迁移示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器和层"><span class="nav-number">4.</span> <span class="nav-text">容器和层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写时复制"><span class="nav-number">5.</span> <span class="nav-text">写时复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用分享机制实现更小的镜像"><span class="nav-number">5.1.</span> <span class="nav-text">用分享机制实现更小的镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用复制机制使得容器更加高效"><span class="nav-number">5.2.</span> <span class="nav-text">用复制机制使得容器更加高效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据卷和存储驱动"><span class="nav-number">6.</span> <span class="nav-text">数据卷和存储驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关信息"><span class="nav-number">7.</span> <span class="nav-text">相关信息</span></a></li></ol></div>
             
           </div>
         </section>

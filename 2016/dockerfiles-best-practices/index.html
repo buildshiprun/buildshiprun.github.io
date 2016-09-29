@@ -86,22 +86,25 @@
 
 
 
-<meta name="description" content="翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta name="description" content="Docker版本: v1.12.0   
+翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。Do">
+通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编写Dockerfiles的最佳实践 [译文]">
 <meta property="og:url" content="http://buildship.run/2016/dockerfiles-best-practices/index.html">
 <meta property="og:site_name" content="BSR's Notes">
-<meta property="og:description" content="翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta property="og:description" content="Docker版本: v1.12.0   
+翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。Do">
-<meta property="og:updated_time" content="2016-09-18T06:28:47.000Z">
+通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles">
+<meta property="og:updated_time" content="2016-09-29T03:57:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编写Dockerfiles的最佳实践 [译文]">
-<meta name="twitter:description" content="翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！
+<meta name="twitter:description" content="Docker版本: v1.12.0   
+翻译自: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！
 
-通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。Do">
+通过解读Dockerfiles的指令，Docker可以自动构建镜像文件。Dockerfiles">
 
 
 
@@ -270,19 +273,7 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/翻译/" itemprop="url" rel="index">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
                     <span itemprop="name">翻译</span>
                   </a>
                 </span>
@@ -332,7 +323,8 @@
 
       
         <blockquote>
-<p>翻译自: <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br>由于能力所限，翻译难免有不到位的地方，如有不一致的地方，请以原文为准！</p>
+<p>Docker版本: v1.12.0   </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
 </blockquote>
 <p>通过解读<code>Dockerfiles</code>的指令，Docker可以自动构建镜像文件。<code>Dockerfiles</code>属于文本文档，其中有序地包含了建立指定镜像文件所需的所有指令。<code>Dockerfiles</code>具有特定的文件格式，使用的也是特定的指令。您可以访问<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfiles参考</a>页面了解基本知识，如果您才刚接触<code>Dockerfiles</code>代码编写的话，您可以从该页面开始了解。</p>
 <p>本文提供了Docker公司及其社区所推荐的Dockerfiles最佳创建方式，您可以利用这些方法创建易用度高、运行效率好的<code>Dockerfiles</code>。在此，我们强烈建议您遵循这些建议（如果您在创建官方镜像的话，您必须要坚持这些做法）。</p>
@@ -347,7 +339,7 @@
 <h3 id="使用-dockerignore文件"><a href="#使用-dockerignore文件" class="headerlink" title="使用.dockerignore文件"></a>使用.dockerignore文件</h3><p>通常情况下，最好将每个Dockerfile文件都存储在一个空目录下，这样在构建Dockerfile时，只需将所需的文件添加到目录中即可。但为了提高构建Dockerfile的效率，您可以选择通过添加<code>.dockerignore</code>文件把不需要的文件与目录排除在外。<code>.dockerignore</code>文件支持的排除模式与<code>.gitignore</code>文件相似，有关创建<code>.dockerignore</code>文件的具体信息请参考<a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="external">.dockerignore文件</a>。</p>
 <h3 id="避免安装冗余程序包"><a href="#避免安装冗余程序包" class="headerlink" title="避免安装冗余程序包"></a>避免安装冗余程序包</h3><p>为降低复杂度和依赖性、减小文件规格、以及节省构建时间，您应该避免安装额外可选的或者不必要的程序包。例如，在数据库镜像文件中，您不需要安装文本编辑器。</p>
 <h3 id="在每一个容器中只运行一个进程"><a href="#在每一个容器中只运行一个进程" class="headerlink" title="在每一个容器中只运行一个进程"></a>在每一个容器中只运行一个进程</h3><p>通常情况下，您应该在一个容器中只运行一个进程。把多个应用程序解耦并运行在多个不同的容器中有助于容器的复用和进行应用的横向扩展。如果某个服务程序依赖与其它服务程序，您可以利用<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/" target="_blank" rel="external">容器链接</a>来解决这个问题。</p>
-<h3 id="减少层的数量"><a href="#减少层的数量" class="headerlink" title="减少层的数量"></a>减少层的数量</h3><p>您需要在<code>Dockerfiles</code>的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定层的数量时，您应当谨慎考虑，做出战略性的选择。</p>
+<h3 id="减少镜像层的数量"><a href="#减少镜像层的数量" class="headerlink" title="减少镜像层的数量"></a>减少镜像层的数量</h3><p>您需要在<code>Dockerfiles</code>的可读性（与可维护性）和减少其所用层的数量之间进行平衡选择。在确定镜像层的数量时，您应当谨慎考虑，做出战略性的选择。</p>
 <h3 id="对多行参数进行排序"><a href="#对多行参数进行排序" class="headerlink" title="对多行参数进行排序"></a>对多行参数进行排序</h3><p>尽可能对多行参数按照字母顺序进行排序，这样做能为后期对多行参数的更改提供便利。同时，这样做还能避免使用重复的程序包，有利于参数列表的更新，也方便PR(Pull Request)的阅读和核查。在反斜杠[<code>\</code>]前面加空格也会有所帮助。</p>
 <p>以下这个例子摘自<code>buildpack-deps</code><a href="https://github.com/docker-library/buildpack-deps/" target="_blank" rel="external">镜像</a>：</p>
 <pre><code>RUN apt-get update &amp;&amp; apt-get install -y \
@@ -359,12 +351,21 @@
 </code></pre><h3 id="构建缓存"><a href="#构建缓存" class="headerlink" title="构建缓存"></a>构建缓存</h3><p>在构建镜像文件的过程中，Docker会逐行解析并按序执行<code>Dockerfiles</code>文件中的指令。在检视每条指令的同时，Docker会在已有镜像中查找可复用的缓存，而不是直接创建一个新的（重复的）镜像。如果您压根不想使用缓存，您可以使用<code>docker build</code>指令的<code>--no-cache=true</code>选项。</p>
 <p>但如果您要让Docker使用缓存的话，一定要弄清Docker在什么情形下能或者不能找到相匹配的镜像。下面是Docker所遵循的基本规则：</p>
 <ul>
-<li>首先从缓存中已有的基础镜像开始着手，读取下一条指令，并把其与基础镜像中的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</li>
-<li>通常情况下，只需将<code>Dockerfiles</code>中的指令与其中的一个子镜像做简单比对就可以了。然而，有些指令需要进一步测试和解析。</li>
+<li>首先从缓存中已有的基础镜像开始，读取下一条的指令，并把其与继承自基础镜像的所有子镜像进行比较，看看子镜像中是否有用同样的指令构建而来的，如果没有意味着缓存失效。</li>
+<li>通常情况下，将<code>Dockerfiles</code>中的指令与子镜像的指令简单地进行语句比对就可以了。然而，有些指令需要进一步测试和解析。</li>
 <li>对于<code>ADD</code>和<code>COPY</code>指令，会检查文件的内容和计算每个文件的checksum值。checksum不考虑文件的最后修改时间和最后访问时间。在缓存查找的过程中，Docker把刚才计算出的checksum与已有镜像中的文件的checksum进行比对。如果文件的内容和元数据发生过变化，意味着缓存失效。</li>
 <li>除<code>ADD</code>和<code>COPY</code>指令外，缓存检查不会对容器中的文件进行比对。举例来说，执行<code>RUN apt-get -y update</code>指令时更新的文件，不会被用以检查来判定是否有缓存。在这种情况下，只有指令字符串本身会用于缓存检查。</li>
 </ul>
 <p>一旦缓存失效，所有后续的<code>Dockerfiles</code>指令会创建新的镜像文件，而将不会使用缓存。</p>
+<blockquote>
+<p><strong>译者注</strong>：关于镜像构建时的缓存，原文的解释其实不是特别清晰。根据译者的实践，缓存的判断步骤是：  </p>
+<ol>
+<li>读取<code>FROM</code>之下的指令，并在基础镜像及其所有子镜像的镜像层中查找同样的指令（关于子镜像的查找顺序不是很确定）。 举例来说，如果基础镜像是baseimage，并且在本地有两个子镜像imagea和imageb。  </li>
+<li>如果找到匹配的镜像层，就直接使用匹配到的镜像层，并把匹配到的镜像层作为下次缓存查找的父镜像。假设这里匹配到的镜像层来自imageb。  </li>
+<li>如果没找到匹配的镜像层，则断定本地没有缓存，则后面所有的指令都不会使用缓存，而会生成新的镜像层。  </li>
+<li>接着步骤2，读取下一条指令，这时会直接在imageb的那个镜像层的子镜像层中查找是否有同样的指令，后面重复步骤2和步骤3.</li>
+</ol>
+</blockquote>
 <h2 id="Dockerfile-指令"><a href="#Dockerfile-指令" class="headerlink" title="Dockerfile 指令"></a>Dockerfile 指令</h2><p>在下文中， 您可以找到各类可用于编写<code>Dockerfile</code>的指令和其建议的用法。</p>
 <h3 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h3><p><a href="https://docs.docker.com/engine/reference/builder/#from" target="_blank" rel="external">Dockerfile参考中的FROM指令</a></p>
 <p>构建您的镜像时尽可能以现有的官方镜像库中的镜像为基础。我们推荐<a href="https://hub.docker.com/_/debian/" target="_blank" rel="external">Debian 镜像</a>，因为该镜像是完整的发行版本，而且受严格管控，所占空间小（目前不足150兆）。</p>
@@ -654,7 +655,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -663,7 +664,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -699,7 +700,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般准则与建议"><span class="nav-number">1.</span> <span class="nav-text">一般准则与建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#容器的构建应该是转瞬即逝的（ephemeral）"><span class="nav-number">1.1.</span> <span class="nav-text">容器的构建应该是转瞬即逝的（ephemeral）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-dockerignore文件"><span class="nav-number">1.2.</span> <span class="nav-text">使用.dockerignore文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免安装冗余程序包"><span class="nav-number">1.3.</span> <span class="nav-text">避免安装冗余程序包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在每一个容器中只运行一个进程"><span class="nav-number">1.4.</span> <span class="nav-text">在每一个容器中只运行一个进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少层的数量"><span class="nav-number">1.5.</span> <span class="nav-text">减少层的数量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对多行参数进行排序"><span class="nav-number">1.6.</span> <span class="nav-text">对多行参数进行排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建缓存"><span class="nav-number">1.7.</span> <span class="nav-text">构建缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile-指令"><span class="nav-number">2.</span> <span class="nav-text">Dockerfile 指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM"><span class="nav-number">2.1.</span> <span class="nav-text">FROM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN"><span class="nav-number">2.2.</span> <span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-get"><span class="nav-number">2.3.</span> <span class="nav-text">apt-get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-number">2.4.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXPOSE"><span class="nav-number">2.5.</span> <span class="nav-text">EXPOSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENV"><span class="nav-number">2.6.</span> <span class="nav-text">ENV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD或COPY"><span class="nav-number">2.7.</span> <span class="nav-text">ADD或COPY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-number">2.8.</span> <span class="nav-text">ENTRYPOINT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VOLUME"><span class="nav-number">2.9.</span> <span class="nav-text">VOLUME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USER"><span class="nav-number">2.10.</span> <span class="nav-text">USER</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WORKDIR"><span class="nav-number">2.11.</span> <span class="nav-text">WORKDIR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ONBUILD"><span class="nav-number">2.12.</span> <span class="nav-text">ONBUILD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官方镜像库示例"><span class="nav-number">3.</span> <span class="nav-text">官方镜像库示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附加资源"><span class="nav-number">4.</span> <span class="nav-text">附加资源</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般准则与建议"><span class="nav-number">1.</span> <span class="nav-text">一般准则与建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#容器的构建应该是转瞬即逝的（ephemeral）"><span class="nav-number">1.1.</span> <span class="nav-text">容器的构建应该是转瞬即逝的（ephemeral）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-dockerignore文件"><span class="nav-number">1.2.</span> <span class="nav-text">使用.dockerignore文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免安装冗余程序包"><span class="nav-number">1.3.</span> <span class="nav-text">避免安装冗余程序包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在每一个容器中只运行一个进程"><span class="nav-number">1.4.</span> <span class="nav-text">在每一个容器中只运行一个进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少镜像层的数量"><span class="nav-number">1.5.</span> <span class="nav-text">减少镜像层的数量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对多行参数进行排序"><span class="nav-number">1.6.</span> <span class="nav-text">对多行参数进行排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建缓存"><span class="nav-number">1.7.</span> <span class="nav-text">构建缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile-指令"><span class="nav-number">2.</span> <span class="nav-text">Dockerfile 指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM"><span class="nav-number">2.1.</span> <span class="nav-text">FROM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN"><span class="nav-number">2.2.</span> <span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-get"><span class="nav-number">2.3.</span> <span class="nav-text">apt-get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-number">2.4.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXPOSE"><span class="nav-number">2.5.</span> <span class="nav-text">EXPOSE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENV"><span class="nav-number">2.6.</span> <span class="nav-text">ENV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD或COPY"><span class="nav-number">2.7.</span> <span class="nav-text">ADD或COPY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-number">2.8.</span> <span class="nav-text">ENTRYPOINT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VOLUME"><span class="nav-number">2.9.</span> <span class="nav-text">VOLUME</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USER"><span class="nav-number">2.10.</span> <span class="nav-text">USER</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WORKDIR"><span class="nav-number">2.11.</span> <span class="nav-text">WORKDIR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ONBUILD"><span class="nav-number">2.12.</span> <span class="nav-text">ONBUILD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官方镜像库示例"><span class="nav-number">3.</span> <span class="nav-text">官方镜像库示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附加资源"><span class="nav-number">4.</span> <span class="nav-text">附加资源</span></a></li></ol></div>
             
           </div>
         </section>
