@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://buildship.run/categories/index.html</loc>
+    
+    <lastmod>2016-09-29T06:32:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://buildship.run/2016/dockerfiles-best-practices/</loc>
     
     <lastmod>2016-09-29T03:57:32.000Z</lastmod>
