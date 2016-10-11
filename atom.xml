@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://buildship.run/"/>
-  <updated>2016-10-11T02:15:11.000Z</updated>
+  <updated>2016-10-11T02:19:54.000Z</updated>
   <id>http://buildship.run/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://buildship.run/2016/container-networking/"/>
     <id>http://buildship.run/2016/container-networking/</id>
     <published>2016-10-10T05:46:25.000Z</published>
-    <updated>2016-10-11T02:15:11.000Z</updated>
+    <updated>2016-10-11T02:19:54.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Docker版本: v1.12.0   &lt;/p&gt;
@@ -368,8 +368,7 @@ $ docker service create --replicas 2 --network my-multi-host-network --name my-w
 &lt;td&gt;Describes the location of the KV service.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;`–cluster-advertise=HOST_IP\&lt;/td&gt;
-&lt;td&gt;HOST_IFACE:PORT`&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;–cluster-advertise=HOST_IP&amp;#124;HOST_IFACE:PORT&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;The IP address or interface of the HOST used for clustering.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
