@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://buildship.run/2016/container-networking/</loc>
+    
+    <lastmod>2016-10-11T02:01:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://buildship.run/categories/index.html</loc>
     
     <lastmod>2016-09-29T06:32:23.000Z</lastmod>

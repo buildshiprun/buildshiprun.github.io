@@ -250,6 +250,513 @@
             
               
                 
+                <a class="post-title-link" href="/2016/container-networking/" itemprop="url">
+                  理解Docker容器网络 [译文]
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T13:46:25+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/container-networking/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/container-networking/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/container-networking/" class="leancloud_visitors" data-flag-title="理解Docker容器网络 [译文]">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Docker版本: v1.12.0   </p>
+<p>翻译自: <a href="https://docs.docker.com/engine/userguide/networking/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/networking/</a><br>由于能力所限，翻译难免有不到位的地方，另外官方文档也时有更新，如有不一致的地方，请以原文为准！</p>
+</blockquote>
+<h2 id="理解Docker容器网络"><a href="#理解Docker容器网络" class="headerlink" title="理解Docker容器网络"></a>理解Docker容器网络</h2><p>本节概述了Docker引擎原生提供的默认网络特性，里面介绍了Docker默认创建的网络类型，以及如何创建用户定义的网络。此外还介绍了在单个主机或集群上创建网络所需的资源。</p>
+<h2 id="默认网络"><a href="#默认网络" class="headerlink" title="默认网络"></a>默认网络</h2><p>Docker在安装时自动创建了三个网络。您可以通过运行<code>docker network ls</code>命令列出这些网络：</p>
+<pre><code>$ docker network ls
+
+NETWORK ID          NAME                DRIVER
+7fca4eb8c647        bridge              bridge
+9f904ee27bf5        none                null
+cf03ee007fb4        host                host
+</code></pre><p>Docker历来的实现中包含了这三个网络类型。当您运行一个容器的时，您可以通过<code>--network</code>标识来指定容器运行在哪个网络中。</p>
+<p>名称为<code>bridge</code>的网络实际上就是Docker安装的<code>docker0</code>网络，除非通过<code>docker run --network=&lt;NETWORK&gt;</code>选项指定了网络，否则默认情况下Docker守护进程把容器都连接到这个网络。您可以通过在宿主机上运行<code>ifconfig</code>命令来查看，可以看到这个<code>bridge</code>网络是宿主机网络栈的一部分。</p>
+<pre><code>$ ifconfig
+
+docker0   Link encap:Ethernet  HWaddr 02:42:47:bc:3a:eb
+          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:47ff:febc:3aeb/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Metric:1
+          RX packets:17 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1100 (1.1 KB)  TX bytes:648 (648.0 B)
+</code></pre><p>名称为<code>none</code>的网络把容器添加到一个容器特定的网络栈中，那个容器是没有网络接口的。连接到容器里您可以看容器本身的网络栈：</p>
+<pre><code>$ docker attach nonenetcontainer
+
+root@0cb243cd1293:/# cat /etc/hosts
+127.0.0.1    localhost
+::1    localhost ip6-localhost ip6-loopback
+fe00::0    ip6-localnet
+ff00::0    ip6-mcastprefix
+ff02::1    ip6-allnodes
+ff02::2    ip6-allrouters
+root@0cb243cd1293:/# ifconfig
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@0cb243cd1293:/#
+</code></pre><blockquote>
+<p>您可以通过<code>CTRL-p CTRL-q</code>组合按键从容器中退出并保持容器运行。</p>
+</blockquote>
+<p>名称为<code>host</code>的网络把容器添加到宿主机的网络栈中，您可以在容器内部查看网络栈信息，您会发现和宿主机的信息是一模一样的。</p>
+<p>除了<code>bridge</code>网络，您一般不需要与这些默认网络进行交互。您可以列出并检视这些网络，但不能删除它们，它们是Docker必须安装的。然而，您可以创建您自有的用户定义型的网络，当然您也可以在不需要的时候删除掉。在您了解更多有关创建自有网络之前，值得再深入看一下默认的<code>bridge</code>网络。</p>
+<h3 id="默认bridge网络的细节"><a href="#默认bridge网络的细节" class="headerlink" title="默认bridge网络的细节"></a>默认<code>bridge</code>网络的细节</h3><p>默认的<code>bridge</code>网络在所有的Docker宿主机上都存在，<code>docker network inspect</code>命令可以显示一个网络的信息：</p>
+<pre><code>$ docker network inspect bridge
+
+[
+   {
+       &quot;Name&quot;: &quot;bridge&quot;,
+       &quot;Id&quot;: &quot;f7ab26d71dbd6f557852c7156ae0574bbf62c42f539b50c8ebde0f728a253b6f&quot;,
+       &quot;Scope&quot;: &quot;local&quot;,
+       &quot;Driver&quot;: &quot;bridge&quot;,
+       &quot;IPAM&quot;: {
+           &quot;Driver&quot;: &quot;default&quot;,
+           &quot;Config&quot;: [
+               {
+                   &quot;Subnet&quot;: &quot;172.17.0.1/16&quot;,
+                   &quot;Gateway&quot;: &quot;172.17.0.1&quot;
+               }
+           ]
+       },
+       &quot;Containers&quot;: {},
+       &quot;Options&quot;: {
+           &quot;com.docker.network.bridge.default_bridge&quot;: &quot;true&quot;,
+           &quot;com.docker.network.bridge.enable_icc&quot;: &quot;true&quot;,
+           &quot;com.docker.network.bridge.enable_ip_masquerade&quot;: &quot;true&quot;,
+           &quot;com.docker.network.bridge.host_binding_ipv4&quot;: &quot;0.0.0.0&quot;,
+           &quot;com.docker.network.bridge.name&quot;: &quot;docker0&quot;,
+           &quot;com.docker.network.driver.mtu&quot;: &quot;9001&quot;
+       }
+   }
+]
+</code></pre><p>Docker引擎自动创建了网络的子网（<code>Subnet</code>）和网关（<code>Gateway</code>）。<code>docker run</code>命令会自动把新建的容器添加到这个网络中。</p>
+<pre><code>$ docker run -itd --name=container1 busybox
+
+3386a527aa08b37ea9232cbcace2d2458d49f44bb05a6b775fba7ddd40d8f92c
+
+$ docker run -itd --name=container2 busybox
+
+94447ca479852d29aeddca75c28f7104df3c3196d7b6d83061879e339946805c
+</code></pre><p>新启动两个容器之后重新检视一下<code>bridge</code>网络的信息，您会看到新启动的那两个容器已经在这个网络中了，它们的id显示在<code>docker network inspect</code>返回信息里的“Containers”节点下：</p>
+<pre><code>$ docker network inspect bridge
+
+{[
+    {
+        &quot;Name&quot;: &quot;bridge&quot;,
+        &quot;Id&quot;: &quot;f7ab26d71dbd6f557852c7156ae0574bbf62c42f539b50c8ebde0f728a253b6f&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;bridge&quot;,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Config&quot;: [
+                {
+                    &quot;Subnet&quot;: &quot;172.17.0.1/16&quot;,
+                    &quot;Gateway&quot;: &quot;172.17.0.1&quot;
+                }
+            ]
+        },
+        &quot;Containers&quot;: {
+            &quot;3386a527aa08b37ea9232cbcace2d2458d49f44bb05a6b775fba7ddd40d8f92c&quot;: {
+                &quot;EndpointID&quot;: &quot;647c12443e91faf0fd508b6edfe59c30b642abb60dfab890b4bdccee38750bc1&quot;,
+                &quot;MacAddress&quot;: &quot;02:42:ac:11:00:02&quot;,
+                &quot;IPv4Address&quot;: &quot;172.17.0.2/16&quot;,
+                &quot;IPv6Address&quot;: &quot;&quot;
+            },
+            &quot;94447ca479852d29aeddca75c28f7104df3c3196d7b6d83061879e339946805c&quot;: {
+                &quot;EndpointID&quot;: &quot;b047d090f446ac49747d3c37d63e4307be745876db7f0ceef7b311cbba615f48&quot;,
+                &quot;MacAddress&quot;: &quot;02:42:ac:11:00:03&quot;,
+                &quot;IPv4Address&quot;: &quot;172.17.0.3/16&quot;,
+                &quot;IPv6Address&quot;: &quot;&quot;
+            }
+        },
+        &quot;Options&quot;: {
+            &quot;com.docker.network.bridge.default_bridge&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.enable_icc&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.enable_ip_masquerade&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.host_binding_ipv4&quot;: &quot;0.0.0.0&quot;,
+            &quot;com.docker.network.bridge.name&quot;: &quot;docker0&quot;,
+            &quot;com.docker.network.driver.mtu&quot;: &quot;9001&quot;
+        }
+    }
+]
+</code></pre><p>上面的<code>docker network inspect</code>命令显示了连接到这个网络的容器以及与其相关的网络资源信息。这个默认<code>bridge</code>网络里的容器可以通过IP地址互相通信，其不提供自动的服务发现功能。如果您想在这个默认的<code>bridge</code>网络中通过容器名进行通信，您必须通过<code>docker run</code>的遗留<code>--link</code>选项把容器连接起来。</p>
+<p>您可以连接到一个运行中的容器查看其配置：</p>
+<pre><code>$ docker attach container1
+
+root@0cb243cd1293:/# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02
+          inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:2/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Metric:1
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1296 (1.2 KiB)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+</code></pre><p>然后通过<code>ping</code>命令发送三个ICMP请求来测试默认<code>bridge</code>网络里容器的互连性。</p>
+<pre><code>root@0cb243cd1293:/# ping -w3 172.17.0.3
+
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: seq=0 ttl=64 time=0.096 ms
+64 bytes from 172.17.0.3: seq=1 ttl=64 time=0.080 ms
+64 bytes from 172.17.0.3: seq=2 ttl=64 time=0.074 ms
+
+--- 172.17.0.3 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.074/0.083/0.096 ms
+</code></pre><p>最后，通过<code>cat</code>命令来检查<code>container1</code>容器的网络配置信息：</p>
+<pre><code>root@0cb243cd1293:/# cat /etc/hosts
+
+172.17.0.2    3386a527aa08
+127.0.0.1    localhost
+::1    localhost ip6-localhost ip6-loopback
+fe00::0    ip6-localnet
+ff00::0    ip6-mcastprefix
+ff02::1    ip6-allnodes
+ff02::2    ip6-allrouters
+</code></pre><p>通过<code>CTRL-p CTRL-q</code>组合按键从<code>container1</code>容器中退出并保持其运行，然后连接到<code>container2</code>容器中并重复下面三个命令。</p>
+<pre><code>$ docker attach container2
+
+root@0cb243cd1293:/# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03
+          inet addr:172.17.0.3  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Metric:1
+          RX packets:15 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1166 (1.1 KiB)  TX bytes:1026 (1.0 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@0cb243cd1293:/# ping -w3 172.17.0.2
+
+PING 172.17.0.2 (172.17.0.2): 56 data bytes
+64 bytes from 172.17.0.2: seq=0 ttl=64 time=0.067 ms
+64 bytes from 172.17.0.2: seq=1 ttl=64 time=0.075 ms
+64 bytes from 172.17.0.2: seq=2 ttl=64 time=0.072 ms
+
+--- 172.17.0.2 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.067/0.071/0.075 ms
+/ # cat /etc/hosts
+172.17.0.3    94447ca47985
+127.0.0.1    localhost
+::1    localhost ip6-localhost ip6-loopback
+fe00::0    ip6-localnet
+ff00::0    ip6-mcastprefix
+ff02::1    ip6-allnodes
+ff02::2    ip6-allrouters
+</code></pre><p>默认的<code>docker0</code>网络支持端口映射，<code>docker run --link</code>命令可以使<code>docker0</code>网络里的容器互相通信，这些技术手段设置繁琐且易于出错，虽然仍然可用，但最好避免使用并使用自定义的<code>bridge</code>网络来替代。</p>
+<h2 id="用户定义型网络"><a href="#用户定义型网络" class="headerlink" title="用户定义型网络"></a>用户定义型网络</h2><p>您可以创建您自有的用户定义型网络来实现更好的容器隔离性。Docker提供了一些默认的<strong>网络驱动</strong>用以创建自定义网络。您可以创建一个新的<strong>bridge网络</strong>，<strong>overlay网络</strong>或者<strong>MACVLAN网络</strong>，您也可以根据自己的需求编写一个<strong>网络插件（network plugin）</strong>或<strong>远程网络（remote network）</strong>。</p>
+<p>您可以创建多个网络，您也可以把多个容器加到多个网络中。容器可以在其所属的网络中互相通信，但不能跨越其不所在的网络。一个连接到两个网络的容器可以与这两个网络中的容器互相通信。当一个容器连接到了多个网络中时，其出站连接是由第一个（按词汇文本顺序排序）非内部网络提供。</p>
+<p>下面的几节详细描述了每个Docker自带的网络驱动。</p>
+<h3 id="bridge网络"><a href="#bridge网络" class="headerlink" title="bridge网络"></a>bridge网络</h3><p>最容易创建的用户定义型网络是<code>bridge</code>网络。这个网络与默认的<code>docker0</code>网络类似，但有些额外的功能，也有些缺失的功能。</p>
+<pre><code>$ docker network create --driver bridge isolated_nw
+1196a4c5af43a21ae38ef34515b6af19236a3fc48122cf585e3f3054d509679b
+
+$ docker network inspect isolated_nw
+
+[
+    {
+        &quot;Name&quot;: &quot;isolated_nw&quot;,
+        &quot;Id&quot;: &quot;1196a4c5af43a21ae38ef34515b6af19236a3fc48122cf585e3f3054d509679b&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;bridge&quot;,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Config&quot;: [
+                {
+                    &quot;Subnet&quot;: &quot;172.21.0.0/16&quot;,
+                    &quot;Gateway&quot;: &quot;172.21.0.1/16&quot;
+                }
+            ]
+        },
+        &quot;Containers&quot;: {},
+        &quot;Options&quot;: {}
+    }
+]
+
+$ docker network ls
+
+NETWORK ID          NAME                DRIVER
+9f904ee27bf5        none                null
+cf03ee007fb4        host                host
+7fca4eb8c647        bridge              bridge
+c5ee82f76de3        isolated_nw         bridge
+</code></pre><p>在您创建自定义网络后，您可以通过<code>docker run --network=&lt;NETWORK&gt;</code>来启动容器并把其连接到这个自定义网络。</p>
+<pre><code>$ docker run --network=isolated_nw -itd --name=container3 busybox
+
+8c1a0a5be480921d669a073393ade66a3fc49933f08bcc5515b37b8144f6d47c
+
+$ docker network inspect isolated_nw
+[
+    {
+        &quot;Name&quot;: &quot;isolated_nw&quot;,
+        &quot;Id&quot;: &quot;1196a4c5af43a21ae38ef34515b6af19236a3fc48122cf585e3f3054d509679b&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;bridge&quot;,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Config&quot;: [
+                {}
+            ]
+        },
+        &quot;Containers&quot;: {
+            &quot;8c1a0a5be480921d669a073393ade66a3fc49933f08bcc5515b37b8144f6d47c&quot;: {
+                &quot;EndpointID&quot;: &quot;93b2db4a9b9a997beb912d28bcfc117f7b0eb924ff91d48cfa251d473e6a9b08&quot;,
+                &quot;MacAddress&quot;: &quot;02:42:ac:15:00:02&quot;,
+                &quot;IPv4Address&quot;: &quot;172.21.0.2/16&quot;,
+                &quot;IPv6Address&quot;: &quot;&quot;
+            }
+        },
+        &quot;Options&quot;: {}
+    }
+]
+</code></pre><p>只有在与自定义网络相同的Docker宿主机上启动的容器才能连接到这个自定义网络，这个网络里的容器可以立即与其它容器进行通信。然而，这个网络本身把内部的容器与外部的网络隔离开了。</p>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/bridge_network.png" alt="bridge_network.png"></p>
+<p>在一个用户定义型的网络中是不支持连接（linking）的。您可以在网络中的容器上公开端口，以便向外部网络公开<code>bridge</code>网络内的部分内容。</p>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/network_access.png" alt="network_access.png"></p>
+<p>对于在单一主机上规划一个相对小的网络，<code>bridge</code>网络比较有用。而对于大型网络，您可以通过创建一个<code>overlay</code>网络。</p>
+<h3 id="Docker引擎swarm模式的overlay网络"><a href="#Docker引擎swarm模式的overlay网络" class="headerlink" title="Docker引擎swarm模式的overlay网络"></a>Docker引擎swarm模式的overlay网络</h3><p>在没有外部key-value存储的情况下，您可以在一个以swarm模式运行的管理节点上创建<code>overlay</code>网络。swarm仅把<code>overlay</code>网络提供给swarm集群里的节点。当您创建一个需要使用<code>overlay</code>网络的服务时，管理节点自动在服务节点上添加这个<code>overlay</code>网络。</p>
+<p>更多关于Docker引擎swarm模式的信息，请参考<a href="https://docs.docker.com/engine/swarm/" target="_blank" rel="external">swarm模式简介</a></p>
+<p>下面的例子展示了如何创建一个<code>overlay</code>网络，并把网络提供给swarm集群里的服务节点。</p>
+<pre><code># Create an overlay network `my-multi-host-network`.
+$ docker network create \
+  --driver overlay \
+  --subnet 10.0.9.0/24 \
+  my-multi-host-network
+
+400g6bwzd68jizzdx5pgyoe95
+
+# Create an nginx service and extend the my-multi-host-network to nodes where
+# the service&apos;s tasks run.
+$ docker service create --replicas 2 --network my-multi-host-network --name my-web nginx
+
+716thylsndqma81j6kkkb5aus
+</code></pre><p>swarm使用的<code>overlay</code>网络不能供由<code>docker run</code>命令创建的非swarm模式的容器使用。更多信息请参考<a href="https://docs.docker.com/engine/userguide/networking/overlay-security-model/" target="_blank" rel="external">Docker swarm模式下overlay网络的安全模型</a>。</p>
+<p>也请参考<a href="https://docs.docker.com/engine/swarm/networking/" target="_blank" rel="external">连接服务至overlay网络</a>。</p>
+<h3 id="使用外部key-value存储的overlay网络"><a href="#使用外部key-value存储的overlay网络" class="headerlink" title="使用外部key-value存储的overlay网络"></a>使用外部key-value存储的overlay网络</h3><p>假如您不使用Docker引擎的swarm模式而创建<code>overlay</code>网络，您需要一个额外可用的key-value存储服务。支持的key-value存储服务包括Consul，Etcd和Zookeeper。在创建一个<code>overlay</code>网络之前，您需要安装配置好一个选定的key-value存储服务。规划网络中的Docker宿主机必须能够与这个key-value存储服务进行通信。</p>
+<blockquote>
+<p><em>注意：</em>Docker引擎swarm模式与使用外部key-value存储的网络不兼容。</p>
+</blockquote>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/key_value.png" alt="key_value.png"></p>
+<p>网络中的每个宿主机都必须运行着Docker引擎，最简单的方式是使用Docker Machine来提供这些宿主机。</p>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/engine_on_net.png" alt="engine_on_net.png"></p>
+<p>您需要在每个宿主机上开启下面的端口。</p>
+<table>
+<thead>
+<tr>
+<th>Protocol</th>
+<th>Port</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>udp</td>
+<td>4789</td>
+<td>Data plane (VXLAN)</td>
+</tr>
+<tr>
+<td>tcp/udp</td>
+<td>7946</td>
+<td>Control plane</td>
+</tr>
+</tbody>
+</table>
+<p>外部的key-value存储服务也许需要额外的端口。查看官方的文档并开启其它需要的端口。</p>
+<p>一旦您提供了几台宿主机，您可以使用Docker Swarm来快速把它们组成一个具有服务发现的swarm集群。</p>
+<p>为了创建<code>overlay</code>网络，您需要在每个Docker引擎的守护进程里配置下面的三个选项：</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--cluster-store=PROVIDER://URL</code></td>
+<td>Describes the location of the KV service.</td>
+</tr>
+<tr>
+<td>`–cluster-advertise=HOST_IP</td>
+<td>HOST_IFACE:PORT`</td>
+<td>The IP address or interface of the HOST used for clustering.</td>
+</tr>
+<tr>
+<td><code>--cluster-store-opt=KEY-VALUE OPTIONS</code></td>
+<td>Options such as TLS certificate or tuning discovery Timers</td>
+</tr>
+</tbody>
+</table>
+<p>在swarm集群里的其中一台宿主机上创建一个<code>overlay</code>网络。</p>
+<pre><code>$ docker network create --driver overlay my-multi-host-network
+</code></pre><p>这样就创建了一个跨多主机的网络，<code>overlay</code>网络提供了容器的完全隔离。</p>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/overlay_network.png" alt="overlay_network.png"></p>
+<p>然后在每台宿主机上，指定网络的名称来启动容器。</p>
+<pre><code>$ docker run -itd --network=my-multi-host-network busybox
+</code></pre><p>一旦连接后，不管容器是在哪台宿主机上，网络里所有的容器都可以互连。</p>
+<p><img src="https://docs.docker.com/engine/userguide/networking/images/overlay-network-final.png" alt="overlay-network-final.png"></p>
+<h3 id="自定义网络插件"><a href="#自定义网络插件" class="headerlink" title="自定义网络插件"></a>自定义网络插件</h3><p>如果需要的话，您也可以创建自己的网络驱动插件。网络驱动插件利用Docker的插件机制，这种机制下，插件是一个运行在与Docker守护进程相同宿主机上的进程。</p>
+<p>网络插件与其它插件一样遵循同样的限制和安装规则。所有的插件都调用插件API，它们都需要经历安装、启动、停止和激活的生命周期。</p>
+<p>一旦您创建也安装了一个自定义网络插件，您可以像使用自带的网络驱动一样使用它，如：</p>
+<pre><code>$ docker network create --driver weave mynet
+</code></pre><p>您可以检视这个网络信息，添加容器到这个网络中等。当然不同的插件也许会使用不同的技术或框架。自定义网络也能包含Docker默认网络不具备的功能。有关编写插件的更多信息，请参考<a href="https://docs.docker.com/engine/extend/legacy_plugins/" target="_blank" rel="external">扩展Docker</a>和<a href="https://docs.docker.com/engine/extend/plugins_network/" target="_blank" rel="external">编写网络驱动插件</a>。</p>
+<h3 id="Docker内嵌的DNS服务"><a href="#Docker内嵌的DNS服务" class="headerlink" title="Docker内嵌的DNS服务"></a>Docker内嵌的DNS服务</h3><p>Docker守护进程内嵌了一个DNS服务用于连接到自定义网络中的容器的自动服务发现。容器名的解析首先由这个内嵌的DNS服务器处理。假如内嵌的DNS服务无法解析，解析请求会转发给为容器配置的DNS服务器。为此在创建容器时，只有内嵌的DNS服务器可以通过<code>127.0.0.11</code>访问到，这个配置在容器的<code>resolv.conf</code>文件中。更多有关自定义网络的内嵌DNS服务器信息，请参考<a href="https://docs.docker.com/engine/userguide/networking/configure-dns/" target="_blank" rel="external">Embedded DNS server in user-defined networks</a>。</p>
+<h2 id="连接（Links）"><a href="#连接（Links）" class="headerlink" title="连接（Links）"></a>连接（Links）</h2><p>在有Docker的网络特性之前，您可以使用Docker的连接（Link）来实现容器间的互发现。引入Docker网络后，容器可以通过其名字自动发现。但您仍然可以使用连接，但用户定义型网络下的连接工作方式会与默认的<code>docker0</code>网络下的连接工作方式有所不同。有关默认<code>docker0</code>桥接网络下的连接特性，请参考<a href="https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/" target="_blank" rel="external">Legacy Links</a>，有关用户定义型网络下的连接特性，请参考<a href="https://docs.docker.com/engine/userguide/networking/work-with-networks/#linking-containers-in-user-defined-networks" target="_blank" rel="external">linking containers in user-defined networks</a>。</p>
+<h2 id="相关信息"><a href="#相关信息" class="headerlink" title="相关信息"></a>相关信息</h2><ul>
+<li><a href="https://docs.docker.com/engine/userguide/networking/work-with-networks/" target="_blank" rel="external">Work with network commands</a></li>
+<li><a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/" target="_blank" rel="external">Get started with multi-host networking</a></li>
+<li><a href="https://docs.docker.com/engine/tutorials/dockervolumes/" target="_blank" rel="external">Managing Data in Containers</a></li>
+<li><a href="https://docs.docker.com/machine" target="_blank" rel="external">Docker Machine overview</a></li>
+<li><a href="https://docs.docker.com/swarm" target="_blank" rel="external">Docker Swarm overview</a></li>
+<li><a href="https://github.com/docker/libnetwork" target="_blank" rel="external">Investigate the LibNetwork project</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/dockerfiles-best-practices/" itemprop="url">
                   编写Dockerfiles的最佳实践 [译文]
                 </a>
@@ -1067,7 +1574,7 @@ ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
